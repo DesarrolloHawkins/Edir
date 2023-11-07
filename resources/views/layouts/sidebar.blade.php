@@ -1,58 +1,50 @@
 <!-- ========== Left Sidebar Start ========== -->
 <div class="left side-menu" @notmobile style="margin-top: 100px !important;" @endnotmobile>
+    <style>
+        h5 .enlarged{
+            display:none;
+        }
+        .enlarged .side-menu h6{
+            display:none;
+        }
+        </style>
     <div class="slimscroll-menu" id="remove-scroll">
-
         <!--- Sidemenu -->
-        <div id="sidebar-menu">
+        <div id="sidebar-menu" style="position: sticky !important">
             <!-- Left Menu Start -->
             <ul class="metismenu" id="side-menu">
                 @notmobile
                     <li>
-                        <h5 style="text-align: center; color: #fff !important">
-                            @if (session()->has('clubSeleccionado'))
-                                @switch(session('clubSeleccionado'))
-                                    @case(1)
-                                        CLUB DEPORTIVO NÁUTICO SALADILLO
-                                    @break
-
-                                    @case(2)
-                                        ROSA DE LOS VIENTOS
-                                    @break
-
-                                    @case(3)
-                                        SOCIEDAD DEL PARGO
-                                    @break
-
-                                    @case(4)
-                                        SOCIEDAD DEL MERO
-                                    @break
-
-                                    @case(5)
-                                        REAL CLUB NÁUTICO ALGECIRAS
-                                    @break
-
-                                    @default
-                                @endswitch
-                            @else
-                                SELECCIONA UN CLUB
-                            @endif
-                        </h5>
+                        @if ($comunidad != null)
+                            <h5 style="text-align: center; color: #9ec84c !important">
+                                <img src="{{ asset('storage/photos/' . $comunidad->ruta_imagen) }}"
+                                style="max-width: 10vw !important; text-align: center"> </h5>
+                            <h6 style="text-align: center; color: #9ec84c !important">
+                                {{ $comunidad->nombre }} </h5>
+                        @else
+                            <h6 style="text-align: center; color: #9ec84c !important;">
+                                {{ $user->name }} </h5>
+                        @endif
                     </li>
                 @endnotmobile
                 <li class="menu-title">General</li>
                 <li>
                     <a href="/../home" class="waves-effect">
-                        <i class="icon-accelerator"></i> {{-- <span class="badge badge-success badge-pill float-right">9+</span> --}} <span> Cambiar de club </span>
+                        <i class="icon-accelerator"></i> {{-- <span class="badge badge-success badge-pill float-right">9+</span> --}} <span> Dashboard </span>
                     </a>
                 </li>
                 <li>
-                    <a href="/admin/socios" class="waves-effect"><i class="fas fa-ship"></i><span> Socios </span></a>
+                    <a href="/admin/secciones" class="waves-effect"><i class="fas fa-ship"></i><span> Secciones </span></a>
+                </li>
+                <li>
+                    <a href="/admin/comunidad" class="waves-effect"><i class="fas fa-user"></i><span> Comunidad
+                        </span></a>
                 </li>
                 @if ($user->role == 1)
-                    <li>
-                        <a href="/admin/usuarios" class="waves-effect"><i class="fas fa-user"></i><span> Usuarios
-                            </span></a>
-                    </li>
+                <li>
+                    <a href="/admin/usuarios" class="waves-effect"><i class="fas fa-user"></i><span> Usuarios
+                        </span></a>
+                </li>
                 @endif
 
 
@@ -69,7 +61,9 @@
 
 
                 <style>
-                    .enlarged .side-menu h5 {display: none;}
+                    .enlarged .side-menu h5 {
+                        display: none;
+                    }
                 </style>
 
 

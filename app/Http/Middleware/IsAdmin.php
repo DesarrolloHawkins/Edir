@@ -18,12 +18,10 @@ class IsAdmin
     public function handle($request, Closure $next)
     {
         if (Auth::user() && Auth::user()->role > 0) {
-            if (session()->has('clubSeleccionado') == true) {
-                return $next($request);
-            }else{
-                return redirect()->route('home');
-            }
+            return $next($request);
+        } else {
+            return redirect()->route('inicio'); // If user is not an admin.
+
         }
-        return redirect()->route('inicio'); // If user is not an admin.
     }
 }

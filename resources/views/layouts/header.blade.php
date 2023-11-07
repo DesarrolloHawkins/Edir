@@ -4,146 +4,34 @@
 
     <!-- LOGO -->
     @mobile
-    <div class="topbar-left" style="margin-bottom: -145px !important;">
-        <button class="logo button-menu-mobile open-left waves-effect w-100" style="background-color: #5083b5 !important; text-align: center;">
-            @if (session()->has('clubSeleccionado'))
-                @switch(session('clubSeleccionado'))
-                    @case(1)
-                        <span class="logo-light">
-                            <img class="img-fluid p-4" src="{{ asset('assets/images/logo_club1.png') }}" alt="Logo La Fabrica">
-                            {{-- <i class="mdi mdi-camera-control"></i> La Fabrica --}}
-                        </span>
-                        <span class="logo-sm">
-                            <img class="img-fluid p-1" src="{{ asset('assets/images/logo_club1.png') }}" alt="Logo La Fabrica">
-                        </span>
-                    @break
-
-                    @case(2)
-                        <span class="logo-light">
-                            <img class="img-fluid p-4" src="{{ asset('assets/images/logo_club2.png') }}" alt="Logo La Fabrica">
-                            {{-- <i class="mdi mdi-camera-control"></i> La Fabrica --}}
-                        </span>
-                        <span class="logo-sm">
-                            <img class="img-fluid p-1" src="{{ asset('assets/images/logo_club2.png') }}" alt="Logo La Fabrica">
-                        </span>
-                    @break
-
-                    @case(3)
-                        <span class="logo-light">
-                            <img class="img-fluid p-4" src="{{ asset('assets/images/logo_club3.png') }}" alt="Logo La Fabrica">
-                            {{-- <i class="mdi mdi-camera-control"></i> La Fabrica --}}
-                        </span>
-                        <span class="logo-sm">
-                            <img class="img-fluid p-1" src="{{ asset('assets/images/logo_club3.png') }}" alt="Logo La Fabrica">
-                        </span>
-                    @break
-
-                    @case(4)
-                        <span class="logo-light">
-                            <img class="img-fluid p-4" src="{{ asset('assets/images/logo_club4.png') }}" alt="Logo La Fabrica">
-                            {{-- <i class="mdi mdi-camera-control"></i> La Fabrica --}}
-                        </span>
-                        <span class="logo-sm">
-                            <img class="img-fluid p-1" src="{{ asset('assets/images/logo_club4.png') }}" alt="Logo La Fabrica">
-                        </span>
-                    @break
-
-                    @case(5)
-                        <span class="logo-light">
-                            <img class="img-fluid p-4" src="{{ asset('assets/images/logo_club5.png') }}" alt="Logo La Fabrica">
-                            {{-- <i class="mdi mdi-camera-control"></i> La Fabrica --}}
-                        </span>
-                        <span class="logo-sm">
-                            <img class="img-fluid p-1" src="{{ asset('assets/images/logo_club5.png') }}" alt="Logo La Fabrica">
-                        </span>
-                    @break
-
-                    @default
-                @endswitch
-            @else
+        <div class="topbar-left" style="margin-bottom: -145px !important;">
+            <button class="logo button-menu-mobile open-left waves-effect w-100"
+                style="background-color: #fff !important; text-align: center;">
                 <span class="logo-light">
-                    <img class="img-fluid p-4" src="{{ asset('assets/images/logo-empresa.png') }}"
-                        alt="Logo La Fabrica">
+                    <img class="img-fluid p-4" src="{{ asset('assets/images/logo-empresa.png') }}" alt="Logo La Fabrica">
                     {{-- <i class="mdi mdi-camera-control"></i> La Fabrica --}}
                 </span>
                 <span class="logo-sm">
-                    <img class="img-fluid p-1" src="{{ asset('assets/images/logo-empresa.png') }}"
-                        alt="Logo La Fabrica">
+                    <img class="img-fluid p-1" src="{{ asset('assets/images/logo-empresa.png') }}" alt="Logo La Fabrica">
                 </span>
-            @endif
-        </button>
-    </div>
+            </button>
+        </div>
     @elsemobile
-    <div class="topbar-left" style="margin-bottom: -145px !important;">
-        <button class="logo button-menu-mobile open-left waves-effect w-100 h-100" style="background-color: #5083b5 !important; text-align: center;">
-            @if (session()->has('clubSeleccionado'))
-                @switch(session('clubSeleccionado'))
-                    @case(1)
-                        <span class="logo-light">
-                            <img class="img-fluid p-4" src="{{ asset('assets/images/logo_club1.png') }}" alt="Logo La Fabrica">
-                            {{-- <i class="mdi mdi-camera-control"></i> La Fabrica --}}
-                        </span>
-                        <span class="logo-sm">
-                            <img class="img-fluid p-1" src="{{ asset('assets/images/logo_club1.png') }}" alt="Logo La Fabrica">
-                        </span>
-                    @break
-
-                    @case(2)
-                        <span class="logo-light">
-                            <img class="img-fluid p-4" src="{{ asset('assets/images/logo_club2.png') }}" alt="Logo La Fabrica">
-                            {{-- <i class="mdi mdi-camera-control"></i> La Fabrica --}}
-                        </span>
-                        <span class="logo-sm">
-                            <img class="img-fluid p-1" src="{{ asset('assets/images/logo_club2.png') }}" alt="Logo La Fabrica">
-                        </span>
-                    @break
-
-                    @case(3)
-                        <span class="logo-light">
-                            <img class="img-fluid p-4" src="{{ asset('assets/images/logo_club3.png') }}" alt="Logo La Fabrica">
-                            {{-- <i class="mdi mdi-camera-control"></i> La Fabrica --}}
-                        </span>
-                        <span class="logo-sm">
-                            <img class="img-fluid p-1" src="{{ asset('assets/images/logo_club3.png') }}" alt="Logo La Fabrica">
-                        </span>
-                    @break
-
-                    @case(4)
-                        <span class="logo-light">
-                            <img class="img-fluid p-4" src="{{ asset('assets/images/logo_club4.png') }}" alt="Logo La Fabrica">
-                            {{-- <i class="mdi mdi-camera-control"></i> La Fabrica --}}
-                        </span>
-                        <span class="logo-sm">
-                            <img class="img-fluid p-1" src="{{ asset('assets/images/logo_club4.png') }}" alt="Logo La Fabrica">
-                        </span>
-                    @break
-
-                    @case(5)
-                        <span class="logo-light">
-                            <img class="img-fluid p-4" src="{{ asset('assets/images/logo_club5.png') }}" alt="Logo La Fabrica">
-                            {{-- <i class="mdi mdi-camera-control"></i> La Fabrica --}}
-                        </span>
-                        <span class="logo-sm">
-                            <img class="img-fluid p-1" src="{{ asset('assets/images/logo_club5.png') }}" alt="Logo La Fabrica">
-                        </span>
-                    @break
-
-                    @default
-                @endswitch
-            @else
-                <span class="logo-light">
-                    <img class="img-fluid p-4" src="{{ asset('assets/images/logo-empresa.png') }}"
-                        alt="Logo La Fabrica">
-                    {{-- <i class="mdi mdi-camera-control"></i> La Fabrica --}}
-                </span>
-                <span class="logo-sm">
-                    <img class="img-fluid p-1" src="{{ asset('assets/images/logo-empresa.png') }}"
-                        alt="Logo La Fabrica">
-                </span>
-            @endif
-        </button>
-    </div>
-@endmobile
+        <div class="topbar-left" style="margin-bottom: -145px !important;">
+            <button class="logo button-menu-mobile open-left waves-effect w-100 h-100"
+                style="background-color: #fff !important; text-align: center;">
+                    <span class="logo-light">
+                        <img class="img-fluid p-4" src="{{ asset('assets/images/logo-empresa.png') }}"
+                            alt="Logo La Fabrica">
+                        {{-- <i class="mdi mdi-camera-control"></i> La Fabrica --}}
+                    </span>
+                    <span class="logo-sm">
+                        <img class="img-fluid p-1" src="{{ asset('assets/images/logo-empresa.png') }}"
+                            alt="Logo La Fabrica">
+                    </span>
+            </button>
+        </div>
+    @endmobile
     <nav class="navbar-custom">
         <ul class="navbar-right list-inline float-right mb-0">
             <!-- language-->

@@ -4,11 +4,11 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    <?php use App\Models\Comunidad; ?>
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>MARINERÍA CRM - @yield('title') </title>
+    <title>COMMUNITAS - @yield('title') </title>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.9.1/font/bootstrap-icons.css"
         integrity="sha512-CaTMQoJ49k4vw9XO0VpTBpmMz8XpCWP5JhGmBvuBqCOaOHWENWO1CrVl09u4yp8yBVSID6smD4+gpzDJVQOPwQ=="
@@ -31,13 +31,13 @@
     <x-livewire-alert::scripts />
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
-      <!--Morris Chart CSS -->
-      <link rel="stylesheet" href="../../plugins/morris/morris.css">
+    <!--Morris Chart CSS -->
+    <link rel="stylesheet" href="../../plugins/morris/morris.css">
 
-      <link href="../../assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
-      <link href="../../assets/css/metismenu.min.css" rel="stylesheet" type="text/css">
-      <link href="../../assets/css/icons.css" rel="stylesheet" type="text/css">
-      <link href="../../assets/css/style.css" rel="stylesheet" type="text/css">
+    <link href="../../assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="../../assets/css/metismenu.min.css" rel="stylesheet" type="text/css">
+    <link href="../../assets/css/icons.css" rel="stylesheet" type="text/css">
+    <link href="../../assets/css/style.css" rel="stylesheet" type="text/css">
     {{-- <link rel="stylesheet" href="../css/metismenu.min.css"> --}}
     @yield('head')
 
@@ -47,6 +47,7 @@
 <body>
     @php
         $user = Auth::user();
+        $comunidad = Comunidad::where('user_id', Auth::id())->first();
     @endphp
     <div id="app">
         <style>
@@ -62,9 +63,9 @@
 
             @media (max-width: 992px) {
                 .contain {
-                margin-left: 200px;
-                /* min-width: 600px; */
-            }
+                    margin-left: 200px;
+                    /* min-width: 600px; */
+                }
 
             }
         </style>
@@ -98,7 +99,7 @@
     </div>
     <script src="../../assets/js/jquery.min.js"></script>
 
-  <script src="https://code.jquery.com/jquery-3.6.1.min.js"
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js"
         integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
         integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
@@ -107,7 +108,7 @@
     {{-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js"
         integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk" crossorigin="anonymous">
     </script>
-    <script src="https://cdn.datatables.net/1.13.2/js/jquery.dataTables.min.js"></script>--}}
+    <script src="https://cdn.datatables.net/1.13.2/js/jquery.dataTables.min.js"></script> --}}
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
     <script src="../../assets/js/bootstrap.bundle.min.js"></script>

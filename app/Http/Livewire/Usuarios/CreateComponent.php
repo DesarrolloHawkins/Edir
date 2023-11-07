@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire\Usuarios;
 
-use App\Models\DepartamentosUser;
+use App\Models\Comunidad;
 use App\Models\User;
 use App\Models\Rol;
 use App\Models\Club;

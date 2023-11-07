@@ -13,26 +13,30 @@
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
 </head>
 
-<body style="background-color: #5083b5;">
+<body style="background-color: #fff;">
     <div class="container">
         <div class="row justify-content-center mt-5">
             <div class="col-sm-12 text-center">
-                <img src="{{ asset('assets/images/logo-empresa.png') }}" style="width: 15% !important;">
+                <img src="{{ asset('assets/images/logo-empresa.png') }}" style="width: 35% !important;">
             </div>
         </div>
+        <br>
+        <br>
+        <br>
         <div class="row justify-content-center">
-            <div class="col-sm-12 text-center text-white">
+            <div class="col-sm-12 text-center" style="color: #9ec84c !important">
                 <h1 style="font-size: 3rem !important;">Iniciar sesión</h1>
             </div>
         </div>
+
         <div class="row justify-content-center"
             style="position: relative;
-    top: 48%;F
+    top: 68%;F
     transform: translateY(10%);">
 
                     <div class="col-sm-4">
                     <div class="card">
-                        <div class="card-body">
+                        <div class="card-body" style="background-color: #9ec84c !important">
                             <form method="POST" action="{{ route('login') }}">
                                 @csrf
 
@@ -82,8 +86,8 @@
                                 <div class="row mb-0 justify-content-center">
                                     <div class="col-sm-11">
                                         <button type="submit" class="btn w-100"
-                                            style="background-color: #1d60a3; color: white;">
-                                            {{ __('Iniciar sesión') }}
+                                            style="background-color: #fff !important;">
+                                            <span style="color: #9ec84c !important"><b>{{ __('Iniciar sesión') }}</b></span>
                                         </button>
                                     </div>
                                 </div>
@@ -92,10 +96,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="row justify-content-center">
-            <div class="col-sm-12 text-center text-white">
-                <h1 style="font-size: 1rem !important;position: absolute; bottom: 0; text-align: center; width: 100%;">Pulsa aquí para acceder a las condiciones de la Ley de Protección de Datos</h1>            </div>
         </div>
         <script src="https://code.jquery.com/jquery-3.6.1.min.js"
             integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>

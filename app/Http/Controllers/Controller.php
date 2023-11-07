@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Alertas;
+use App\Models\Comunidad;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -17,8 +18,9 @@ class Controller extends BaseController
 
     protected $alertas;
     protected $user;
+    protected $comunidad;
 
-    public function __construct() 
+    public function __construct()
     {
         $this->user = Auth::user();
         // Fetch the Site Settings object
@@ -26,5 +28,4 @@ class Controller extends BaseController
         View::share('alertas', $this->alertas);
         View::share('user', $this->user);
     }
-
 }
