@@ -73,32 +73,32 @@
                                 </div>
                             </div>
                             <div class="col-sm-4">
-                                    <input type="checkbox" class="me-2" wire:model="seccion_incidencias" id="seccion_incidencias">
-                                    <label for="seccion_incidencias">¿Es la sección de incidencias?</label>
+                                <input type="checkbox" class=" @mobile mt-4 @endmobile me-2" wire:model="seccion_incidencias"
+                                    id="seccion_incidencias">
+                                <label for="seccion_incidencias">¿Es la sección de incidencias?</label>
                                 @error('direccion')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
                         </div>
+                    </form>
                 </div>
-                </form>
             </div>
         </div>
-    </div>
-    <div class="col-md-3">
-        <div class="card m-b-30">
-            <div class="card-body">
-                <h5>Acciones</h5>
-                <div class="row">
-                    <div class="col-12">
-                        <button class="w-100 btn btn-success mb-2" id="alertaGuardar">Crear
-                            sección</button>
+        <div class="col-md-3">
+            <div class="card m-b-30">
+                <div class="card-body">
+                    <h5>Acciones</h5>
+                    <div class="row">
+                        <div class="col-12">
+                            <button class="w-100 btn btn-success mb-2" id="alertaGuardar">Crear
+                                sección</button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 </div>
 
 

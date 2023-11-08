@@ -13,12 +13,14 @@ class HomeComponent extends Component
     public $comunidad;
     public $seccion_seleccionada;
     public $secciones_menu;
+    public $alertas;
     protected $listeners = ['seleccionarSeccion', 'refreshComponent' => '$refresh'];
     public function mount()
     {
+        $this->alertas = auth()->user()->alertas()->wherePivot('status', 0)->get();
         $this->comunidad = Comunidad::where('user_id', Auth::user()->id)->first();
         $this->secciones = Seccion::all();
-        $this->secciones_menu = Seccion::where('seccion_padre_id', 0)->orderBy('orden', 'asc')->get();
+        $this->secciones_menu = Seccion::where('seccion_padre_id', 0)->where('comunidad_id', $this->comunidad->id)->orderBy('orden', 'asc')->get();
     }
     public function obtenerJerarquia($seccion_seleccionada)
     {
@@ -51,8 +53,13 @@ class HomeComponent extends Component
             Seccion::find($item['value'])->update(['orden' => $item['order']]);
         }
 
-        $this->secciones_menu = Seccion::where('seccion_padre_id', 0)->orderBy('orden', 'asc')->get();
+        $this->secciones_menu = Seccion::where('seccion_padre_id', 0)->where('comunidad_id', $this->comunidad->id)->orderBy('orden', 'asc')->get();
 
         $this->emit('orderUpdated');
+    }
+    public function marcarComoLeida($alertaId)
+    {
+        $user = auth()->user();
+        $user->alertas()->updateExistingPivot($alertaId, ['status' => 1]);
     }
 }

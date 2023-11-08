@@ -60,4 +60,10 @@ class User extends Authenticatable
     protected $dates = [
         'created_at', 'updated_at', 'deleted_at',
     ];
+    public function alertas()
+    {
+        return $this->belongsToMany(Alertas::class, 'alertas_status', 'user_id', 'alert_id')
+            ->withPivot('status')
+            ->withTimestamps();
+    }
 }

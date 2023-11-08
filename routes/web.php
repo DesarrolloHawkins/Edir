@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AvisosController;
 use App\Http\Controllers\SeccionController;
 use App\Http\Controllers\SocioController;
 use Illuminate\Support\Facades\Auth;
@@ -29,7 +30,7 @@ Route::name('inicio')->get('/', function () {
 });
 
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware('is.admin');
 //Route::get('/clients', [App\Http\Controllers\ClientController::class, 'index'])->name('clients.index');
 
 
@@ -44,6 +45,11 @@ Route::group(['middleware' => 'is.admin', 'prefix' => 'admin'], function () {
     Route::get('usuarios', [UsuarioController::class, 'index'])->name('usuarios.index');
     Route::get('usuarios-create', [UsuarioController::class, 'create'])->name('usuarios.create');
     Route::get('usuarios-edit/{id}', [UsuarioController::class, 'edit'])->name('usuarios.edit');
+    Route::get('usuarios-duplicar/{id}', [UsuarioController::class, 'duplicar'])->name('usuarios.duplicar');
+
+    Route::get('avisos', [AvisosController::class, 'index'])->name('avisos.index');
+    Route::get('avisos-create', [AvisosController::class, 'create'])->name('avisos.create');
+    Route::get('avisos-edit/{id}', [AvisosController::class, 'edit'])->name('avisos.edit');
 
     // Settings
     Route::get('settings', [SettingsController::class, 'index'])->name('settings.index');

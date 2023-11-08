@@ -3,13 +3,13 @@
     <div class="page-title-box">
         <div class="row align-items-center">
             <div class="col-sm-6">
-                <h4 class="page-title">Editando usuario {{ $name }}</span></h4>
+                <h4 class="page-title">Nuevo usuario desde {{$name_old}}</span></h4>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-right">
                     <li class="breadcrumb-item"><a href="javascript:void(0);">Dashboard</a></li>
                     <li class="breadcrumb-item"><a href="javascript:void(0);">Usuarios</a></li>
-                    <li class="breadcrumb-item active">Editando usuario {{ $name }}</li>
+                    <li class="breadcrumb-item active">Nuevo usuario desde {{ $name_old }}</li>
                 </ol>
             </div>
         </div> <!-- end row -->
@@ -72,9 +72,9 @@
                         </div>
                         <div class="form-group row">
                             <div class="col-sm-11">
-                                <label for="password" class="col-sm-12 col-form-label">Contraseña nueva</label>
+                                <label for="password" class="col-sm-12 col-form-label">Contraseña </label>
                                 <div class="col-sm-12">
-                                    <input type="password" wire:model="password" class="form-control" name="password"
+                                    <input type="password" wire:model.defer="password" class="form-control" name="password"
                                         id="password" placeholder="123456...">
                                     @error('password')
                                         <span class="text-danger">{{ $message }}</span>
@@ -87,6 +87,14 @@
                                     onclick="togglePasswordVisibility()">
                                     <i class="fas fa-eye" id="eye-icon"></i>
                                 </button>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-11">
+                                <div class="col-sm-12">
+                                    <input type="checkbox" id="isAdminCheckbox" wire:click="isAdminCheckbox" wire:model="isAdminCheckbox"/>
+                                    <label for="role" class="col-form-label">¿Es administrador del sistema?</label>
+                                </div>
                             </div>
                         </div>
                         <h5> Datos de comunidad </h5>
@@ -159,13 +167,13 @@
                                 $renderSections = function ($secciones) use (&$renderSections) {
                                     echo '<ul>';
                                     foreach ($secciones as $seccion) {
-                                        $iconUrl = asset('storage/photos/' . $seccion['seccion']->ruta_imagen);
+                                        $iconUrl = asset('storage/photos/' . $seccion['seccion']['ruta_imagen']);
                                         echo '<li class="font-16">';
                                         // Comprueba si existe una ruta de imagen y muestra el icono
-                                        if (!empty($seccion['seccion']->ruta_imagen)) {
+                                        if (!empty($seccion['seccion']['ruta_imagen'])) {
                                             echo '<img src="' . e($iconUrl) . '" alt="Icono" style="width: 32px; height: 32px;"> ';
                                         }
-                                        echo e($seccion['seccion']->nombre);
+                                        echo e($seccion['seccion']['nombre']);
                                         if (!empty($seccion['hijas'])) {
                                             $renderSections($seccion['hijas']); // Llamada recursiva para renderizar las subsecciones
                                         }
@@ -189,9 +197,6 @@
                         <div class="col-12">
                             <button class="w-100 btn btn-success mb-2" id="alertaGuardar">Guardar
                                 Usuario</button>
-                            <button class="w-100 btn btn-success mb-2" id="alertaDuplicar">Nuevo usuario con estas secciones</button>
-                            <button class="w-100 btn btn-danger mb-2" wire:click="destroy">Eliminar
-                                Usuario</button>
                         </div>
                     </div>
                 </div>
@@ -201,77 +206,65 @@
 </div>
 
 @section('scripts')
-    <script>
-        $("#alertaGuardar").on("click", () => {
-            Swal.fire({
-                title: '¿Estás seguro?',
-                text: 'Pulsa el botón de confirmar para guardar los datos del usuario.',
-                icon: 'warning',
-                showConfirmButton: true,
-                showCancelButton: true
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    window.livewire.emit('update');
-                }
-            });
-        });
-        $("#alertaDuplicar").on("click", () => {
-            Swal.fire({
-                title: '¿Estás seguro?',
-                text: 'Te llevaremos a un formulario para crear un usuario nuevo con las mismas secciones.',
-                icon: 'warning',
-                showConfirmButton: true,
-                showCancelButton: true
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    window.livewire.emit('duplicate');
-                }
-            });
-        });
-        $.datepicker.regional['es'] = {
-            closeText: 'Cerrar',
-            prevText: '< Ant',
-            nextText: 'Sig >',
-            currentText: 'Hoy',
-            monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre',
-                'Octubre', 'Noviembre', 'Diciembre'
-            ],
-            monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
-            dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
-            dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mié', 'Juv', 'Vie', 'Sáb'],
-            dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sá'],
-            weekHeader: 'Sm',
-            dateFormat: 'dd/mm/yy',
-            firstDay: 1,
-            isRTL: false,
-            showMonthAfterYear: false,
-            yearSuffix: ''
-        };
-        $.datepicker.setDefaults($.datepicker.regional['es']);
-        document.addEventListener('livewire:load', function() {
-
-
-        })
-        $(document).ready(function() {
-            console.log('select2')
-            $("#datepicker").datepicker();
-
-            $("#datepicker").on('change', function(e) {
-                @this.set('fecha_nac', $('#datepicker').val());
-            });
-
-        });
-
-        function togglePasswordVisibility() {
-            var passwordInput = document.getElementById("password");
-            var eyeIcon = document.getElementById("eye-icon");
-            if (passwordInput.type === "password") {
-                passwordInput.type = "text";
-                eyeIcon.className = "fas fa-eye-slash";
-            } else {
-                passwordInput.type = "password";
-                eyeIcon.className = "fas fa-eye";
+<script>
+    $("#alertaGuardar").on("click", () => {
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: 'Pulsa el botón de confirmar para crear el nuevo usuario.',
+            icon: 'warning',
+            showConfirmButton: true,
+            showCancelButton: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.livewire.emit('submit');
             }
+        });
+    });
+
+    $.datepicker.regional['es'] = {
+        closeText: 'Cerrar',
+        prevText: '< Ant',
+        nextText: 'Sig >',
+        currentText: 'Hoy',
+        monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre',
+            'Octubre', 'Noviembre', 'Diciembre'
+        ],
+        monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+        dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+        dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mié', 'Juv', 'Vie', 'Sáb'],
+        dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sá'],
+        weekHeader: 'Sm',
+        dateFormat: 'dd/mm/yy',
+        firstDay: 1,
+        isRTL: false,
+        showMonthAfterYear: false,
+        yearSuffix: ''
+    };
+    $.datepicker.setDefaults($.datepicker.regional['es']);
+    document.addEventListener('livewire:load', function() {
+
+
+    })
+    $(document).ready(function() {
+        console.log('select2')
+        $("#datepicker").datepicker();
+
+        $("#datepicker").on('change', function(e) {
+            @this.set('fecha_nac', $('#datepicker').val());
+        });
+
+    });
+
+    function togglePasswordVisibility() {
+        var passwordInput = document.getElementById("password");
+        var eyeIcon = document.getElementById("eye-icon");
+        if (passwordInput.type === "password") {
+            passwordInput.type = "text";
+            eyeIcon.className = "fas fa-eye-slash";
+        } else {
+            passwordInput.type = "password";
+            eyeIcon.className = "fas fa-eye";
         }
-    </script>
+    }
+</script>
 @endsection

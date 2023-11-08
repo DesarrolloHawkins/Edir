@@ -25,7 +25,7 @@
                                 <tr>
                                     <th scope="col">Nombre</th>
                                     <th scope="col">Username</th>
-                                    <th scope="col">Rol</th>
+                                    <th scope="col">Comunidad</th>
                                     <th scope="col">Email</th>
 
 
@@ -38,7 +38,7 @@
                                     <tr>
                                         <td>{{ $user->name }}</td>
                                         <td>{{ $user->username }}</td>
-                                        <td>{{ $this->getRole($user->role) }}</td>
+                                        <td>{{ $this->getComunidad($user->id) }}</td>
                                         <td>{{ $user->email }}</td>
 
 

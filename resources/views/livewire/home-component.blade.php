@@ -58,4 +58,72 @@
             @livewire('seccion-component', ['seccion_id' => $seccion_seleccionada])
         @endif
     @endif
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Suponiendo que las alertas sin leer están en una variable de JavaScript `alertas`
+            let alertas = @json($alertas);
+            let promiseChain = Promise.resolve();
+
+            alertas.forEach((alerta) => {
+                promiseChain = promiseChain.then(() => {
+                    switch (alerta.tipo) {
+                        case 1:
+                            return Swal.fire({
+                                title: alerta.titulo,
+                                text: alerta.descripcion,
+                                type: 'info',
+                                confirmButtonText: 'Entendido',
+                                willClose: () => {
+                                    // Marcar la alerta como leída usando Livewire o una solicitud AJAX
+                                    @this.call('marcarComoLeida', alerta.id);
+                                }
+                            });
+                            break;
+                        case 2:
+                            return Swal.fire({
+                                title: alerta.titulo,
+                                text: alerta.descripcion +
+                                    "<br> Esta alerta contiene un enlace.",
+                                type: 'info',
+                                confirmButtonText: 'Entendido',
+                                willClose: () => {
+                                    // Marcar la alerta como leída usando Livewire o una solicitud AJAX
+                                    @this.call('marcarComoLeida', alerta.id);
+                                }
+                            });
+                            break;
+                        case 3:
+                            return Swal.fire({
+                                title: alerta.titulo,
+                                text: alerta.descripcion +
+                                    "<br> Esta alerta contiene una imagen.",
+                                type: 'info',
+                                confirmButtonText: 'Entendido',
+                                willClose: () => {
+                                    // Marcar la alerta como leída usando Livewire o una solicitud AJAX
+                                    @this.call('marcarComoLeida', alerta.id);
+                                }
+                            });
+                            break;
+                        case 4:
+                            return Swal.fire({
+                                title: alerta.titulo,
+                                text: alerta.descripcion +
+                                    "<br> Esta alerta contiene un archivo enlazado.",
+                                type: 'info',
+                                confirmButtonText: 'Entendido',
+                                willClose: () => {
+                                    // Marcar la alerta como leída usando Livewire o una solicitud AJAX
+                                    @this.call('marcarComoLeida', alerta.id);
+                                }
+                            });
+                            break;
+                        default:
+                            break;
+                    }
+
+                });
+            });
+        });
+    </script>
 </div>

@@ -2,9 +2,11 @@
 
 namespace App\Http\Livewire\Usuarios;
 
+use App\Models\Anuncio;
+use App\Models\Comunidad;
+use App\Models\Incidencia;
+use App\Models\Seccion;
 use App\Models\User;
-use App\Models\Rol;
-use App\Models\Club;
 use App\Models\UserClub;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
@@ -19,18 +21,20 @@ class EditComponent extends Component
     public $name;
     public $surname;
     public $roles = 0; // 0 por defecto por si no se selecciona ninguna
-    public $clubs = 0;
-    public $user_clubs = [];
+    public $comunidad;
     public $role;
     public $username;
     public $password = null;
     public $email;
     public $inactive;
+    public $comunidad_nombre;
+    public $comunidad_direccion;
+    public $comunidad_info;
+    public $comunidad_imagen;
+    public $comunidad_secciones;
 
     public function mount()
     {
-        $this->roles = Rol::all();
-        $this->clubs = Club::all();
         $usuarios = User::find($this->identificador);
         $this->name = $usuarios->name;
         $this->surname = $usuarios->surname;
@@ -38,9 +42,13 @@ class EditComponent extends Component
         $this->username = $usuarios->username;
         $this->email = $usuarios->email;
         $this->inactive = $usuarios->inactive;
-        $clubes = UserClub::where('user_id', $this->identificador)->get();
-        foreach ($clubes as $club) {
-            $this->user_clubs[$club->id] = 1;
+        $this->comunidad = Comunidad::where('user_id', $this->identificador)->first();
+        if ($this->comunidad != null) {
+            $this->comunidad_nombre = $this->comunidad->nombre;
+            $this->comunidad_direccion = $this->comunidad->direccion;
+            $this->comunidad_info = $this->comunidad->informacion_adicional;
+            $this->comunidad_imagen = $this->comunidad->ruta_imagen;
+            $this->comunidad_secciones = (new Seccion)->getHierarchy($this->comunidad->id);
         }
     }
 
@@ -54,7 +62,7 @@ class EditComponent extends Component
     {
         $usuarios = User::find($this->identificador);
 
-        if($this->password == null){
+        if ($this->password == null) {
             $this->password = $usuarios->password;
         }
         // Validación de datos
@@ -82,22 +90,28 @@ class EditComponent extends Component
 
         // Encuentra el identificador
         $usuariosSave = $usuarios->update($validatedData);
+        if ($this->comunidad != null) {
+            $this->validate([
+                'comunidad_nombre' => 'required|string|max:255',
+                'comunidad_direccion' => 'required|string|max:255',
+                'comunidad_imagen' => 'nullable|image|max:1024', // Por ejemplo, si es una imagen.
+                'comunidad_info'   => 'nullable|string',
+            ]);
 
-        foreach ($this->user_clubs as $clubIndex => $clubCheck) {
-            if ($clubCheck != null && $clubCheck != false) {
-                UserClub::create(['user_id' => $this->identificador, 'club_id' => $clubIndex, 'logo_club' => 'logo_club' . $clubIndex . '.png',]);
-            } else {
-                if (UserClub::where('user_id', $this->identificador)->where('club_id', $clubIndex)->count() > 0) {
-                    UserClub::where('user_id', $this->identificador)->where('club_id', $clubIndex)->first()->delete();
-                }
-            }
+            $comunidadSave = Comunidad::find($this->comunidad->id)->update(['user_id' => $usuariosSave->id, 'nombre' => $this->comunidad_nombre, 'direccion' => $this->comunidad_direccion, 'ruta_imagen' => $this->comunidad_imagen, 'informacion_adicional' => $this->comunidad_info]);
+        } else {
+            $this->validate([
+                'comunidad_nombre' => 'required|string|max:255',
+                'comunidad_direccion' => 'required|string|max:255',
+                'comunidad_imagen' => 'nullable|image|max:1024', // Por ejemplo, si es una imagen.
+                'comunidad_info'   => 'nullable|string',
+            ]);
+
+            $comunidadSave = Comunidad::create(['user_id' => $usuariosSave->id, 'nombre' => $this->comunidad_nombre, 'direccion' => $this->comunidad_direccion, 'ruta_imagen' => $this->comunidad_imagen, 'informacion_adicional' => $this->comunidad_info]);
         }
 
-
-        event(new \App\Events\LogEvent(Auth::user(), 27, $usuarios->id));
-
         if ($usuariosSave) {
-            $this->alert('success', 'Usuario actualizado correctamente!', [
+            $this->alert('success', '¡Usuario actualizado correctamente!', [
                 'position' => 'center',
                 'timer' => 3000,
                 'toast' => false,
@@ -143,7 +157,8 @@ class EditComponent extends Component
             'confirmed',
             'confirmDelete',
             'destroy',
-            'update'
+            'update',
+            'duplicate'
         ];
     }
 
@@ -153,11 +168,27 @@ class EditComponent extends Component
         // Do something
         return redirect()->route('usuarios.index');
     }
+
+    public function duplicate()
+    {
+        // Do something
+        return redirect()->route('usuarios.duplicar', $this->identificador);
+    }
     // Función para cuando se llama a la alerta
     public function confirmDelete()
     {
         $usuarios = User::find($this->identificador);
-        event(new \App\Events\LogEvent(Auth::user(), 28, $usuarios->id));
+        $comunidad = Comunidad::where('user_id', $this->identificador)->first();
+        $secciones = Seccion::where('comunidad_id', $comunidad->id)->get();
+        foreach ($secciones as $seccion) {
+            if ($seccion->seccion_incidencias == 0) {
+                $anuncios = Anuncio::where('seccion_id', $seccion->id)->delete();
+            } else {
+                $anuncios = Incidencia::where('comunidad_id', $comunidad->id)->delete();
+            }
+        }
+        $secciones->delete();
+        $comunidad->delete();
         $usuarios->delete();
         return redirect()->route('usuarios.index');
     }

@@ -59,44 +59,6 @@
                                 </div>
                             </div>
 
-                            <div class="form-group row">
-                                <div class="col-sm-6">
-                                    <label for="user_department_id" class="col-sm-12 col-form-label">Clubes</label>
-                                    <div class="col-sm-10">
-                                        @foreach ($clubs as $club)
-                                            <div>
-                                                <input type="checkbox" value="{{ $club->id }}"
-                                                    wire:model.defer="user_clubs.{{ $club->id }}">
-                                                {{ $club->nombre }}
-                                            </div>
-                                        @endforeach
-                                    </div>
-                                    @error('user_department_id')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                                <div class="col-sm-6">
-                                    <label for="role" class="col-sm-12 col-form-label">Rol</label>
-                                    <div class="col-sm-10" x-data="" x-init="$nextTick(() => {
-                                        $('#select2-role').select2();
-                                        $('#select2-role').on('change', function(e) {
-                                            var data = $('#select2-role').select2('val');
-                                            @this.set('role', data);
-                                        });
-                                    });"
-                                        wire:key="{{ time() }}">
-                                        <select id="select2-role" class="form-control js-example-responsive"
-                                            wire:model.defer="role">
-                                            @foreach ($roles as $rol)
-                                                <option value="{{ $rol->id }}">{{ $rol->nombre }}</option>
-                                            @endforeach
-                                        </select>
-                                        @error('role')
-                                            <span class="text-danger">{{ $message }}</span>
-                                        @enderror
-                                    </div>
-                                </div>
-                            </div>
                     </div>
 
                     <div class="form-group row">
@@ -125,29 +87,87 @@
                         </div>
                         <div class="col-sm-1">
                             <label for="password" class="col-sm-12 col-form-label">&nbsp;</label>
-                            <button type="button" class="me-auto btn btn-primary"
-                                onclick="togglePasswordVisibility()">
+                            <button type="button" class="me-auto btn btn-primary" onclick="togglePasswordVisibility()">
                                 <i class="fas fa-eye" id="eye-icon"></i>
                             </button>
                         </div>
                     </div>
-                    </form>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card m-b-30">
-                    <div class="card-body">
-                        <h5>Acciones</h5>
-                        <div class="row">
-                            <div class="col-12">
-                                <button class="w-100 btn btn-success mb-2" id="alertaGuardar">Crear
-                                    Usuario</button>
+                    <div class="form-group row">
+                        <div class="col-sm-11">
+                            <div class="col-sm-12">
+                                <input type="checkbox" id="isAdminCheckbox" wire:click="isAdminCheckbox"
+                                    wire:model="isAdminCheckbox" />
+                                <label for="role" class="col-form-label">¿Es administrador del sistema?</label>
                             </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-12">
+                            <label for="comunidad_imagen" class="col-sm-12 col-form-label">Foto de la
+                                comunidad</label>
+                            <div class="col-sm-11">
+                                <img src="{{ $comunidad_imagen->temporaryUrl() }}"
+                                    style="max-height: 30vh !important; text-align: center">
+                            </div>
+                            @endif
+                            <br>
+                            <input type="file" class="form-control" wire:model="comunidad_imagen"
+                                name="comunidad_imagen" id="comunidad_imagen" placeholder="Imagen del producto...">
+                            @error('comunidad_imagen')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <label for="comunidad_nombre" class="col-sm-12 col-form-label">Nombre de la
+                            comunidad</label>
+                        <div class="col-sm-10">
+                            <input type="text" wire:model.defer="comunidad_nombre" class="form-control"
+                                name="comunidad_nombre" id="comunidad_nombre" placeholder="José Carlos...">
+                            @error('comunidad_nombre')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <label for="comunidad_direccion" class="col-sm-12 col-form-label">Dirección</label>
+                        <div class="col-sm-10">
+                            <input type="text" wire:model.defer="comunidad_direccion" class="form-control"
+                                name="comunidad_direccion" id="comunidad_direccion" placeholder="Pérez...">
+                            @error('comunidad_direccion')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <label for="comunidad_info" class="col-sm-12 col-form-label">Información
+                            adicional</label>
+                        <div class="col-sm-11">
+                            <textarea wire:model.defer="comunidad_info" class="form-control" name="comunidad_info" id="comunidad_info"
+                                placeholder="Pérez..."></textarea>
+                            @error('comunidad_info')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    </div>
+                </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card m-b-30">
+                <div class="card-body">
+                    <h5>Acciones</h5>
+                    <div class="row">
+                        <div class="col-12">
+                            <button class="w-100 btn btn-success mb-2" id="alertaGuardar">Crear
+                                Usuario</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
     </div>
 
 

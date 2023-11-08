@@ -11,15 +11,14 @@ class Alertas extends Model
 
     protected $table = "alertas";
     protected $fillable = [
-        'user_id',
-        'status_id',
-        'stage',
-        'cont_postpone',
+        'admin_user_id',
+        'titulo',
+        'tipo',
         'datetime',
         'referencia_id',
         'descripcion',
-        'observaciones',
-        
+        'ruta_archivo',
+        'url'
     ];
 
     /**
@@ -31,12 +30,10 @@ class Alertas extends Model
         'created_at', 'updated_at', 'deleted_at',
     ];
 
-    
-    
-    
-    
-    
-    
-    
-    
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'alertas_status', 'alert_id', 'user_id')
+            ->withPivot('status')
+            ->withTimestamps();
+    }
 }

@@ -26,4 +26,9 @@ class Comunidad extends Model
     protected $dates = [
         'created_at', 'updated_at', 'deleted_at',
     ];
+
+    public function secciones()
+    {
+        return $this->hasMany(Seccion::class, 'comunidad_id');
+    }
 }

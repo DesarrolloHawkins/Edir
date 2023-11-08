@@ -14,9 +14,9 @@
         </div> <!-- end row -->
     </div>
     <!-- end page-title -->
-    <div class="row">
+    <div class="row" style="max-height: max-content !important">
         <div class="col-md-9">
-            <div class="card m-b-30">
+            <div class="card">
                 <div class="card-body">
                     <form wire:submit.prevent="submit">
                         <input type="hidden" name="csrf-token" value="{{ csrf_token() }}">
@@ -27,11 +27,19 @@
                                     @if ($ruta_imagen)
                                         <div class="col text-center">
                                             @if (is_string($ruta_imagen))
-                                            <img src="{{ asset('storage/photos/' . $ruta_imagen) }}"
-                                            style="max-height: 30vh !important; text-align: center">
+                                                <img src="{{ asset('storage/photos/' . $ruta_imagen) }}"
+                                                    style="@mobile
+max-width: 100%;
+@elsemobile
+max-height: 30vh !important;
+@endmobile text-align: center">
                                             @else
                                                 <img src="{{ $ruta_imagen->temporaryUrl() }}"
-                                                    style="max-height: 30vh !important; text-align: center">
+                                                    style=" @mobile
+max-width: 100%;
+@elsemobile
+max-height: 30vh !important;
+@endmobile text-align: center">
                                             @endif
                                         </div>
                                     @endif
@@ -64,7 +72,8 @@
                                 </div>
                             </div>
                             <div class="col-sm-12">
-                                <label for="informacion_adicional" class="col-sm-12 col-form-label">Información adicional</label>
+                                <label for="informacion_adicional" class="col-sm-12 col-form-label">Información
+                                    adicional</label>
                                 <div class="col-sm-11">
                                     <textarea wire:model.defer="informacion_adicional" class="form-control" name="informacion_adicional"
                                         id="informacion_adicional" placeholder="Pérez..."></textarea>
@@ -79,13 +88,12 @@
             </div>
         </div>
         <div class="col-md-3">
-            <div class="card m-b-30">
+            <div class="card">
                 <div class="card-body">
                     <h5>Acciones</h5>
                     <div class="row">
                         <div class="col-12">
-                            <button class="w-100 btn btn-success mb-2" id="alertaGuardar">Crear
-                                Usuario</button>
+                            <button class="w-100 btn btn-success mb-2" id="alertaGuardar">Guardar cambios</button>
                         </div>
                     </div>
                 </div>
@@ -94,15 +102,12 @@
     </div>
 </div>
 
-
-</div>
-
 @section('scripts')
     <script>
         $("#alertaGuardar").on("click", () => {
             Swal.fire({
                 title: '¿Estás seguro?',
-                text: 'Pulsa el botón de confirmar para crear el nuevo usuario.',
+                text: 'Pulsa el botón de confirmar para guardar cambios.',
                 icon: 'warning',
                 showConfirmButton: true,
                 showCancelButton: true

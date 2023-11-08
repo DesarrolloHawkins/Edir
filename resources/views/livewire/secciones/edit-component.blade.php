@@ -3,13 +3,13 @@
     <div class="page-title-box">
         <div class="row align-items-center">
             <div class="col-sm-6">
-                <h4 class="page-title">EDITANDO SECCIÓN {{strtoupper($nombre)}}</span></h4>
+                <h4 class="page-title">EDITANDO SECCIÓN {{ strtoupper($nombre) }}</span></h4>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-right">
                     <li class="breadcrumb-item"><a href="javascript:void(0);">Dashboard</a></li>
                     <li class="breadcrumb-item"><a href="javascript:void(0);">Secciones</a></li>
-                    <li class="breadcrumb-item active">Editar sección {{$nombre}}</li>
+                    <li class="breadcrumb-item active">Editar sección {{ $nombre }}</li>
                 </ol>
             </div>
         </div> <!-- end row -->
@@ -21,13 +21,15 @@
                 <div class="card-body">
                     <form wire:submit.prevent="submit">
                         <input type="hidden" name="csrf-token" value="{{ csrf_token() }}">
-                        <div class="form-group row">
-                            <div class="col-sm-12">
+                        <div class="form-group row align-items-center">
+                            <div class="col-md-12">
                                 <label for="ruta_imagen" class="col-sm-12 col-form-label">Icono de la sección</label>
                                 <div class="col-sm-11">
                                     @if ($ruta_imagen)
                                         <div class="col text-center">
                                             @if (is_string($ruta_imagen))
+                                                <img src="{{ asset('storage/photos/' . $ruta_imagen) }}"
+                                                    style="max-height: 30vh !important; text-align: center">
                                             @else
                                                 <img src="{{ $ruta_imagen->temporaryUrl() }}"
                                                     style="max-height: 30vh !important; text-align: center">
@@ -42,7 +44,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-sm-6">
+                            <div class="col-md-4">
                                 <label for="nombre" class="col-sm-12 col-form-label">Nombre de la sección</label>
                                 <div class="col-sm-10">
                                     <input type="text" wire:model.defer="nombre" class="form-control" name="nombre"
@@ -52,7 +54,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-sm-6">
+                            <div class="col-md-4">
                                 <label for="surname" class="col-sm-12 col-form-label">Sección padre (si es
                                     subsección)</label>
                                 <div class="col-sm-10" x-data="" x-init="$('#seccion_padre_id').select2();
@@ -60,7 +62,8 @@
                                     var data = $('#seccion_padre_id').select2('val');
                                     @this.set('seccion_padre_id', data);
                                 });">
-                                    <select id="seccion_padre_id" name="seccion_padre_id" class="form-control" wire:model="seccion_padre_id">
+                                    <select id="seccion_padre_id" name="seccion_padre_id" class="form-control"
+                                        wire:model="seccion_padre_id">
                                         <option value="0">-- SIN SECCIÓN PADRE --</option>
                                         @foreach ($secciones as $seccion)
                                             <option value="{{ $seccion->id }}">{{ $seccion->nombre }}</option>
@@ -70,6 +73,14 @@
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="checkbox" class="@mobile mt-4 @endmobile me-2" wire:model="seccion_incidencias"
+                                    id="seccion_incidencias">
+                                <label for="seccion_incidencias">¿Es la sección de incidencias?</label>
+                                @error('direccion')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
                             </div>
                         </div>
                     </form>
@@ -82,7 +93,8 @@
                     <h5>Acciones</h5>
                     <div class="row">
                         <div class="col-12">
-                            <button class="w-100 btn btn-success mb-2" id="alertaGuardar">Crear
+                            <button class="w-100 btn btn-success mb-2" id="alertaGuardar">Guardar cambios</button>
+                            <button class="w-100 btn btn-danger mb-2" id="alertaEliminar">Eliminar
                                 sección</button>
                         </div>
                     </div>
@@ -100,17 +112,29 @@
         $("#alertaGuardar").on("click", () => {
             Swal.fire({
                 title: '¿Estás seguro?',
-                text: 'Pulsa el botón de confirmar para crear el nuevo usuario.',
+                text: 'Pulsa el botón de confirmar para guardar los cambios.',
                 icon: 'warning',
                 showConfirmButton: true,
                 showCancelButton: true
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.livewire.emit('submit');
+                    window.livewire.emit('update');
                 }
             });
         });
-
+        $("#alertaEliminar").on("click", () => {
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: 'Se eliminarán todos los anuncios de esta sección, además de las subsecciones enlazadas.',
+                icon: 'danger',
+                showConfirmButton: true,
+                showCancelButton: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.livewire.emit('destroy');
+                }
+            });
+        });
         $.datepicker.regional['es'] = {
             closeText: 'Cerrar',
             prevText: '< Ant',

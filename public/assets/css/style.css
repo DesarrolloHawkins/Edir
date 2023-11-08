@@ -186,7 +186,7 @@ b, strong {
 }
 
 .bg-primary {
-  background-color: #30419b !important;
+  background-color: #9ec84c !important;
 }
 
 .bg-success {
@@ -254,7 +254,7 @@ b, strong {
 }
 
 .text-primary {
-  color: #30419b !important;
+  color: #9ec84c !important;
 }
 
 .text-warning {
@@ -278,7 +278,7 @@ b, strong {
 }
 
 .border-primary {
-  border-color: #30419b !important;
+  border-color: #9ec84c !important;
 }
 
 .border-success {
@@ -315,17 +315,17 @@ dt {
 }
 
 .custom-control-input:checked ~ .custom-control-label:before {
-  border-color: #30419b;
-  background-color: #30419b;
+  border-color: #9ec84c;
+  background-color: #9ec84c;
 }
 
 /* Navs & Tabs */
 .nav-pills .nav-item.show .nav-link, .nav-pills .nav-link.active {
-  background-color: #30419b;
+  background-color: #9ec84c;
 }
 
 .nav-pills > .active > a > .badge {
-  color: #30419b;
+  color: #9ec84c;
 }
 
 .badge {
@@ -333,7 +333,7 @@ dt {
 }
 
 .badge-primary {
-  background-color: #30419b;
+  background-color: #9ec84c;
 }
 
 .badge-success {
@@ -363,7 +363,7 @@ dt {
 
 .badge-soft-primary {
   background-color: rgba(48, 65, 155, 0.2);
-  color: #30419b;
+  color: #9ec84c;
 }
 
 .badge-soft-success {
@@ -400,19 +400,19 @@ dt {
   Progressbar
 ===================*/
 .progress-bar {
-  background-color: #30419b;
+  background-color: #9ec84c;
 }
 
 /* ==============
   Pagination
 ===================*/
 .page-link {
-  color: #30419b;
+  color: #9ec84c;
 }
 
 .page-item.active .page-link {
-  background-color: #30419b;
-  border-color: #30419b;
+  background-color: #9ec84c;
+  border-color: #9ec84c;
 }
 
 .page-link:focus, .page-link:hover {
@@ -634,7 +634,7 @@ dt {
 }
 
 .icon-demo-content .col-md-4:hover i {
-  color: #30419b;
+  color: #9ec84c;
   -webkit-transform: scale(1.5);
           transform: scale(1.5);
 }
@@ -1106,7 +1106,7 @@ dt {
 }
 
 #sidebar-menu .submenu li a:hover {
-  background-color: #30419b;
+  background-color: #9ec84c;
   color: rgba(255, 255, 255, 0.8);
 }
 
@@ -1164,7 +1164,7 @@ dt {
 .enlarged #wrapper #sidebar-menu ul ul {
   padding-bottom: 5px;
   padding-top: 5px;
-  background-color: #30419b;
+  background-color: #9ec84c;
 }
 
 .enlarged #wrapper .left.side-menu {
@@ -1423,7 +1423,7 @@ dt {
 }
 
 .left-side-menu-light #sidebar-menu > ul > li > a .badge-light {
-  background-color: #30419b;
+  background-color: #9ec84c;
   color: #ffffff;
 }
 
@@ -1535,7 +1535,7 @@ dt {
 }
 
 .alertify-logs > *, .alertify-logs > .default {
-  background-color: #30419b;
+  background-color: #9ec84c;
 }
 
 /* ==============
@@ -1560,7 +1560,7 @@ dt {
 }
 
 .alertify-logs > *, .alertify-logs > .default {
-  background-color: #30419b;
+  background-color: #9ec84c;
 }
 
 /* =============
@@ -1578,7 +1578,7 @@ dt {
 
 .alert-primary {
   color: #ffffff;
-  background-color: #30419b;
+  background-color: #9ec84c;
 }
 
 .alert-primary hr {
@@ -1842,13 +1842,13 @@ button:focus {
 }
 
 .btn-link:hover {
-  color: #30419b;
+  color: #9ec84c;
 }
 
 /* button Outline */
 .btn-outline-primary {
-  color: #30419b;
-  border-color: #30419b;
+  color: #9ec84c;
+  border-color: #9ec84c;
 }
 
 .btn-outline-success {
@@ -1951,7 +1951,7 @@ button:focus {
 }
 
 .custom-dd .dd-list .dd-item .dd-handle:hover {
-  color: #30419b;
+  color: #9ec84c;
 }
 
 .custom-dd .dd-list .dd-item button {
@@ -1975,7 +1975,7 @@ button:focus {
 }
 
 .custom-dd-empty .dd-list .dd3-handle:hover {
-  color: #30419b;
+  color: #9ec84c;
 }
 
 .custom-dd-empty .dd-list .dd3-content {
@@ -1986,7 +1986,7 @@ button:focus {
 }
 
 .custom-dd-empty .dd-list .dd3-content:hover {
-  color: #30419b;
+  color: #9ec84c;
 }
 
 .custom-dd-empty .dd-list button {
@@ -2027,11 +2027,11 @@ button:focus {
 
 /* Ion Range slider */
 .irs--modern .irs-bar, .irs--modern .irs-to, .irs--modern .irs-from, .irs--modern .irs-single, .irs--modern .irs-handle > i:first-child {
-  background: #30419b !important;
+  background: #9ec84c !important;
 }
 
 .irs--modern .irs-to:before, .irs--modern .irs-from:before, .irs--modern .irs-single:before {
-  border-top-color: #30419b;
+  border-top-color: #9ec84c;
 }
 
 .irs--modern .irs-min, .irs--modern .irs-max {
@@ -2066,7 +2066,7 @@ button:focus {
 
 .swal2-modal .swal2-file:focus, .swal2-modal .swal2-input:focus, .swal2-modal .swal2-textarea:focus {
   outline: 0;
-  border: 2px solid #30419b;
+  border: 2px solid #9ec84c;
 }
 
 .swal2-popup .swal2-styled:focus {
@@ -2075,8 +2075,8 @@ button:focus {
 }
 
 .swal2-icon.swal2-question {
-  color: #30419b;
-  border-color: #30419b;
+  color: #9ec84c;
+  border-color: #9ec84c;
 }
 
 .swal2-icon.swal2-success {
@@ -2116,18 +2116,18 @@ label {
 }
 
 .form-control:focus {
-  border-color: #30419b;
+  border-color: #9ec84c;
   -webkit-box-shadow: none;
           box-shadow: none;
 }
 
 .custom-control-input:checked ~ .custom-control-indicator {
-  background-color: #30419b;
+  background-color: #9ec84c;
 }
 
 .custom-control-input:focus ~ .custom-control-indicator {
-  -webkit-box-shadow: 0 0 0 1px #ffffff, 0 0 0 3px #30419b;
-  box-shadow: 0 0 0 1px #ffffff, 0 0 0 3px #30419b;
+  -webkit-box-shadow: 0 0 0 1px #ffffff, 0 0 0 3px #9ec84c;
+  box-shadow: 0 0 0 1px #ffffff, 0 0 0 3px #9ec84c;
 }
 
 .has-success .form-control {
@@ -2199,7 +2199,7 @@ label {
 .datepicker table tr td.today.disabled:hover, .datepicker table tr td.today:hover, .datepicker table tr td.selected,
 .datepicker table tr td.selected.disabled, .datepicker table tr td.selected.disabled:hover,
 .datepicker table tr td.selected:hover {
-  background-color: #30419b !important;
+  background-color: #9ec84c !important;
   background-image: none;
   -webkit-box-shadow: none;
           box-shadow: none;
@@ -2252,7 +2252,7 @@ label {
 }
 
 .mce-menu-item:hover, .mce-menu-item.mce-selected, .mce-menu-item:focus {
-  background-color: #30419b !important;
+  background-color: #9ec84c !important;
 }
 
 .mce-menu {
@@ -2410,7 +2410,7 @@ label {
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  border: 6px solid #30419b;
+  border: 6px solid #9ec84c;
   background-color: #ffffff;
 }
 
@@ -2426,7 +2426,7 @@ label {
   display: inline-block;
   text-align: center;
   border-radius: 50%;
-  background-color: #30419b;
+  background-color: #9ec84c;
   font-size: 15px;
 }
 
@@ -2543,7 +2543,7 @@ label {
 .ct-chart .ct-series.ct-series-a .ct-line,
 .ct-chart .ct-series.ct-series-a .ct-point,
 .ct-chart .ct-series.ct-series-a .ct-slice-donut {
-  stroke: #30419b;
+  stroke: #9ec84c;
 }
 
 .ct-chart .ct-series.ct-series-b .ct-bar,
@@ -2590,7 +2590,7 @@ label {
 
 .ct-series-a .ct-area,
 .ct-series-a .ct-slice-pie {
-  fill: #30419b;
+  fill: #9ec84c;
 }
 
 .ct-series-b .ct-area,
@@ -2684,7 +2684,7 @@ label {
   color: #ffffff;
   font-size: 16px;
   line-height: 40px;
-  background: #30419b;
+  background: #9ec84c;
   border-radius: 4px;
   padding: 10px 20px;
 }
@@ -2701,14 +2701,14 @@ label {
   bottom: -15px;
   border-left: 16px solid transparent;
   border-right: 16px solid transparent;
-  border-top: 16px solid #30419b;
+  border-top: 16px solid #9ec84c;
 }
 
 .gmaps-overlay_arrow.below {
   top: -15px;
   border-left: 16px solid transparent;
   border-right: 16px solid transparent;
-  border-bottom: 16px solid #30419b;
+  border-bottom: 16px solid #9ec84c;
 }
 
 /* ==============
@@ -2738,12 +2738,12 @@ label {
 
 /* == Responsive Table ==*/
 table.focus-on tbody tr.focused th {
-  background-color: #30419b;
+  background-color: #9ec84c;
   color: #ffffff;
 }
 
 table.focus-on tbody tr.focused td {
-  background-color: #30419b;
+  background-color: #9ec84c;
   color: #ffffff;
 }
 
@@ -2845,8 +2845,8 @@ table.focus-on tbody tr.focused td {
 }
 
 .table-rep-plugin .checkbox-row input[type="checkbox"]:checked + label::before {
-  background-color: #30419b;
-  border-color: #30419b;
+  background-color: #9ec84c;
+  border-color: #9ec84c;
 }
 
 .table-rep-plugin .checkbox-row input[type="checkbox"]:checked + label::after {
@@ -2939,7 +2939,7 @@ table.focus-on tbody tr.focused td {
   margin: 5px 0;
   padding: 5px 5px;
   text-align: center;
-  background-color: #30419b;
+  background-color: #9ec84c;
   color: #ffffff !important;
 }
 
@@ -3115,8 +3115,8 @@ table.focus-on tbody tr.focused td {
 
 .message-list li.active,
 .message-list li.active:hover {
-  -webkit-box-shadow: inset 3px 0 0 #30419b;
-          box-shadow: inset 3px 0 0 #30419b;
+  -webkit-box-shadow: inset 3px 0 0 #9ec84c;
+          box-shadow: inset 3px 0 0 #9ec84c;
 }
 
 .message-list li.unread {
@@ -3212,7 +3212,7 @@ table.focus-on tbody tr.focused td {
 }
 
 .email-img-overlay .email-overlay i {
-  background: #30419b;
+  background: #9ec84c;
   color: #ffffff;
   font-size: 20px;
   border-radius: 50%;
@@ -3304,7 +3304,7 @@ table.focus-on tbody tr.focused td {
 
 .comming-watch div .card .countdown-num {
   font-weight: 600;
-  color: #30419b;
+  color: #9ec84c;
 }
 
 .comming-watch div span {
@@ -3365,7 +3365,7 @@ table.focus-on tbody tr.focused td {
 
 .error-page {
   text-transform: uppercase;
-  background: repeating-linear-gradient(45deg, #30419b, #30419b 10px, #02c58d 10px, #02c58d 20px);
+  background: repeating-linear-gradient(45deg, #9ec84c, #9ec84c 10px, #02c58d 10px, #02c58d 20px);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   font-size: 110px;
@@ -3428,7 +3428,7 @@ table.focus-on tbody tr.focused td {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: #30419b;
+  background: #9ec84c;
   margin: auto;
   position: absolute;
   top: 0;
@@ -3443,7 +3443,7 @@ table.focus-on tbody tr.focused td {
   margin: 0;
   font-size: 14px;
   color: #ffffff;
-  background: #30419b;
+  background: #9ec84c;
   text-align: center;
   position: absolute;
   top: 50%;
@@ -3454,7 +3454,7 @@ table.focus-on tbody tr.focused td {
 
 .main-timeline .year:before {
   content: "";
-  border-right: 18px solid #30419b;
+  border-right: 18px solid #9ec84c;
   border-top: 18px solid transparent;
   border-bottom: 18px solid transparent;
   position: absolute;
@@ -3535,7 +3535,7 @@ table.focus-on tbody tr.focused td {
 .main-timeline .timeline:nth-child(2n) .year:before {
   border: 18px solid transparent;
   border-right: none;
-  border-left: 18px solid #30419b;
+  border-left: 18px solid #9ec84c;
   left: auto;
   right: -18px;
 }
@@ -3606,7 +3606,7 @@ table.focus-on tbody tr.focused td {
   }
   .main-timeline .timeline:nth-child(2n) .year:before {
     border-left: none;
-    border-right: 18px solid #30419b;
+    border-right: 18px solid #9ec84c;
     right: auto;
     left: -18px;
   }

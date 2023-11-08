@@ -29,6 +29,11 @@ class UsuarioController extends Controller
         return view('usuario.create');
 
     }
+    public function duplicar($id)
+    {
+        return view('usuario.duplicar', compact('id'));
+
+    }
 
     /**
      * Store a newly created resource in storage.
