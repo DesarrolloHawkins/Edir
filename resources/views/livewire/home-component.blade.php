@@ -23,12 +23,21 @@
         </div> <!-- end row -->
     </div>
     @if ($seccion_seleccionada == 0)
+    @mobile
         <div class="row justify-content-center">
             <div class="col">
                 <button class="btn btn-lg btn-primary add-button">Pulsa aquí para añadir Communitas a la pantalla de
                     inicio de tu móvil</button>
             </div>
         </div>
+        @elsemobile
+        <div class="row justify-content-center mb-5">
+            <div class="col text-center">
+                <button class="btn btn-lg btn-primary add-button">Pulsa aquí para añadir Communitas a la pantalla de
+                    inicio de tu móvil</button>
+            </div>
+        </div>
+        @endmobile
         <div class="row justify-content-center" id="items" x-data="" x-init="$nextTick(() => {
             var el = document.getElementById('items');
             var sortable = Sortable.create(el, {
