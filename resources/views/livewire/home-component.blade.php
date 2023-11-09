@@ -51,7 +51,7 @@
                 }
             });
         });"
-            wire:ignore>
+            wire:ignore wire:key='{{time()}}'>
             @foreach ($secciones_menu as $seccion)
                 <div class="col-sm-2 col-xl-2 d-flex align-items-stretch" data-id="{{ $seccion->id }}">
                     <div class="card w-100 text-center d-flex flex-column justify-content-center">

@@ -14,6 +14,17 @@
         <div id="sidebar-menu" style="position: sticky !important">
             <!-- Left Menu Start -->
             <ul class="metismenu" id="side-menu">
+                @if ($user->role == 1)
+                    <li x-data="" x-init="$('#select2-comunidades').select2();
+                    $('#select2-comunidades').on('change', function(e) {
+                        var data = $('#select2-comunidades').select2('val');
+                        Livewire.emit('cambiarComunidad', data);
+                    });"><select id="select2-comunidades" class="w-100">
+                            @foreach ($comunidades as $comunidad)
+                                <option value="{{ $comunidad->id }}">{{ $comunidad->nombre }}
+                            @endforeach
+                        </select></li>
+                @endif
                 @notmobile
                     <li>
                         @if ($comunidad != null)
@@ -37,9 +48,9 @@
                             </h5>
                             <h2 style="text-align: center; color: #9ec84c !important">
                                 {{ $comunidad->nombre }} </h2>
-                            @else
-                                <h6 style="text-align: center; color: #9ec84c !important;">
-                                    {{ $user->name }} </h5>
+                        @else
+                            <h6 style="text-align: center; color: #9ec84c !important;">
+                                {{ $user->name }} </h5>
                         @endif
                     </li>
                 @endnotmobile

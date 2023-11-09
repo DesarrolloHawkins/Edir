@@ -14,7 +14,7 @@ class HomeComponent extends Component
     public $seccion_seleccionada;
     public $secciones_menu;
     public $alertas;
-    protected $listeners = ['seleccionarSeccion', 'refreshComponent' => '$refresh'];
+    protected $listeners = ['seleccionarSeccion', 'refreshComponent' => '$refresh', 'cambiarComunidad'];
     public function mount()
     {
         $this->alertas = auth()->user()->alertas()->wherePivot('status', 0)->get();
@@ -61,5 +61,11 @@ class HomeComponent extends Component
     {
         $user = auth()->user();
         $user->alertas()->updateExistingPivot($alertaId, ['status' => 1]);
+    }
+
+    public function cambiarComunidad($id){
+        $this->comunidad = Comunidad::where('id', $id)->first();
+        $this->secciones_menu = Seccion::where('seccion_padre_id', 0)->where('comunidad_id', $this->comunidad->id)->orderBy('orden', 'asc')->get();
+        $this->emit('refreshComponent');
     }
 }
