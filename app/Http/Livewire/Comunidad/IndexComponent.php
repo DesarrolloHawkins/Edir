@@ -104,7 +104,8 @@ class IndexComponent extends Component
     {
         return [
             'confirmed',
-            'submit'
+            'submit',
+            'cambiarComunidad'
         ];
     }
 
@@ -113,5 +114,14 @@ class IndexComponent extends Component
     {
         // Do something
         return redirect()->route('comunidad.index');
+    }
+    public function cambiarComunidad($id){
+        if (Comunidad::where('id', $id)->count() > 0) {
+            $this->comunidad = Comunidad::where('id', $id)->first();
+            $this->ruta_imagen = $this->comunidad->ruta_imagen;
+            $this->nombre = $this->comunidad->nombre;
+            $this->direccion = $this->comunidad->direccion;
+            $this->informacion_adicional = $this->comunidad->informacion_adicional;
+        }
     }
 }

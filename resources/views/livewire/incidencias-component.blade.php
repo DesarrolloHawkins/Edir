@@ -94,7 +94,7 @@
                                         class="btn d-flex flex-column justify-content-center align-items-center p-2"
                                         style="height: 100%;"
                                         wire:click="$emit('seleccionarSeccion', '{{ $subseccion->id }}')">
-                                        <img src="{{ asset('storage/photos/' . $subseccion->ruta_imagen) }}"
+                                        <img src="{{ asset('storage/photos/' . $subseccion->ruta_imagen) }}" onerror="this.onerror=null; this.src='{{asset('storage/communitas_icon.png')}}';"
                                             class="card-img-top" style="width: auto; max-height: 100px;">
                                         <h6 class="mt-2">{{ $subseccion->nombre }}</h6>
                                     </button>

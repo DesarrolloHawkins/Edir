@@ -163,10 +163,10 @@
             <div class="card m-b-30">
                 <div class="card-body align-items-center">
                     <button type="button" class="btn btn-primary btn-lg text-center mb-3 w-100"
-                        wire:click="seleccionarSeccionVolver()">Volver</button>
+                        onclick="location.href='{{route('home')}}'">Volver</button>
                     <button type="button" class="btn btn-primary btn-lg text-center mb-3 w-100"
                         wire:click="formularioCheck()">Añadir
-                        incidencia</button>
+                        aviso</button>
                 </div>
             </div>
         </div>
@@ -179,12 +179,10 @@
                 <div class="card-body align-items-center">
                     <h5>Opciones</h5>
                     <button type="button" class="btn btn-primary btn-lg text-center mb-3 w-100"
-                        wire:click="seleccionarSeccionVolver()">Volver</button>
+                    onclick="location.href='{{route('home')}}'">Volver</button>
                     <button type="button" class="btn btn-primary btn-lg text-center mb-3 w-100"
                         wire:click="formularioCheck()">Añadir
-                        anuncio</button>
-                    <button type="button" class="btn btn-primary btn-lg text-center mb-3 w-100"
-                        wire:click="subseccionCheck()">Ver subsecciones</button>
+                        aviso</button>
                 </div>
             </div>
         </div>

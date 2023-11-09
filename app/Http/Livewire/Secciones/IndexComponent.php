@@ -11,6 +11,7 @@ class IndexComponent extends Component
 {
     public $comunidad;
     public $secciones;
+    protected $listeners = ['cambiarComunidad', 'refreshComponent' => '$refresh'];
 
     public function mount()
     {
@@ -21,4 +22,10 @@ class IndexComponent extends Component
     {
         return view('livewire.secciones.index-component');
     }
+    public function cambiarComunidad($id)
+    {
+        $this->comunidad = Comunidad::where('id', $id)->first();
+        $this->secciones = Seccion::where('comunidad_id', $this->comunidad->id)->get();
+        $this->emit('refreshComponent');
+        }
 }

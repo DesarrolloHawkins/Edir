@@ -44,7 +44,7 @@
                 <div class="card-body">
                     @if (count($secciones) > 0)
                         <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap"
-                            style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                            style="border-collapse: collapse; border-spacing: 0; width: 100%;" wire:key='time()'>
                             <thead>
                                 <tr>
                                     <th scope="col">Nombre</th>
@@ -57,7 +57,7 @@
                                 @foreach ($secciones as $seccion)
                                     <tr>
                                         <td>{{ $seccion->nombre }}</td>
-                                        <td width="10%"><img src="{{ asset('storage/photos/' . $seccion->ruta_imagen) }}"
+                                        <td width="10%"><img src="{{ asset('storage/photos/' . $seccion->ruta_imagen) }}" onerror="this.onerror=null; this.src='{{asset('storage/communitas_icon.png')}}';"
                                             style="max-width: 32px !important; !important; text-align: center"></td>
                                         <td>
                                             @if ($seccion->seccion_padre_id == 0)

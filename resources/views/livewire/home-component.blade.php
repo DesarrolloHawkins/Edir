@@ -1,6 +1,5 @@
 <div class="container-fluid">
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
-    <script src="//unpkg.com/alpinejs" defer></script>
     <div class="page-title-box">
         <div class="row align-items-center">
             <div class="col-sm-6">
@@ -58,7 +57,7 @@
                         <button type="button"
                             class="btn d-flex flex-column justify-content-center align-items-center p-2"
                             style="height: 100%;" wire:click.prevent='seleccionarSeccion("{{ $seccion->id }}")'>
-                            <img src="{{ asset('storage/photos/' . $seccion->ruta_imagen) }}" class="card-img-top"
+                            <img onerror="this.onerror=null; this.src='{{asset('storage/communitas_icon.png')}}';" src="{{ asset('storage/photos/' . $seccion->ruta_imagen) }}" class="card-img-top"
                                 style="width: auto; max-height: 100px;">
                             <h6 class="mt-2">{{ $seccion->nombre }}</h6>
                         </button>
