@@ -23,6 +23,12 @@
         </div> <!-- end row -->
     </div>
     @if ($seccion_seleccionada == 0)
+        <div class="row justify-content-center">
+            <div class="col">
+                <button class="btn btn-lg btn-primary add-button">Pulsa aquí para añadir Communitas a la pantalla de
+                    inicio de tu móvil</button>
+            </div>
+        </div>
         <div class="row justify-content-center" id="items" x-data="" x-init="$nextTick(() => {
             var el = document.getElementById('items');
             var sortable = Sortable.create(el, {
@@ -51,12 +57,6 @@
                 </div>
             @endforeach
         </div>
-        <div class="row justify-content-center">
-            <div class="col">
-                <button class="btn btn-lg btn-primary add-button">Pulsa aquí para añadir Communitas a la pantalla de
-                    inicio de tu móvil</button>
-            </div>
-        </div>
     @else
         @if ($secciones->firstWhere('id', $seccion_seleccionada)->seccion_incidencias == 1)
             @livewire('incidencias-component', ['seccion_id' => $seccion_seleccionada])
@@ -66,8 +66,19 @@
     @endif
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            @php
+                $previousUrl = session('previous_url') ?? url()->previous();
+                $previousPath = parse_url($previousUrl, PHP_URL_PATH);
+                $isAdminRoute = Str::startsWith($previousPath, '/admin');
+            @endphp
+
+            @if (!$isAdminRoute)
+                @mobile
+                    $('body').removeClass('enlarged');
+                @endmobile
+            @endif
             if ('serviceWorker' in navigator) {
-                navigator.serviceWorker.register("{{asset('service-worker.js')}}")
+                navigator.serviceWorker.register("{{ asset('service-worker.js') }}")
                     .then(function(registration) {
                         console.log('Service Worker registrado con éxito con el alcance:', registration.scope);
                     })

@@ -73,6 +73,8 @@ class SeccionComponent extends Component
     }
     public function submit()
     {
+        $datetime = date('Y-m-d');
+
         // Validación de datos
         $validatedData = $this->validate(
             [
@@ -92,7 +94,7 @@ class SeccionComponent extends Component
             ]
         );
         if ($this->ruta_archivo != null) {
-            $name = md5($this->ruta_archivo . microtime()) . '.' . $this->ruta_archivo->extension();
+            $name = $this->titulo . "-" . $datetime . '.' . $this->ruta_archivo->extension();
 
             $this->ruta_archivo->storePubliclyAs('public', 'archivos/' . $this->secciones->firstWhere('id', $this->seccion_id)->nombre . '/' . $name);
 

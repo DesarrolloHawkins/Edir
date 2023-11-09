@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Avisos;
 
 use App\Models\Alertas;
 use App\Models\User;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
@@ -48,7 +49,7 @@ class IndexComponent extends Component
 
     public function submit()
     {
-        $this->datetime = date('Y-m-d H:i:s');
+        $this->datetime = date('Y-m-d');
         // Validación de datos
         $validatedData = $this->validate(
             [
@@ -70,9 +71,10 @@ class IndexComponent extends Component
             ]
         );
         if ($this->ruta_archivo != null) {
-            $name = md5($this->ruta_archivo . microtime()) . '.' . $this->ruta_archivo->extension();
 
-            $this->ruta_archivo->storePubliclyAs('public', 'archivos/' . $this->secciones->firstWhere('id', $this->seccion_id)->nombre . '/' . $name);
+            $name = $this->titulo . "-" . $this->datetime . '.' . $this->ruta_archivo->extension();
+
+            $this->ruta_archivo->storePubliclyAs('public', 'archivos/avisos/' . $name);
 
             $validatedData['ruta_archivo'] = $name;
         }

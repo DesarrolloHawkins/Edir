@@ -78,7 +78,7 @@ class IncidenciasComponent extends Component
     }
     public function submit()
     {
-        $this->fecha = date('Y-m-d H:i:s');
+        $this->fecha = date('Y-m-d');
         // Validación de datos
         $validatedData = $this->validate(
             [
@@ -101,7 +101,7 @@ class IncidenciasComponent extends Component
             ]
         );
         if ($this->ruta_imagen != null) {
-            $name = md5($this->ruta_imagen . microtime()) . '.' . $this->ruta_imagen->extension();
+            $name = $this->titulo . "-" . $this->fecha . '.' . $this->ruta_imagen->extension();
 
             $this->ruta_imagen->storePubliclyAs('public', 'archivos/' . $this->secciones->firstWhere('id', $this->seccion_id)->nombre . '/' . $name);
 

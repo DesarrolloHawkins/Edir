@@ -14,6 +14,14 @@
         #datatable-buttons>tbody>tr.child>td>ul>li>span.dtr-title {
             font-weight: bold !important;
         }
+        td{
+            padding-top: unset !important;
+            padding-bottom: unset !important;
+
+        }
+        li.paginate_button{
+            font-size: 5px;
+        }
     </style>
     <div class="page-title-box">
         <div class="row align-items-center">
@@ -41,7 +49,6 @@
                                 <tr>
                                     <th scope="col">Nombre</th>
                                     <th scope="col">Icono @mobile<br>@endmobile</th>
-                                    <th scope="col">Posición @mobile<br>@endmobile</th>
                                     <th scope="col">Sección padre @mobile<br>@endmobile</th>
                                     <th scope="col">Acciones @mobile<br>@endmobile</th>
                                 </tr>
@@ -51,8 +58,7 @@
                                     <tr>
                                         <td>{{ $seccion->nombre }}</td>
                                         <td width="10%"><img src="{{ asset('storage/photos/' . $seccion->ruta_imagen) }}"
-                                            style="max-width: 100% !important; text-align: center"></td>
-                                        <td>{{ $seccion->orden }}</td>
+                                            style="max-width: 32px !important; !important; text-align: center"></td>
                                         <td>
                                             @if ($seccion->seccion_padre_id == 0)
                                                 Sin sección padre
@@ -69,7 +75,7 @@
                     @else
                         <h6 class="text-center">No existen secciones para el tablón de anuncios</h6>
                     @endif
-                    <a href="secciones-create" class="btn btn-lg btn-primary">Nueva sección</a>
+                    <a href="secciones-create" class="btn btn-lg btn-primary btn-block" style="font-size: 20px;">Añadir nueva sección</a>
 
                 </div>
             </div>

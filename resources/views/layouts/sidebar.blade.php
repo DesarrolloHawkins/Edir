@@ -1,13 +1,14 @@
 <!-- ========== Left Sidebar Start ========== -->
 <div class="left side-menu" @notmobile style="margin-top: 100px !important;" @endnotmobile>
     <style>
-        h5 .enlarged{
-            display:none;
+        h5 .enlarged {
+            display: none;
         }
-        .enlarged .side-menu h6{
-            display:none;
+
+        .enlarged .side-menu h6 {
+            display: none;
         }
-        </style>
+    </style>
     <div class="slimscroll-menu" id="remove-scroll">
         <!--- Sidemenu -->
         <div id="sidebar-menu" style="position: sticky !important">
@@ -18,12 +19,27 @@
                         @if ($comunidad != null)
                             <h5 style="text-align: center; color: #9ec84c !important">
                                 <img src="{{ asset('storage/photos/' . $comunidad->ruta_imagen) }}"
-                                style="max-width: 10vw !important; text-align: center"> </h5>
+                                    style="max-width: 10vw !important; text-align: center">
+                            </h5>
                             <h6 style="text-align: center; color: #9ec84c !important">
                                 {{ $comunidad->nombre }} </h5>
-                        @else
-                            <h6 style="text-align: center; color: #9ec84c !important;">
-                                {{ $user->name }} </h5>
+                            @else
+                                <h6 style="text-align: center; color: #9ec84c !important;">
+                                    {{ $user->name }} </h5>
+                        @endif
+                    </li>
+                @elsenotmobile
+                    <li>
+                        @if ($comunidad != null)
+                            <h5 style="text-align: center; color: #9ec84c !important">
+                                <img src="{{ asset('storage/photos/' . $comunidad->ruta_imagen) }}"
+                                    style="max-width: 90vw !important; text-align: center">
+                            </h5>
+                            <h2 style="text-align: center; color: #9ec84c !important">
+                                {{ $comunidad->nombre }} </h2>
+                            @else
+                                <h6 style="text-align: center; color: #9ec84c !important;">
+                                    {{ $user->name }} </h5>
                         @endif
                     </li>
                 @endnotmobile
@@ -34,17 +50,18 @@
                     </a>
                 </li>
                 <li>
-                    <a href="/admin/secciones" class="waves-effect"><i class="fas fa-folder"></i><span> Secciones </span></a>
+                    <a href="/admin/secciones" class="waves-effect"><i class="fas fa-folder"></i><span> Secciones
+                        </span></a>
                 </li>
                 <li>
                     <a href="/admin/comunidad" class="waves-effect"><i class="fas fa-home"></i><span> Comunidad
                         </span></a>
                 </li>
                 @if ($user->role == 1)
-                <li>
-                    <a href="/admin/usuarios" class="waves-effect"><i class="fas fa-user"></i><span> Usuarios
-                        </span></a>
-                </li>
+                    <li>
+                        <a href="/admin/usuarios" class="waves-effect"><i class="fas fa-user"></i><span> Usuarios
+                            </span></a>
+                    </li>
                 @endif
                 <li>
                     <a href="/admin/avisos" class="waves-effect"><i class="fas fa-bell"></i><span> Avisos

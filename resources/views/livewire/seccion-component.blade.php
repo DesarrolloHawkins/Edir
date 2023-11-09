@@ -179,7 +179,7 @@
                                             <img src="{{ asset('storage/archivos/' . $seccion->nombre . '/' . $anuncio->ruta_archivo) }}"
                                                 class="card-img-top" style="width: auto; max-height: 100px;">
                                         @elseif ($anuncio->tipo == 4)
-                                            <a href="{{ asset('storage/archivos/' . $seccion->nombre . '/' . $anuncio->ruta_archivo) }}"
+                                            <a href="{{ asset('storage/archivos/' . $seccion->nombre . '/' . $anuncio->ruta_archivo) }}" download="{{$anuncio->ruta_archivo}}"
                                                 class="btn btn-primary">Acceder al archivo</a>
                                         @endif
                                     </div>
@@ -358,8 +358,8 @@
                                             <img src="{{ asset('storage/archivos/' . $seccion->nombre . '/' . $anuncio->ruta_archivo) }}"
                                                 class="card-img-top" style="width: auto; max-height: 100px;">
                                         @elseif ($anuncio->tipo == 4)
-                                            <a href="{{ asset('storage/archivos/' . $seccion->nombre . '/' . $anuncio->ruta_archivo) }}"
-                                                class="btn btn-primary">Ver enlace</a>
+                                            <a href="{{ asset('storage/archivos/' . $seccion->nombre . '/' . $anuncio->ruta_archivo) }}" download="{{$anuncio->ruta_archivo}}"
+                                                class="btn btn-primary">Descargar archivo</a>
                                         @endif
                                     </div>
                                 </div>

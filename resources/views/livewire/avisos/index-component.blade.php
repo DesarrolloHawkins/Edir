@@ -15,7 +15,7 @@
         </div> <!-- end row -->
     </div>
     <style>
-        div.card-anuncio {
+        button.card-anuncio {
             margin-bottom: 5px !important;
             border: 1px solid black !important;
         }
@@ -24,114 +24,113 @@
         <div class="row">
             <div class="col-10">
                 @if ($formularioCheck == 1)
-                <div class="row">
-                    <form wire:submit.prevent="submit">
-                        <div class="card m-b-30">
-                            <div class="card-body">
-                                <input type="hidden" name="csrf-token" value="{{ csrf_token() }}">
-                                <div class="form-group row">
-                                    <div class="col-sm-12">
-                                        <h5>Nuevo aviso</h5>
-                                    </div>
-                                    <div class="col-sm-9">
-                                        <label for="name" class="col-sm-12 col-form-label">Título</label>
-                                        <div class="col-sm-10">
-                                            <input type="text" wire:model="titulo" class="form-control"
-                                                name="titulo" id="titulo" placeholder="José Carlos...">
-                                            @error('titulo')
-                                                <span class="text-danger">{{ $message }}</span>
-                                            @enderror
+                    <div class="row">
+                        <form wire:submit.prevent="submit">
+                            <div class="card m-b-30">
+                                <div class="card-body">
+                                    <input type="hidden" name="csrf-token" value="{{ csrf_token() }}">
+                                    <div class="form-group row">
+                                        <div class="col-sm-12">
+                                            <h5>Nuevo aviso</h5>
                                         </div>
-                                    </div>
+                                        <div class="col-sm-9">
+                                            <label for="name" class="col-sm-12 col-form-label">Título</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" wire:model="titulo" class="form-control"
+                                                    name="titulo" id="titulo" placeholder="José Carlos...">
+                                                @error('titulo')
+                                                    <span class="text-danger">{{ $message }}</span>
+                                                @enderror
+                                            </div>
+                                        </div>
 
-                                    <div class="col-sm-3">
-                                        <label for="tipo" class="col-sm-12 col-form-label">Tipo</label>
-                                        <div class="col-sm-11" x-data="" x-init="$('#tipo').select2();
-                                        $('#tipo').on('change', function(e) {
-                                            var data = $('#tipo').select2('val');
-                                            @this.set('tipo', data);
-                                        });"
-                                            wire:key='{{ time() }}'> <select wire:model="tipo" id="tipo" class="form-control"
-                                                name="tipo">
-                                                <option value="1">Texto</option>
-                                                <option value="2">Enlace</option>
-                                                <option value="3">Imagen</option>
-                                                <option value="4">Archivo</option>
-                                            </select>
-                                            @error('tipo')
-                                                <span class="text-danger">{{ $message }}</span>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <div class="col-sm-12">
-                                        <label for="descripcion" class="col-sm-12 col-form-label">Descripción</label>
-                                        <div class="col-sm-10">
-                                            <textarea wire:model.defer="descripcion" class="form-control" name="descripcion" id="descripcion"
-                                                placeholder="Pérez..."></textarea>
-                                            @error('descripcion')
-                                                <span class="text-danger">{{ $message }}</span>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    @if ($tipo == 2)
-                                        <div class="col-sm-12">
-                                            <label for="url" class="col-sm-12 col-form-label">Enlace</label>
-                                            <div class="col-sm-10">
-                                                <input type="url" wire:model="url" class="form-control"
-                                                    name="url" id="url" placeholder="José Carlos...">
-                                                @error('url')
+                                        <div class="col-sm-3">
+                                            <label for="tipo" class="col-sm-12 col-form-label">Tipo</label>
+                                            <div class="col-sm-11" x-data="" x-init="$('#tipo').select2();
+                                            $('#tipo').on('change', function(e) {
+                                                var data = $('#tipo').select2('val');
+                                                @this.set('tipo', data);
+                                            });"
+                                                wire:key='{{ time() }}'> <select wire:model="tipo" id="tipo"
+                                                    class="form-control" name="tipo">
+                                                    <option value="1">Texto</option>
+                                                    <option value="2">Enlace</option>
+                                                    <option value="3">Imagen</option>
+                                                    <option value="4">Archivo</option>
+                                                </select>
+                                                @error('tipo')
                                                     <span class="text-danger">{{ $message }}</span>
                                                 @enderror
                                             </div>
                                         </div>
-                                    @elseif ($tipo == 3)
+                                    </div>
+                                    <div class="form-group row">
                                         <div class="col-sm-12">
-                                            <label for="ruta_archivo" class="col-sm-12 col-form-label">Imagen</label>
+                                            <label for="descripcion" class="col-sm-12 col-form-label">Descripción</label>
                                             <div class="col-sm-10">
-                                                @if ($ruta_archivo)
-                                                    <div class="mb-3 row d-flex justify-content-center">
-                                                        <div class="col">
-                                                            <img src="{{ $ruta_archivo->temporaryUrl() }}"
-                                                                style="max-width: 50% !important; text-align: center">
+                                                <textarea wire:model.defer="descripcion" class="form-control" name="descripcion" id="descripcion"
+                                                    placeholder="Pérez..."></textarea>
+                                                @error('descripcion')
+                                                    <span class="text-danger">{{ $message }}</span>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        @if ($tipo == 2)
+                                            <div class="col-sm-12">
+                                                <label for="url" class="col-sm-12 col-form-label">Enlace</label>
+                                                <div class="col-sm-10">
+                                                    <input type="url" wire:model="url" class="form-control"
+                                                        name="url" id="url" placeholder="José Carlos...">
+                                                    @error('url')
+                                                        <span class="text-danger">{{ $message }}</span>
+                                                    @enderror
+                                                </div>
+                                            </div>
+                                        @elseif ($tipo == 3)
+                                            <div class="col-sm-12">
+                                                <label for="ruta_archivo" class="col-sm-12 col-form-label">Imagen</label>
+                                                <div class="col-sm-10">
+                                                    @if ($ruta_archivo)
+                                                        <div class="mb-3 row d-flex justify-content-center">
+                                                            <div class="col">
+                                                                <img src="{{ $ruta_archivo->temporaryUrl() }}"
+                                                                    style="max-width: 50% !important; text-align: center">
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                @endif
-                                                <input type="file" wire:model="ruta_archivo" class="form-control"
-                                                    name="ruta_archivo" id="ruta_archivo" placeholder="José Carlos...">
-                                                @error('ruta_archivo')
-                                                    <span class="text-danger">{{ $message }}</span>
-                                                @enderror
+                                                    @endif
+                                                    <input type="file" wire:model="ruta_archivo" class="form-control"
+                                                        name="ruta_archivo" id="ruta_archivo" placeholder="José Carlos...">
+                                                    @error('ruta_archivo')
+                                                        <span class="text-danger">{{ $message }}</span>
+                                                    @enderror
+                                                </div>
                                             </div>
-                                        </div>
-                                    @elseif ($tipo == 4)
-                                        <div class="col-sm-12">
-                                            <label for="ruta_archivo" class="col-sm-12 col-form-label">Archivo</label>
-                                            <div class="col-sm-10">
-                                                <input type="file" wire:model="ruta_archivo" class="form-control"
-                                                    name="ruta_archivo" id="ruta_archivo" placeholder="José Carlos...">
-                                                @error('ruta_archivo')
-                                                    <span class="text-danger">{{ $message }}</span>
-                                                @enderror
+                                        @elseif ($tipo == 4)
+                                            <div class="col-sm-12">
+                                                <label for="ruta_archivo" class="col-sm-12 col-form-label">Archivo</label>
+                                                <div class="col-sm-10">
+                                                    <input type="file" wire:model="ruta_archivo" class="form-control"
+                                                        name="ruta_archivo" id="ruta_archivo" placeholder="José Carlos...">
+                                                    @error('ruta_archivo')
+                                                        <span class="text-danger">{{ $message }}</span>
+                                                    @enderror
+                                                </div>
                                             </div>
-                                        </div>
-                                    @endif
+                                        @endif
+                                    </div>
+                                    <button type="button" wire:click="submit" class="btn btn-primary">Publicar</button>
                                 </div>
-                                <button type="button" wire:click="submit" class="btn btn-primary">Publicar</button>
                             </div>
-                        </div>
-                    </form>
-                </div>
-            @endif
+                        </form>
+                    </div>
+                @endif
                 <div class="row row-cols-1 row-cols-md-3 g-4 d-flex align-items-stretch">
                     @foreach ($anuncios as $anuncio)
                         <div class="col d-flex align-items-stretch">
-                            <div class="card card-anuncio w-100">
-                                <div class="card-body d-flex flex-column">
+                            <button onclick="location.href='{{ route('avisos.edit', $anuncio->id) }}';"
+                                class="card card-anuncio w-100">
+                                <div class="card-body d-flex flex-column" style="align-items: flex-start !important;">
                                     <h4 class="card-title font-16 mt-0">{{ $anuncio->titulo }}</h4>
-                                    <h6 class="card-subtitle font-12 mt-0" style="color: #8b8b8b !important">
-                                        {{ $anuncio->nombre }} - {{ $anuncio->telefono }}</h6>
                                     <p class="card-text">{{ $anuncio->descripcion }}</p>
                                     <div class="mt-auto">
                                         @if ($anuncio->tipo == 2)
@@ -145,7 +144,7 @@
                                         @endif
                                     </div>
                                 </div>
-                            </div>
+                            </button>
                         </div>
                     @endforeach
                 </div>
@@ -285,9 +284,9 @@
                     <h5>Últimos anuncios</h5>
                     @foreach ($anuncios as $anuncio)
                         <div class="col d-flex align-items-stretch">
-                            <a href="{{route('avisos.edit', $anuncio->id)}}" class="w-100">
-                            <div class="card card-anuncio w-100">
-                                <div class="card-body d-flex flex-column">
+                            <button onclick="location.href='{{ route('avisos.edit', $anuncio->id) }}';"
+                                class="card card-anuncio w-100">
+                                <div class="card-body d-flex flex-column" style="align-items: flex-start !important;">
                                     <h4 class="card-title font-16 mt-0">{{ $anuncio->titulo }}</h4>
                                     <p class="card-text">{{ $anuncio->descripcion }}</p>
                                     <div class="mt-auto">
@@ -302,8 +301,7 @@
                                         @endif
                                     </div>
                                 </div>
-                            </div>
-                            </a>
+                            </button>
                         </div>
                     @endforeach
                 </div>
