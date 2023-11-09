@@ -50,7 +50,7 @@
                             </tbody>
                         </table>
                     @endif
-                    <a href="usuarios-create" class="btn btn-lg btn-primary">Añadir usuario</a>
+                    <a href="usuarios-create" class="btn btn-lg btn-block btn-primary">Añadir usuario</a>
                 </div>
             </div>
         </div>

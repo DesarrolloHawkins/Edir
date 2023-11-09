@@ -34,7 +34,7 @@
         <div class="row justify-content-center mb-5">
             <div class="col text-center">
                 <button class="btn btn-lg btn-primary add-button">Pulsa aquí para añadir Communitas a la pantalla de
-                    inicio de tu móvil</button>
+                    inicio de tu dispositivo</button>
             </div>
         </div>
         @endmobile
