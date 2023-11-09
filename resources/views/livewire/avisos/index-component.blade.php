@@ -281,29 +281,11 @@
                         </form>
                     </div>
                 @endif
-                @if ($subseccionCheck == 1)
-                    <div class="row justify-content-center" id="items" wire:ignore>
-                        <h5>Subsecciones de {{ $seccion->nombre }}</h5>
-                        @foreach ($subsecciones as $subseccion)
-                            <div class="col-sm-2 col-xl-2 d-flex align-items-stretch" data-id="{{ $subseccion->id }}">
-                                <div class="card w-100 text-center d-flex flex-column justify-content-center">
-                                    <button type="button"
-                                        class="btn d-flex flex-column justify-content-center align-items-center p-2"
-                                        style="height: 100%;"
-                                        wire:click="$emit('seleccionarSeccion', '{{ $subseccion->id }}')">
-                                        <img src="{{ asset('storage/photos/' . $subseccion->ruta_imagen) }}"
-                                            class="card-img-top" style="width: auto; max-height: 100px;">
-                                        <h6 class="mt-2">{{ $subseccion->nombre }}</h6>
-                                    </button>
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
-                @endif
                 <div class="row row-cols-1 row-cols-md-3 g-4 d-flex align-items-stretch">
                     <h5>Últimos anuncios</h5>
                     @foreach ($anuncios as $anuncio)
                         <div class="col d-flex align-items-stretch">
+                            <a href="{{route('avisos.edit', $anuncio->id)}}" class="w-100">
                             <div class="card card-anuncio w-100">
                                 <div class="card-body d-flex flex-column">
                                     <h4 class="card-title font-16 mt-0">{{ $anuncio->titulo }}</h4>
@@ -321,6 +303,7 @@
                                     </div>
                                 </div>
                             </div>
+                            </a>
                         </div>
                     @endforeach
                 </div>

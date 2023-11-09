@@ -51,6 +51,12 @@
                 </div>
             @endforeach
         </div>
+        <div class="row justify-content-center">
+            <div class="col">
+                <button class="btn btn-lg btn-primary add-button">Pulsa aquí para añadir Communitas a la pantalla de
+                    inicio de tu móvil</button>
+            </div>
+        </div>
     @else
         @if ($secciones->firstWhere('id', $seccion_seleccionada)->seccion_incidencias == 1)
             @livewire('incidencias-component', ['seccion_id' => $seccion_seleccionada])
@@ -60,6 +66,43 @@
     @endif
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register("{{asset('service-worker.js')}}")
+                    .then(function(registration) {
+                        console.log('Service Worker registrado con éxito con el alcance:', registration.scope);
+                    })
+                    .catch(function(error) {
+                        console.log('Registro de Service Worker fallido:', error);
+                    });
+            }
+            let deferredPrompt;
+            const addBtn = document.querySelector(
+                '.add-button'); // Asegúrate de tener un botón con la clase 'add-button' en tu HTML
+            addBtn.style.display = 'none';
+
+            window.addEventListener('beforeinstallprompt', (e) => {
+                // Evita que Chrome muestre el prompt por defecto
+                e.preventDefault();
+                deferredPrompt = e;
+                // Muestra el botón
+                addBtn.style.display = 'block';
+
+                addBtn.addEventListener('click', (e) => {
+                    // Oculta el botón, ya que no será necesario
+                    addBtn.style.display = 'none';
+                    // Muestra el prompt
+                    deferredPrompt.prompt();
+                    // Espera a que el usuario responda al prompt
+                    deferredPrompt.userChoice.then((choiceResult) => {
+                        if (choiceResult.outcome === 'accepted') {
+                            console.log('El usuario aceptó añadir a pantalla de inicio');
+                        } else {
+                            console.log('El usuario rechazó añadir a pantalla de inicio');
+                        }
+                        deferredPrompt = null;
+                    });
+                });
+            });
             // Suponiendo que las alertas sin leer están en una variable de JavaScript `alertas`
             let alertas = @json($alertas);
             let promiseChain = Promise.resolve();

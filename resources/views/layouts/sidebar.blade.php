@@ -34,10 +34,10 @@
                     </a>
                 </li>
                 <li>
-                    <a href="/admin/secciones" class="waves-effect"><i class="fas fa-ship"></i><span> Secciones </span></a>
+                    <a href="/admin/secciones" class="waves-effect"><i class="fas fa-folder"></i><span> Secciones </span></a>
                 </li>
                 <li>
-                    <a href="/admin/comunidad" class="waves-effect"><i class="fas fa-user"></i><span> Comunidad
+                    <a href="/admin/comunidad" class="waves-effect"><i class="fas fa-home"></i><span> Comunidad
                         </span></a>
                 </li>
                 @if ($user->role == 1)
@@ -46,7 +46,10 @@
                         </span></a>
                 </li>
                 @endif
-
+                <li>
+                    <a href="/admin/avisos" class="waves-effect"><i class="fas fa-bell"></i><span> Avisos
+                        </span></a>
+                </li>
 
 
 

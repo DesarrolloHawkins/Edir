@@ -1,0 +1,21 @@
+{
+    "name": "Mi Comunidad - Communitas",
+    "short_name": "Communitas",
+    "description": "Accede a tu comunidad de Communitas rápidamente desde tu pantalla de inicio.",
+    "icons": [
+        {
+            "src": "/android-chrome-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/android-chrome-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ],
+    "start_url": "/home?utm_source=homescreen",
+    "display": "standalone",
+    "background_color": "#FFFFFF",
+    "theme_color": "#000000"
+}
