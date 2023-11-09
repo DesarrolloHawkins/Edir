@@ -1,6 +1,13 @@
 <div class="container-fluid">
     <script src="//unpkg.com/alpinejs" defer></script>
+    <style>
+        button.card-anuncio {
+            margin-bottom: 5px !important;
+            border: 1px solid black !important;
+        }
+    </style>
     <div class="page-title-box">
+
         <div class="row align-items-center">
             <div class="col-sm-6">
                 <h4 class="page-title">
@@ -156,6 +163,36 @@
                 </div>
             </div>
         @else
+        <div class="col-md-9">
+            <div class="row row-cols-1 row-cols-md-3 g-4 d-flex align-items-stretch">
+                <div class="col d-flex align-items-stretch">
+                    <button type="button" class="card card-anuncio w-100">
+                        <div class="card-body d-flex flex-column" style="align-items: flex-start !important;">
+                            <h4 class="card-title font-16 mt-0">{{ $titulo }}</h4>
+                            <p class="card-text">{{ $descripcion }}</p>
+                            <div class="mt-auto">
+                                @if ($tipo == 2)
+                                    <a href="{{ $anuncio->url }}" class="btn btn-primary">Ver enlace</a>
+                                @elseif ($tipo == 3)
+                                    <img src="{{ asset('storage/archivos/avisos/' . $ruta_imagen) }}"
+                                        class="card-img-top" style="width: auto; max-height: 100px;">
+                                @elseif ($tipo == 4)
+                                    <a href="{{ asset('storage/archivos/avisos/' . $ruta_imagen) }}"
+                                        class="btn btn-primary">Ver enlace</a>
+                                @endif
+                            </div>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card m-b-30">
+                <div class="card-body">
+                    <button class="w-100 btn btn-success mb-2" onclick="location.href='{{route('avisos.index')}}'">Volver</button>
+                </div>
+            </div>
+        </div>
         @endif
     </div>
 </div>

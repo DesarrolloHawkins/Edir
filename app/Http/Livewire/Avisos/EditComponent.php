@@ -40,7 +40,6 @@ class EditComponent extends Component
         $this->admin_user_id = $this->anuncio->admin_user_id;
         $this->user = Auth::user();
         $this->users = User::where('role', 2)->get();
-        $this->tipo = 1;
     }
     public function render()
     {

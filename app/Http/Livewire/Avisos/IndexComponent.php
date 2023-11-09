@@ -24,10 +24,12 @@ class IndexComponent extends Component
     public $url;
     public $ruta_archivo;
     public $datetime;
+    public $user;
     public function mount()
     {
         $this->anuncios = Alertas::all();
         $this->admin_user_id = Auth::user()->id;
+        $this->user = Auth::user();
         $this->tipo = 1;
 
     }
