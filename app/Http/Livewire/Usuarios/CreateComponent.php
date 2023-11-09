@@ -78,8 +78,16 @@ class CreateComponent extends Component
             'comunidad_imagen' => 'nullable|image|max:1024', // Por ejemplo, si es una imagen.
             'comunidad_info'   => 'nullable|string',
         ]);
+        $imagen_subir = 'communitas_icon.png';
+        if ($this->comunidad_imagen != null) {
 
-        $comunidadSave = Comunidad::create(['user_id' => $usuariosSave->id, 'nombre' => $this->comunidad_nombre, 'direccion' => $this->comunidad_direccion, 'ruta_imagen' => $this->comunidad_imagen, 'informacion_adicional' => $this->comunidad_info]);
+            $name = md5($this->comunidad_imagen . microtime()) . '.' . $this->comunidad_imagen->extension();
+
+            $this->comunidad_imagen->storePubliclyAs('public', 'photos/' . $name);
+
+            $imagen_subir = $name;
+        }
+        $comunidadSave = Comunidad::create(['user_id' => $usuariosSave->id, 'nombre' => $this->comunidad_nombre, 'direccion' => $this->comunidad_direccion, 'ruta_imagen' => $imagen_subir, 'informacion_adicional' => $this->comunidad_info]);
 
 
         // Alertas de guardado exitoso
