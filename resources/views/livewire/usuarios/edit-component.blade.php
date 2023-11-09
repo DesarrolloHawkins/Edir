@@ -97,7 +97,7 @@
                                     <label for="comunidad_imagen" class="col-sm-12 col-form-label">Foto de la
                                         comunidad</label>
                                     <div class="col-sm-11">
-                                        @if ($comunidad_imagen)
+                                        @if (isset($comunidad_imagen))
                                             <div class="col text-center">
                                                 @if (is_string($comunidad_imagen))
                                                     <img src="{{ asset('storage/photos/' . $comunidad_imagen) }}"
@@ -189,7 +189,8 @@
                         <div class="col-12">
                             <button class="w-100 btn btn-success mb-2" id="alertaGuardar">Guardar
                                 Usuario</button>
-                            <button class="w-100 btn btn-success mb-2" id="alertaDuplicar">Nuevo usuario con estas secciones</button>
+                            <button class="w-100 btn btn-success mb-2" id="alertaDuplicar">Nuevo usuario con estas
+                                secciones</button>
                             <button class="w-100 btn btn-danger mb-2" wire:click="destroy">Eliminar
                                 Usuario</button>
                         </div>

@@ -105,10 +105,11 @@
                         <div class="col-sm-12">
                             <label for="comunidad_imagen" class="col-sm-12 col-form-label">Foto de la
                                 comunidad</label>
-                            <div class="col-sm-11">
-                                <img src="{{ $comunidad_imagen->temporaryUrl() }}"
-                                    style="max-height: 30vh !important; text-align: center">
-                            </div>
+                            @if ($comunidad_imagen)
+                                <div class="col-sm-11">
+                                    <img src="{{ $comunidad_imagen->temporaryUrl() }}"
+                                        style="max-height: 30vh !important; text-align: center">
+                                </div>
                             @endif
                             <br>
                             <input type="file" class="form-control" wire:model="comunidad_imagen"
