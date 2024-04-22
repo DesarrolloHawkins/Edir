@@ -156,25 +156,25 @@
                             <h5> Secciones </h5>
                             <hr />
                             @php
-                                $renderSections = function ($secciones) use (&$renderSections) {
-                                    echo '<ul>';
-                                    foreach ($secciones as $seccion) {
-                                        $iconUrl = asset('storage/photos/' . $seccion['seccion']->ruta_imagen);
-                                        echo '<li class="font-16">';
-                                        // Comprueba si existe una ruta de imagen y muestra el icono
-                                        if (!empty($seccion['seccion']->ruta_imagen)) {
-                                            echo '<img src="' . e($iconUrl) . '" alt="Icono" style="width: 32px; height: 32px;" onerror="this.onerror=null; this.src=' . asset("storage/communitas_icon.png") .';"> ';
-                                        }
-                                        echo e($seccion['seccion']->nombre);
-                                        if (!empty($seccion['hijas'])) {
-                                            $renderSections($seccion['hijas']); // Llamada recursiva para renderizar las subsecciones
-                                        }
-                                        echo '</li>';
+                            $renderSections = function ($secciones) use (&$renderSections) {
+                                echo '<ul>';
+                                foreach ($secciones as $seccion) {
+                                    // Asumiendo que $seccion['seccion'] es un array y no un objeto
+                                    $iconUrl = asset('storage/photos/' . $seccion['seccion']['ruta_imagen']);
+                                    echo '<li class="font-16">';
+                                    // Comprueba si existe una ruta de imagen y muestra el icono
+                                    if (!empty($seccion['seccion']['ruta_imagen'])) {
+                                        echo '<img src="' . e($iconUrl) . '" alt="Icono" style="width: 32px; height: 32px;" onerror="this.onerror=null; this.src=' . asset("storage/communitas_icon.png") .';"> ';
                                     }
-                                    echo '</ul>';
-                                };
+                                    echo e($seccion['seccion']['nombre']);
+                                    if (!empty($seccion['hijas'])) {
+                                        $renderSections($seccion['hijas']); // Llamada recursiva para renderizar las subsecciones
+                                    }
+                                    echo '</li>';
+                                }
+                                echo '</ul>';
+                            };
                             @endphp
-
                             {{ $renderSections($comunidad_secciones) }}
                         @endif
                     </form>
