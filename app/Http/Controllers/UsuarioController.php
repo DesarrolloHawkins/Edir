@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UsuarioController extends Controller
 {
@@ -15,8 +16,11 @@ class UsuarioController extends Controller
     {
         $response = '';
         // $user = Auth::user();
-
-        return view('usuario.index', compact('response'));
+        if (Auth::user()->role == 1) {
+            return view('usuario.index', compact('response'));
+        } else {
+            return redirect()->back();
+        }
     }
 
     /**
@@ -26,13 +30,20 @@ class UsuarioController extends Controller
      */
     public function create()
     {
-        return view('usuario.create');
 
+        if (Auth::user()->role == 1) {
+            return view('usuario.create');
+        } else {
+            return redirect()->back();
+        }
     }
     public function duplicar($id)
     {
-        return view('usuario.duplicar', compact('id'));
-
+        if (Auth::user()->role == 1) {
+            return view('usuario.duplicar', compact('id'));
+        } else {
+            return redirect()->back();
+        }
     }
 
     /**
@@ -65,8 +76,11 @@ class UsuarioController extends Controller
      */
     public function edit($id)
     {
-        return view('usuario.edit', compact('id'));
-
+        if (Auth::user()->role == 1) {
+            return view('usuario.edit', compact('id'));
+        } else {
+            return redirect()->back();
+        }
     }
 
     /**

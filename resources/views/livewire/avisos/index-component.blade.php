@@ -174,6 +174,7 @@
     </div>
 @elsenotmobile
     <div class="row">
+        @if($user->role == 1)
         <div class="col-12">
             <div class="card">
                 <div class="card-body align-items-center">
@@ -186,6 +187,7 @@
                 </div>
             </div>
         </div>
+        @endif
         <div class="col-12">
             @if ($formularioCheck == 1)
                 <div class="row">

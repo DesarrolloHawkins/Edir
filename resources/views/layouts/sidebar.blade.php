@@ -29,7 +29,7 @@
                     <li>
                         @if ($comunidad != null)
                             <h5 style="text-align: center; color: #9ec84c !important">
-                                <img onerror="this.onerror=null; this.src='{{asset('storage/communitas_icon.png')}}';" onerror="this.onerror=null; this.src='{{asset('storage/communitas_icon.png')}}'; src="{{ asset('storage/photos/' . $comunidad->ruta_imagen) }}"
+                                <img onerror="this.onerror=null; this.src='{{asset('storage/communitas_icon.png')}}';" src="{{ asset('storage/photos/' . $comunidad->ruta_imagen) }}"
                                     style="max-width: 10vw !important; text-align: center">
                             </h5>
                             <h6 style="text-align: center; color: #9ec84c !important">

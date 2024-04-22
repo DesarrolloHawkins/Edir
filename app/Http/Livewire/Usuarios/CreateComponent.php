@@ -11,10 +11,12 @@ use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Livewire\WithFileUploads;
+
 
 class CreateComponent extends Component
 {
-
+    use WithFileUploads;
     use LivewireAlert;
 
     public $name;

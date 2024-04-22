@@ -28,7 +28,7 @@
                                     @if ($ruta_imagen)
                                         <div class="col text-center">
                                             @if (is_string($ruta_imagen))
-                                                <img src="{{ asset('storage/photos/' . $ruta_imagen) }}"
+                                                <img src="{{ asset('storage/photos/' . $ruta_imagen) }}" onerror="this.onerror=null; this.src='{{asset('storage/communitas_icon.png')}}';"
                                                     style="max-height: 30vh !important; text-align: center">
                                             @else
                                                 <img src="{{ $ruta_imagen->temporaryUrl() }}"

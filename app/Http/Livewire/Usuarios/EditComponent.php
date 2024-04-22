@@ -12,10 +12,13 @@ use Illuminate\Support\Facades\Storage;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
+use Livewire\WithFileUploads;
+
 
 class EditComponent extends Component
 {
     use LivewireAlert;
+    use WithFileUploads;
 
     public $identificador;
 

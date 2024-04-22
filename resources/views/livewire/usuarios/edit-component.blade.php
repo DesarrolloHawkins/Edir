@@ -163,7 +163,7 @@
                                         echo '<li class="font-16">';
                                         // Comprueba si existe una ruta de imagen y muestra el icono
                                         if (!empty($seccion['seccion']->ruta_imagen)) {
-                                            echo '<img src="' . e($iconUrl) . '" alt="Icono" style="width: 32px; height: 32px;"> ';
+                                            echo '<img src="' . e($iconUrl) . '" alt="Icono" style="width: 32px; height: 32px;" onerror="this.onerror=null; this.src=' . asset("storage/communitas_icon.png") .';"> ';
                                         }
                                         echo e($seccion['seccion']->nombre);
                                         if (!empty($seccion['hijas'])) {
