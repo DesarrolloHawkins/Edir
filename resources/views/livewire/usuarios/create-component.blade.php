@@ -92,7 +92,7 @@
                             <div class="form-group row">
                                 <div class="col-sm-11">
                                     <div class="col-sm-12">
-                                        <input type="checkbox" id="isAdminCheckbox" wire:click="isAdminCheckbox"
+                                        <input type="checkbox" id="isAdminCheckbox"
                                             wire:model="isAdminCheckbox" />
                                         <label for="role" class="col-form-label">¿Es administrador del
                                             sistema?</label>
