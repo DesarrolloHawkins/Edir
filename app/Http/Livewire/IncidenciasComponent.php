@@ -49,7 +49,7 @@ class IncidenciasComponent extends Component
         $this->seccion = Seccion::find($this->seccion_id);
         $this->tipo = 1;
         if ($id != 0) {
-            $this->comunidad_id = Comunidad::where('id', Auth::id())->first()->id;
+            $this->comunidad_id = Comunidad::where('user_id', Auth::id())->first()->id;
             $this->anuncios = Incidencia::where('comunidad_id', $this->seccion->comunidad_id)->get();
         }
     }

@@ -44,6 +44,11 @@ class CreateComponent extends Component
     public function submit()
     {
 
+        if ($this->isAdminCheckbox == false) {
+            $this->role = 2;
+        } elseif ($this->isAdminCheckbox == true) {
+            $this->role = 1;
+        }
         $this->password = Hash::make($this->password);
         // Validación de datos
         $validatedData = $this->validate(
@@ -53,7 +58,7 @@ class CreateComponent extends Component
                 'role' => 'required',
                 'username' => 'required',
                 'password' => 'required',
-                'user_department_id' => 'required',
+                'user_department_id' => 'nullable',
                 'email' => ['required', 'regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/'],
 
             ],

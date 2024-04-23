@@ -84,6 +84,7 @@ class DuplicarComponent extends Component
         $validatedData['inactive'] = 0;
         $usuariosSave = User::create($validatedData);
 
+
         $this->validate([
             'comunidad_nombre' => 'required|string|max:255',
             'comunidad_direccion' => 'required|string|max:255',
