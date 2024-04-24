@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::table('alertas', function (Blueprint $table) {
             $table->integer('user_id')->nullable();
             $table->integer('comunidad_id')->nullable();
+            $table->integer('seccion_id')->nullable();
 
         });
     }
@@ -30,6 +31,8 @@ return new class extends Migration
         Schema::table('alertas', function (Blueprint $table) {
             $table->dropColumn('user_id');
             $table->dropColumn('comunidad_id');
+            $table->dropColumn('seccion_id');
+
         });
     }
 };

@@ -2,10 +2,13 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Alertas;
 use App\Models\Anuncio;
 use App\Models\Comunidad;
 use App\Models\Seccion;
-use Auth;
+use App\Models\User;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -104,6 +107,16 @@ class SeccionComponent extends Component
         // Guardar datos validados
         $usuariosSave = Anuncio::create($validatedData);
 
+        $alertaSave = Alertas::create([
+            'admin_user_id' =>Auth::user()->id,
+            'tipo' =>$this->tipo,
+            'datetime' => Carbon::now(),
+            'titulo' =>$this->titulo ,
+            'comunidad_id'=>$this->comunidad_id,
+            'descripcion'=>$this->descripcion,
+         ]);
+        $user_ids = User::where('role', 2)->where('comunidad_id',$this->comunidad_id)->pluck('id');
+        $alertaSave->users()->attach($user_ids, ['status' => 0]);
         // Alertas de guardado exitoso
         if ($usuariosSave) {
             $this->alert('success', '¡Publicación registrada correctamente!', [
