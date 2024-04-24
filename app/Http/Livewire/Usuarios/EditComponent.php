@@ -180,12 +180,14 @@ class EditComponent extends Component
     {
         $usuarios = User::find($this->identificador);
         $comunidad = Comunidad::where('user_id', $this->identificador)->first();
-        $secciones = Seccion::where('comunidad_id', $comunidad->id)->get();
-        foreach ($secciones as $seccion) {
-            if ($seccion->seccion_incidencias == 0) {
-                $anuncios = Anuncio::where('seccion_id', $seccion->id)->delete();
-            } else {
-                $anuncios = Incidencia::where('comunidad_id', $comunidad->id)->delete();
+        if($comunidad){
+            $secciones = Seccion::where('comunidad_id', $comunidad->id)->get();
+            foreach ($secciones as $seccion) {
+                if ($seccion->seccion_incidencias == 0) {
+                    $anuncios = Anuncio::where('seccion_id', $seccion->id)->delete();
+                } else {
+                    $anuncios = Incidencia::where('comunidad_id', $comunidad->id)->delete();
+                }
             }
         }
         $comunidad->delete();
