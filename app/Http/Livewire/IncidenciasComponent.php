@@ -2,10 +2,13 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Alertas;
 use App\Models\Anuncio;
 use App\Models\Comunidad;
 use App\Models\Incidencia;
 use App\Models\Seccion;
+use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
@@ -49,8 +52,15 @@ class IncidenciasComponent extends Component
         $this->seccion = Seccion::find($this->seccion_id);
         $this->tipo = 1;
         if ($id != 0) {
-            $this->comunidad_id = Comunidad::where('user_id', Auth::id())->first()->id;
+            $this->comunidad_id = session('comunidad_id', Comunidad::where('user_id', Auth::user()->id)->value('id'));
             $this->anuncios = Incidencia::where('comunidad_id', $this->seccion->comunidad_id)->get();
+            $usuario= User::find(Auth::user()->id);
+            $alertas = $usuario->alertas()->where('comunidad_id',$this->comunidad_id)->wherePivot('status', 0)->get();
+            foreach($alertas as $alerta){
+            $alertaId = $alerta->id;
+            $usuario->alertas()->updateExistingPivot($alertaId, ['status' => 1]);
+            }
+
         }
     }
 
@@ -110,7 +120,18 @@ class IncidenciasComponent extends Component
 
         // Guardar datos validados
         $usuariosSave = Incidencia::create($validatedData);
-
+         $alertaSave = Alertas::create([
+            'admin_user_id' =>0,
+            'user_id' => Auth::user()->id,
+            'tipo' =>0,
+            'datetime' => Carbon::now(),
+            'titulo' =>$this->titulo ,
+            'comunidad_id'=>$this->comunidad_id,
+            'descripcion'=>$this->descripcion,
+            'nombre'=>$this->nombre,
+         ]);
+         $user_ids = User::where('role', 1)->pluck('id');
+        $alertaSave->users()->attach($user_ids, ['status' => 0]);
         // Alertas de guardado exitoso
         if ($usuariosSave) {
             $this->alert('success', '¡Publicación registrada correctamente!', [
@@ -129,6 +150,7 @@ class IncidenciasComponent extends Component
                 'toast' => false,
             ]);
         }
+
     }
 
     public function render()

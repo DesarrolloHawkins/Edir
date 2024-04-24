@@ -27,7 +27,7 @@ class IndexComponent extends Component
     public $user;
     public function mount()
     {
-        $this->anuncios = Alertas::all();
+        $this->anuncios = Alertas::where('user_id' , null)->get();
         $this->admin_user_id = Auth::user()->id;
         $this->user = Auth::user();
         $this->tipo = 1;

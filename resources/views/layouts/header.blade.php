@@ -66,21 +66,34 @@
                     <div class="dropdown-menu dropdown-menu-right dropdown-menu-animated dropdown-menu-lg px-1">
                         <!-- item-->
                         <h6 class="dropdown-item-text">
-                            Notifications
+                            Notificationss
+
                         </h6>
 
                         <div class="slimscroll notification-item-list">
                             @foreach ($user->alertas()->wherePivot('status', 0)->get() as $alerta)
-                            <a href="javascript:void(0);" class="dropdown-item notify-item">
-                                <div class="notify-icon bg-success"><i class="mdi mdi-cart-outline"></i></div>
-                                <p class="notify-details"><b>{{$alerta->titulo}}</b><span class="text-muted">{{$alerta->descripcion}}</span></p>
-                            </a>
+                                @if($alerta->admin_user_id == 0)
+                                    <a href="javascript:void(0);" class="dropdown-item notify-item">
+                                        <div class="notify-icon bg-success"><i class="mdi mdi-cart-outline"></i></div>
+                                        <p class="notify-details"><b>{{$alerta->titulo}}</b>
+                                            <span class="text-muted"><b>{{$comunidades->find($alerta->comunidad_id)->nombre}}</b></span>
+                                            <span class="text-muted">{{$alerta->descripcion}}</span>
+                                        </p>
+                                    </a>
+                                @else
+                                    <a href="javascript:void(0);" class="dropdown-item notify-item">
+                                        <div class="notify-icon bg-success"><i class="mdi mdi-cart-outline"></i></div>
+                                        <p class="notify-details"><b>{{$alerta->titulo}}</b><span class="text-muted">{{$alerta->descripcion}}</span></p>
+                                    </a>
+                                @endif
                             @endforeach
                         </div>
                         <!-- All-->
+                        @if ($user->role == 2)
                         <a href="{{route('avisos.index')}}" class="dropdown-item text-center notify-all text-primary">
                             Ver Todas <i class="fi-arrow-right"></i>
                         </a>
+                        @endif
 
 
                     </div>

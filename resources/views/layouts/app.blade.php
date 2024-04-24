@@ -52,7 +52,9 @@
 <body>
     @php
         $user = Auth::user();
-        $comunidad = Comunidad::where('user_id', Auth::id())->first();
+        $comunidadId = session('comunidad_id', Comunidad::where('user_id', Auth::user()->id)->value('id'));
+        // $comunidad = Comunidad::find($comunidadId);
+        $comunidad = null;
     @endphp
     <div id="app">
         <style>

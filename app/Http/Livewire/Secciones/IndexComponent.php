@@ -15,8 +15,14 @@ class IndexComponent extends Component
 
     public function mount()
     {
-        $this->comunidad = Comunidad::where('user_id', Auth::user()->id)->first();
-        $this->secciones = Seccion::where('comunidad_id', $this->comunidad->id)->get();
+        $comunidadId = session('comunidad_id', Comunidad::where('user_id', Auth::user()->id)->value('id'));
+        $this->comunidad = Comunidad::find($comunidadId);
+        // Solo carga secciones si hay una comunidad asociada al usuario
+        if ($this->comunidad) {
+            $this->secciones = Seccion::where('comunidad_id', $this->comunidad->id)->get();
+        } else {
+            $this->secciones = collect(); // Devuelve una colección vacía si no hay comunidad
+        }
     }
     public function render()
     {
@@ -24,8 +30,14 @@ class IndexComponent extends Component
     }
     public function cambiarComunidad($id)
     {
-        $this->comunidad = Comunidad::where('id', $id)->first();
-        $this->secciones = Seccion::where('comunidad_id', $this->comunidad->id)->get();
-        $this->emit('refreshComponent');
+        $this->comunidad = Comunidad::find($id);
+        if ($this->comunidad) {
+            $this->secciones = Seccion::where('comunidad_id', $this->comunidad->id)->get();
+            session(['comunidad_id' => $id]); // Almacena el ID de la comunidad en la sesión
+        } else {
+            $this->secciones = collect(); // Devuelve una colección vacía si no hay comunidad
         }
+        $this->emit('refreshComponent');
+        $this->emit('recarga');
+    }
 }

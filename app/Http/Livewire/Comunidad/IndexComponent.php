@@ -23,8 +23,9 @@ class IndexComponent extends Component
     public function mount()
     {
         $this->user_id = Auth::user()->id;
-        if (Comunidad::where('user_id', Auth::user()->id)->count() > 0) {
-            $this->comunidad = Comunidad::where('user_id', Auth::user()->id)->first();
+        $comunidadId = session('comunidad_id', Comunidad::where('user_id', Auth::user()->id)->value('id'));
+        $this->comunidad = Comunidad::find($comunidadId);
+        if ($this->comunidad) {
             $this->ruta_imagen = $this->comunidad->ruta_imagen;
             $this->nombre = $this->comunidad->nombre;
             $this->direccion = $this->comunidad->direccion;
@@ -116,12 +117,15 @@ class IndexComponent extends Component
         return redirect()->route('comunidad.index');
     }
     public function cambiarComunidad($id){
+
         if (Comunidad::where('id', $id)->count() > 0) {
             $this->comunidad = Comunidad::where('id', $id)->first();
             $this->ruta_imagen = $this->comunidad->ruta_imagen;
             $this->nombre = $this->comunidad->nombre;
             $this->direccion = $this->comunidad->direccion;
             $this->informacion_adicional = $this->comunidad->informacion_adicional;
+            session(['comunidad_id' => $id]);
         }
+        $this->emit('recarga');
     }
 }

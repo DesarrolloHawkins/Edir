@@ -44,11 +44,7 @@ class CreateComponent extends Component
     public function submit()
     {
 
-        if ($this->isAdminCheckbox == false) {
-            $this->role = 2;
-        } elseif ($this->isAdminCheckbox == true) {
-            $this->role = 1;
-        }
+        $this->role = $this->isAdminCheckbox ? 1 : 2;
         $this->password = Hash::make($this->password);
         // Validación de datos
         $validatedData = $this->validate(
@@ -78,23 +74,29 @@ class CreateComponent extends Component
         // Guardar datos validados
         $validatedData['inactive'] = 0;
         $usuariosSave = User::create($validatedData);
+        if ($this->role == 2) {
+            $this->validate([
+                'comunidad_nombre' => 'required|string|max:255',
+                'comunidad_direccion' => 'required|string|max:255',
+                'comunidad_info' => 'nullable|string',
+                'comunidad_imagen' => 'nullable|image|max:1024',
+            ]);
 
-        $this->validate([
-            'comunidad_nombre' => 'required|string|max:255',
-            'comunidad_direccion' => 'required|string|max:255',
-            'comunidad_imagen' => 'nullable|image|max:1024', // Por ejemplo, si es una imagen.
-            'comunidad_info'   => 'nullable|string',
-        ]);
-        $imagen_subir = 'communitas_icon.png';
-        if ($this->comunidad_imagen != null) {
+            $imagen_subir = 'communitas_icon.png';
+            if ($this->comunidad_imagen) {
+                $name = md5($this->comunidad_imagen . microtime()) . '.' . $this->comunidad_imagen->extension();
+                $this->comunidad_imagen->storePubliclyAs('public', 'photos/' . $name);
+                $imagen_subir = $name;
+            }
 
-            $name = md5($this->comunidad_imagen . microtime()) . '.' . $this->comunidad_imagen->extension();
-
-            $this->comunidad_imagen->storePubliclyAs('public', 'photos/' . $name);
-
-            $imagen_subir = $name;
+            Comunidad::create([
+                'user_id' => $usuariosSave->id,
+                'nombre' => $this->comunidad_nombre,
+                'direccion' => $this->comunidad_direccion,
+                'ruta_imagen' => $imagen_subir,
+                'informacion_adicional' => $this->comunidad_info
+            ]);
         }
-        $comunidadSave = Comunidad::create(['user_id' => $usuariosSave->id, 'nombre' => $this->comunidad_nombre, 'direccion' => $this->comunidad_direccion, 'ruta_imagen' => $imagen_subir, 'informacion_adicional' => $this->comunidad_info]);
 
 
         // Alertas de guardado exitoso

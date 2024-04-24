@@ -12,11 +12,13 @@ class Alertas extends Model
     protected $table = "alertas";
     protected $fillable = [
         'admin_user_id',
+        'user_id',
+        'comunidad_id',
         'titulo',
+        'descripcion',
         'tipo',
         'datetime',
         'referencia_id',
-        'descripcion',
         'ruta_archivo',
         'url'
     ];

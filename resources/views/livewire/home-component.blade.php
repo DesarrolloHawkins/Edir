@@ -3,25 +3,26 @@
     <div class="page-title-box">
         <div class="row align-items-center">
             <div class="col-sm-6">
-                @if ($seccion_seleccionada == 0)
+                @if ($comunidad && $seccion_seleccionada == 0)
                     <h4 class="page-title">BIENVENIDO A {{ strtoupper($comunidad->nombre) }}</h4>
+                @elseif($seccion_seleccionada != 0 && isset($secciones))
+                    <h4 class="page-title">{{ $secciones->firstWhere('id', $seccion_seleccionada)->nombre }}</h4>
                 @else
-                    <h4 class="page-title">{{ $secciones->firstWhere('id', $seccion_seleccionada)->nombre }}
-                    </h4>
+                    <h4 class="page-title">Panel de Administración</h4>
                 @endif
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-right">
                     <li class="breadcrumb-item @if ($seccion_seleccionada == 0) active @endif"><a
                             href="javascript:void(0);">Dashboard</a></li>
-                    @if ($seccion_seleccionada != 0)
+                    @if ($comunidad && $seccion_seleccionada != 0)
                         {{ $this->obtenerJerarquia($seccion_seleccionada) }}
                     @endif
                 </ol>
             </div>
         </div> <!-- end row -->
     </div>
-    @if ($seccion_seleccionada == 0)
+    @if ($comunidad && $seccion_seleccionada == 0)
     @mobile
         <div class="row justify-content-center">
             <div class="col">
@@ -65,12 +66,18 @@
                 </div>
             @endforeach
         </div>
-    @else
+    @elseif ($seccion_seleccionada != 0 && isset($secciones))
         @if ($secciones->firstWhere('id', $seccion_seleccionada)->seccion_incidencias == 1)
             @livewire('incidencias-component', ['seccion_id' => $seccion_seleccionada])
         @else
             @livewire('seccion-component', ['seccion_id' => $seccion_seleccionada])
         @endif
+    @else
+        <div class="row justify-content-center mb-5">
+            <div class="col text-center">
+                <h5 class="mt-3">No hay comunidad asignada a este administrador.</h5>
+            </div>
+        </div>
     @endif
     <script>
         document.addEventListener('DOMContentLoaded', function() {

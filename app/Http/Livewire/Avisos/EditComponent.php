@@ -144,4 +144,25 @@ class EditComponent extends Component
         return redirect()->route('avisos.index');
 
     }
+    public function destroy()
+    {
+        $this->alert('warning', '¿Seguro que desea borrar el aviso? No hay vuelta atrás', [
+            'position' => 'center',
+            'timer' => 3000,
+            'toast' => false,
+            'showConfirmButton' => true,
+            'onConfirmed' => 'confirmDelete',
+            'confirmButtonText' => 'Sí',
+            'showDenyButton' => true,
+            'denyButtonText' => 'No',
+            'timerProgressBar' => true,
+        ]);
+    }
+    public function confirmDelete()
+    {
+        $alerta = Alertas::find($this->identificador);
+        $alerta->delete();
+        return redirect()->route('avisos.index');
+    }
+
 }

@@ -31,6 +31,7 @@ class AppServiceProvider extends ServiceProvider
         //
         // $empresa = Settings::whereNull('deleted_at')->first();
         // View::share('empresa', $empresa);
+        view()->composer('layouts.sidebar', \App\Http\ViewComposers\SidebarComposer::class);
         Schema::defaultStringLength(191);
         setlocale(LC_TIME, 'es_ES');
         Carbon::setlocale('es');

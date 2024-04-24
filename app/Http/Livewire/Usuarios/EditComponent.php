@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Storage;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Livewire\WithFileUploads;
 
 
@@ -39,19 +40,11 @@ class EditComponent extends Component
 
     public function mount()
     {
-        $usuarios = User::find($this->identificador);
-        $this->name = $usuarios->name;
-        $this->surname = $usuarios->surname;
-        $this->role = $usuarios->role;
-        $this->username = $usuarios->username;
-        $this->email = $usuarios->email;
-        $this->inactive = $usuarios->inactive;
+        $usuarios  = User::find($this->identificador);
+        $this->fill($usuarios->toArray()); // Rellena las propiedades con datos del usuario
         $this->comunidad = Comunidad::where('user_id', $this->identificador)->first();
-        if ($this->comunidad != null) {
-            $this->comunidad_nombre = $this->comunidad->nombre;
-            $this->comunidad_direccion = $this->comunidad->direccion;
-            $this->comunidad_info = $this->comunidad->informacion_adicional;
-            $this->comunidad_imagen = $this->comunidad->ruta_imagen;
+        if ($this->comunidad) {
+            $this->fill($this->comunidad->toArray()); // Rellena las propiedades con datos de la comunidad
             $this->comunidad_secciones = (new Seccion)->getHierarchy($this->comunidad->id);
         }
     }
@@ -64,11 +57,8 @@ class EditComponent extends Component
     // Al hacer update en el formulario
     public function update()
     {
-        $usuarios = User::find($this->identificador);
-
-        if ($this->password == null) {
-            $this->password = $usuarios->password;
-        }
+        $user = User::find($this->identificador);
+        $this->password = isset($this->password) ? Hash::make($this->password): $user->password; // Usa la contraseña existente si no se proporciona una nueva
         // Validación de datos
         $validatedData = $this->validate(
             [
@@ -91,9 +81,8 @@ class EditComponent extends Component
 
             ]
         );
-
         // Encuentra el identificador
-        $usuariosSave = $usuarios->update($validatedData);
+        $usuariosSave = $user->update($validatedData);
         if ($this->comunidad != null) {
             $this->validate([
                 'comunidad_nombre' => 'required|string|max:255',

@@ -85,12 +85,14 @@ class DuplicarComponent extends Component
         $usuariosSave = User::create($validatedData);
 
 
-        $this->validate([
-            'comunidad_nombre' => 'required|string|max:255',
-            'comunidad_direccion' => 'required|string|max:255',
-            'comunidad_imagen' => 'nullable|image|max:1024', // Por ejemplo, si es una imagen.
-            'comunidad_info'   => 'nullable|string',
-        ]);
+
+            $this->validate([
+                'comunidad_nombre' => 'required|string|max:255',
+                'comunidad_direccion' => 'required|string|max:255',
+                'comunidad_imagen' => 'nullable|image|max:1024', // Por ejemplo, si es una imagen.
+                'comunidad_info'   => 'nullable|string',
+            ]);
+
 
         $comunidadSave = Comunidad::create(['user_id' => $usuariosSave->id, 'nombre' => $this->comunidad_nombre, 'direccion' => $this->comunidad_direccion, 'ruta_imagen' => $this->comunidad_imagen, 'informacion_adicional' => $this->comunidad_info]);
 
