@@ -9,6 +9,9 @@
         .enlarged .side-menu h6 {
             display: none;
         }
+        .span.select2.select2-container.select2-container--default{
+            width: 90%;
+        }
     </style>
     <div class="slimscroll-menu" id="remove-scroll">
         <!--- Sidemenu -->
@@ -20,8 +23,8 @@
                     $('#select2-comunidades').on('change', function(e) {
                         var data = $('#select2-comunidades').select2('val');
                         Livewire.emit('cambiarComunidad', data);
-                    });"><select id="select2-comunidades" class="w-100">
-                        <option value="">----Seleccione Comunidad----</option>
+                    });" style="text-align: center"><select id="select2-comunidades" style="width: 90%">
+                        <option value="">Seleccione Comunidad</option>
                             @foreach ($comunidades as $comuni)
                             @if (isset($comunidad))
                             <option value="{{ $comuni->id }}" {{$comunidad->id == $comuni->id ? 'selected' : '' }}>{{ $comuni->nombre }}</option>
@@ -31,7 +34,6 @@
                             @endforeach
                         </select></li>
                 @endif
-
                 @notmobile
                     <li>
                         @if ($comunidad != null)
