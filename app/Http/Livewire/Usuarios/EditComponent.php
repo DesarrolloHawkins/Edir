@@ -188,7 +188,6 @@ class EditComponent extends Component
                 $anuncios = Incidencia::where('comunidad_id', $comunidad->id)->delete();
             }
         }
-        $secciones->delete();
         $comunidad->delete();
         $usuarios->delete();
         return redirect()->route('usuarios.index');
