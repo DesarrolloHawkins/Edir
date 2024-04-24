@@ -190,8 +190,8 @@ class EditComponent extends Component
                 }
             }
             $comunidad->delete();
-            $usuarios->delete();
         }
+        $usuarios->delete();
         return redirect()->route('usuarios.index');
     }
 }
