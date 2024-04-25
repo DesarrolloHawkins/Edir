@@ -24,23 +24,12 @@
                         <h5> Datos de usuario </h5>
                         <hr />
                         <div class="form-group row">
-                            <div class="col-sm-6">
+                            <div class="col-sm-12">
                                 <label for="name" class="col-sm-12 col-form-label">Nombre</label>
                                 <div class="col-sm-10">
                                     <input type="text" wire:model="name" class="form-control" name="name"
                                         id="name" placeholder="José Carlos...">
                                     @error('name')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="col-sm-6">
-                                <label for="surname" class="col-sm-12 col-form-label">Apellidos</label>
-                                <div class="col-sm-10">
-                                    <input type="text" wire:model="surname" class="form-control" name="surname"
-                                        id="surname" placeholder="Pérez...">
-                                    @error('surname')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>

@@ -194,9 +194,10 @@
                     <div class="card-body align-items-center">
                         <button type="button" class="btn btn-primary btn-lg text-center mb-3 w-100"
                             wire:click="seleccionarSeccionVolver()">Volver</button>
+                        @if(Auth::user()->role == 1)
                         <button type="button" class="btn btn-primary btn-lg text-center mb-3 w-100"
-                            wire:click="formularioCheck()">Añadir
-                            anuncio</button>
+                        wire:click="formularioCheck()">Añadir anuncio</button>
+                        @endif
                         <button type="button" class="btn btn-primary btn-lg text-center mb-3 w-100"
                             wire:click="subseccionCheck()">Ver subsecciones</button>
                     </div>

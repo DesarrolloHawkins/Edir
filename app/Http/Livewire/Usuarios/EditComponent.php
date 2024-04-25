@@ -63,7 +63,6 @@ class EditComponent extends Component
         $validatedData = $this->validate(
             [
                 'name' => 'required',
-                'surname' => 'required',
                 'role' => 'required',
                 'username' => 'required',
                 'password' => 'required',
@@ -72,7 +71,6 @@ class EditComponent extends Component
             // Mensajes de error
             [
                 'name.required' => 'El nombre es obligatorio.',
-                'surname.required' => 'El apellido es obligatorio.',
                 'role.required' => 'El rol es obligatorio.',
                 'username.required' => 'El nombre de usuario es obligatorio.',
                 'password.required' => 'La contraseña es obligatoria.',

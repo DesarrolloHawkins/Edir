@@ -42,6 +42,7 @@ class SeccionComponent extends Component
     }
     private function inicializarComponente($id)
     {
+        $this->comunidad_id = session('comunidad_id', Comunidad::where('user_id', Auth::user()->id)->value('id'));
         $this->formularioCheck = 0;
         $this->subseccionCheck = 0;
         $this->secciones = Seccion::all();
@@ -50,6 +51,12 @@ class SeccionComponent extends Component
         $this->subsecciones = Seccion::where('seccion_padre_id', $id)->orderBy('orden', 'asc')->get();
         $this->tipo = 1;
         $this->anuncios = Anuncio::where('seccion_id', $id)->get();
+        $usuario= User::find(Auth::user()->id);
+        $alertas = $usuario->alertas()->where('seccion_id',$this->seccion_id)->wherePivot('status', 0)->get();
+        foreach($alertas as $alerta){
+            $alertaId = $alerta->id;
+            $usuario->alertas()->updateExistingPivot($alertaId, ['status' => 1]);
+        }
     }
 
     public function formularioCheck()
@@ -112,10 +119,12 @@ class SeccionComponent extends Component
             'tipo' =>$this->tipo,
             'datetime' => Carbon::now(),
             'titulo' =>$this->titulo ,
-            'comunidad_id'=>$this->comunidad_id,
+            'seccion_id'=> $this->seccion_id,
             'descripcion'=>$this->descripcion,
          ]);
-        $user_ids = User::where('role', 2)->where('comunidad_id',$this->comunidad_id)->pluck('id');
+        $comunidad = Comunidad::with('user')->find($this->comunidad_id);
+        $usuario = $comunidad->user;
+        $user_ids =$usuario->id;
         $alertaSave->users()->attach($user_ids, ['status' => 0]);
         // Alertas de guardado exitoso
         if ($usuariosSave) {

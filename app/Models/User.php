@@ -30,7 +30,6 @@ class User extends Authenticatable
         'seniority_months',
         'holidays_days',
         'inactive',
-        'role'
     ];
 
     /**
@@ -65,5 +64,10 @@ class User extends Authenticatable
         return $this->belongsToMany(Alertas::class, 'alertas_status', 'user_id', 'alert_id')
             ->withPivot('status')
             ->withTimestamps();
+    }
+
+    public function comunidad()
+    {
+        return $this->hasOne(Comunidad::class);
     }
 }
