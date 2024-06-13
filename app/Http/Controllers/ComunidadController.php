@@ -18,5 +18,12 @@ class ComunidadController extends Controller
 
         return view('comunidad.index', compact('response'));
     }
+    public function indexAdmin()
+    {
+        $response = '';
+        // $user = Auth::user();
+
+        return view('comunidad.indexadmin', compact('response'));
+    }
 
 }

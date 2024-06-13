@@ -88,7 +88,12 @@
                     <a href="/admin/avisos" class="waves-effect"><i class="fas fa-bell"></i><span> Avisos
                         </span></a>
                 </li>
-
+                @if ($user->role == 1)
+                <li>
+                    <a href="/admin/comunidades" class="waves-effect"><i class="fa-solid fa-gear"></i><span> Comunidades
+                        </span></a>
+                </li>
+                @endif
                 <style>
                     .enlarged .side-menu h5 {
                         display: none;

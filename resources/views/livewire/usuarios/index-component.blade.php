@@ -38,7 +38,7 @@
                                     <tr>
                                         <td>{{ $user->name }}</td>
                                         <td>{{ $user->username }}</td>
-                                        <td>{{ $this->getComunidad($user->id) }}</td>
+                                        <td>{{ $this->getComunidad($user->comunidad_id) }}</td>
                                         <td>{{ $user->email }}</td>
 
 

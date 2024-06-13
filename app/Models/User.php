@@ -22,14 +22,16 @@ class User extends Authenticatable
         'username',
         'name',
         'surname',
-        'role',
-        'email',
         'password',
+        'role',
+        'telefono',
+        'email',
         'image',
         'seniority_years',
         'seniority_months',
         'holidays_days',
         'inactive',
+        'comunidad_id',
     ];
 
     /**
@@ -68,6 +70,6 @@ class User extends Authenticatable
 
     public function comunidad()
     {
-        return $this->hasOne(Comunidad::class);
+        return $this->belongsTo(Comunidad::class,'comunidad_id');
     }
 }

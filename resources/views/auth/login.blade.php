@@ -21,8 +21,6 @@
             </div>
         </div>
         <br>
-        <br>
-        <br>
         <div class="row justify-content-center">
             <div class="col-sm-12 text-center" style="color: #9ec84c !important">
                 <h1 style="font-size: 3rem !important;">Mi comunidad</h1>
@@ -31,15 +29,14 @@
 
         <div class="row justify-content-center"
             style="position: relative;
-    top: 68%;F
-    transform: translateY(10%);">
+                    top: 68%;
+                    transform: translateY(10%);">
 
                     <div class="col-sm-4">
                     <div class="card">
                         <div class="card-body" style="background-color: #9ec84c !important">
                             <form method="POST" action="{{ route('login') }}">
                                 @csrf
-
                                 <div class="row mb-3 justify-content-center">
                                     <div class="col-md-10">
                                         <input id="username" type="text"
@@ -87,13 +84,17 @@
                                     <div class="col-sm-11">
                                         <button type="submit" class="btn w-100"
                                             style="background-color: #fff !important;">
-                                            <span style="color: #9ec84c !important"><b>{{ __('Iniciar sesión') }}</b></span>
+                                            <span style="color: #9ec84c !important"><b>{{('Iniciar sesión') }}</b></span>
                                         </button>
                                     </div>
                                 </div>
                             </form>
                         </div>
                     </div>
+                    <a type="submit" class="btn w-100" href="/register"
+                            style="background-color: #9EC84C !important; margin-top:10px;">
+                            <span style="color: #ffffff !important"><b>{{('Registro') }}</b></span>
+                </a>
                 </div>
             </div>
         </div>

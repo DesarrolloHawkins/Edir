@@ -22,7 +22,7 @@ class HomeComponent extends Component
         $user = User::find($userid);
         $this->alertas = $user->alertas()->wherePivot('status', 0)->get();
         $this->secciones = Seccion::all();
-        $comunidadId = session('comunidad_id', Comunidad::where('user_id', Auth::user()->id)->value('id'));
+                $comunidadId = session('comunidad_id', Comunidad::where('id', Auth::user()->comunidad_id)->value('id'));
         $this->comunidad = Comunidad::find($comunidadId);
         if ($this->comunidad) {
                 $this->secciones_menu = Seccion::where('seccion_padre_id', 0)

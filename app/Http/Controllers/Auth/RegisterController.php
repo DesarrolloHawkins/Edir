@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Events\LogEvent;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
+use App\Models\Comunidad;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -50,12 +52,28 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'username' => ['required', 'string', 'max:255'],
             'name' => ['required', 'string', 'max:255'],
             'surname' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed']
-        ]);
+            'username' => ['required', 'string', 'max:255'],
+            'codigo' => ['required', 'string', 'exists:comunidad,codigo'],
+            'email' => ['required', 'string', 'max:255','email','unique:users,email'],
+            'telefono' => ['required', 'string', 'max:255'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+        ],
+        [
+            'name.required' => 'El nombre es obligatorio',
+            'surname.required' => 'El apellido es obligatorio',
+            'username.required' => 'El usuario es obligatorio',
+            'codigo.required' => 'El codigo es obligatorio ',
+            'email.required' => 'El email es obligatorio',
+            'telefono.required' => 'El telefono es obligatorio',
+            'password.required' => 'La contraseña es obligatoria',
+            'password.confirmed' => 'La contraseña no coincide',
+            'email.unique' => 'El email no puede estar registrado',
+            'codigo.exists' => 'El codigo no coincide ',
+        ]
+
+        );
     }
 
     /**
@@ -66,13 +84,20 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'username' =>  $data['username'],
-            'surname' =>  $data['surname'],
-            'password' => Hash::make($data['password']),
-            'inactive' => false
-        ]);
+        $comunidad_id = Comunidad::where('codigo',$data['codigo'])->first();
+            $user = User::create([
+                'user_department_id'=> '1',
+                'name' => $data['name'],
+                'surname' =>  $data['surname'],
+                'username' =>  $data['username'],
+                'comunidad_id' =>  $comunidad_id->id,
+                'email' => $data['email'],
+                'telefono' => $data['telefono'],
+                'role' => '2',
+                'password' => Hash::make($data['password']),
+                'inactive' => false
+            ]);
+        event(new LogEvent($user, 26, null));
+        return $user;
     }
 }

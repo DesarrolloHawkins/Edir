@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Events\LogEvent;
+use App\Listeners\AlertEventListener;
+use App\Listeners\LogEventListener;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -15,19 +18,20 @@ class EventServiceProvider extends ServiceProvider
      * @var array<class-string, array<int, class-string>>
      */
     protected $listen = [
-        Registered::class => [
-            SendEmailVerificationNotification::class,
+        LogEvent::class => [
             LogEventListener::class,
-            AlertEventListener::class,
-            'Illuminate\Auth\Events\Login' => [
-                'App\Listeners\LogSuccessfulLogin',
-            ],
-
-            'Illuminate\Auth\Events\Logout' => [
-                'App\Listeners\LogSuccessfulLogout',
-            ],
+        ],
+        Registered::class => [
+            // SendEmailVerificationNotification::class,
+        ],
+        'Illuminate\Auth\Events\Login' => [
+            'App\Listeners\LogSuccessfulLogin',
+        ],
+        'Illuminate\Auth\Events\Logout' => [
+            'App\Listeners\LogSuccessfulLogout',
         ],
     ];
+
     /**
      * Register any events for your application.
      *
@@ -35,7 +39,7 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        parent::boot();
     }
 
     /**
@@ -45,6 +49,6 @@ class EventServiceProvider extends ServiceProvider
      */
     public function shouldDiscoverEvents()
     {
-        return true;
+        return false;
     }
 }

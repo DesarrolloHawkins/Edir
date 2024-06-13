@@ -54,6 +54,7 @@ Route::group(['middleware' => 'is.admin', 'prefix' => 'admin'], function () {
     // Settings
     Route::get('settings', [SettingsController::class, 'index'])->name('settings.index');
     Route::get('comunidad', [ComunidadController::class, 'index'])->name('comunidad.index');
+    Route::get('comunidades', [ComunidadController::class, 'indexadmin'])->name('comunidad.index.admin');
 
 
 });

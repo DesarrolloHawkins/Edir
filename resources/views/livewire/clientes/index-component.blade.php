@@ -29,77 +29,40 @@
                             <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                 <thead>
                                     <tr>
-                                        {{-- <th scope="col">Trato</th> --}}
                                         <th scope="col">Nombre</th>
                                         <th scope="col">Apellidos</th>
-                                        {{-- <th scope="col">Tipo de calle</th>
-                                        <th scope="col">Calle</th>
-                                        <th scope="col">Número</th>
-                                        <th scope="col">Dirección Adicional 1</th>
-                                        <th scope="col">Dirección Adicional 2</th>
-                                        <th scope="col">Dirección Adicional 3</th> --}}
-                                        {{-- <th scope="col">Código Postal</th> --}}
-                                        {{-- <th scope="col">Ciudad</th> --}}
                                         <th scope="col">NIF/DNI</th>
                                         <th scope="col">Teléfono</th>
-                                        {{-- <th scope="col">Teléfono secundario</th>
-                                        <th scope="col">Teléfono adcional</th> --}}
                                         <th scope="col">Email</th>
-                                        {{-- <th scope="col">Email secundario</th>
-                                        <th scope="col">Email adicional</th> --}}
-                                        {{-- <th scope="col">Conf Email</th>
-                                        <th scope="col">Conf Postal</th>
-                                        <th scope="col">Conf SMS</th> --}}
-                
-                
-                
                                         <th scope="col">Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($clientes as $cliente)
                                         <tr>
-                                            {{-- <td>{{ $cliente->trato }}</td> --}}
                                             @if($cliente->tipo_cliente != 1)
                                             <td>{{ $cliente->nombre }}</td>
                                             <td>{{ $cliente->apellido }}</td>
                                             @else
                                             <td colspan="2">{{ $cliente->nombre }}</td>
                                             @endif
-                                            {{-- <td>{{ $cliente->tipoCalle}}</td>
-                                            <td>{{ $cliente->calle }}</td>
-                                            <td>{{ $cliente->numero }}</td>
-                                            <td>{{ $cliente->direccionAdicional1 }}</td>
-                                            <td>{{ $cliente->direccionAdicional2 }}</td>
-                                            <td>{{ $cliente->direccionAdicional3 }}</td> --}}
-                                            {{-- <td>{{ $cliente->codigoPostal }}</td>
-                                            <td>{{ $cliente->ciudad }}</td> --}}
                                             <td>{{ $cliente->nif }}</td>
                                             <td>{{ $cliente->tlf1 }}</td>
-                                            {{-- <td>{{ $cliente->tlf2 }}</td>
-                                            <td>{{ $cliente->tlf3 }}</td> --}}
                                             <td>{{ $cliente->email1 }}</td>
-                                            {{-- <td>{{ $cliente->email2 }}</td>
-                                            <td>{{ $cliente->email3 }}</td> --}}
-                                            {{-- <td>{{ $cliente->confPostal == 0 ? "No" : "Si"  }}</td>
-                                            <td>{{ $cliente->confEmail == 0 ? "No" : "Si"  }}</td>
-                                            <td>{{ $cliente->confSms == 0 ? "No" : "Si" }}</td> --}}
-                
-                
                                             <td> <a href="clientes-edit/{{ $cliente->id }}" class="btn btn-primary">Ver/Editar</a> </td>
                                         </tr>
                                     @endforeach
                                 </tbody>
                             </table>
                         @endif
-                
+
 
                     </div>
                 </div>
             </div> <!-- end col -->
-        </div> <!-- end row -->    
+        </div> <!-- end row -->
     </div>
-    
+
 
     @section('scripts')
 
@@ -121,9 +84,9 @@
     <!-- Responsive examples -->
     <script src="../plugins/datatables/dataTables.responsive.min.js"></script>
     <script src="../plugins/datatables/responsive.bootstrap4.min.js"></script>
-    <script src="../assets/pages/datatables.init.js"></script>   
+    <script src="../assets/pages/datatables.init.js"></script>
 
-    {{-- 
+    {{--
 
         <script src="https://cdn.datatables.net/responsive/2.4.0/js/dataTables.responsive.min.js"></script>
         <script src="https://cdn.datatables.net/1.13.2/js/jquery.dataTables.min.js"></script>

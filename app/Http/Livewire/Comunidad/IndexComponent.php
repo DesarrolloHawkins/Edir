@@ -23,7 +23,7 @@ class IndexComponent extends Component
     public function mount()
     {
         $this->user_id = Auth::user()->id;
-        $comunidadId = session('comunidad_id', Comunidad::where('user_id', Auth::user()->id)->value('id'));
+                $comunidadId = session('comunidad_id', Comunidad::where('id', Auth::user()->comunidad_id)->value('id'));
         $this->comunidad = Comunidad::find($comunidadId);
         if ($this->comunidad) {
             $this->ruta_imagen = $this->comunidad->ruta_imagen;

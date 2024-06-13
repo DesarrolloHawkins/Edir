@@ -15,7 +15,7 @@ class IndexComponent extends Component
 
     public function mount()
     {
-        $comunidadId = session('comunidad_id', Comunidad::where('user_id', Auth::user()->id)->value('id'));
+                $comunidadId = session('comunidad_id', Comunidad::where('id', Auth::user()->comunidad_id)->value('id'));
         $this->comunidad = Comunidad::find($comunidadId);
         // Solo carga secciones si hay una comunidad asociada al usuario
         if ($this->comunidad) {

@@ -23,7 +23,7 @@ class IndexComponent extends Component
     }
 
     public function getComunidad($id){
-        $comunidad = Comunidad::where('user_id', $id)->first();
+        $comunidad = Comunidad::where('id', $id)->first();
         if($comunidad != null){
             return $comunidad->nombre;
         }else{

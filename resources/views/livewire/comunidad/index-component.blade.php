@@ -29,17 +29,17 @@
                                             @if (is_string($ruta_imagen))
                                                 <img src="{{ asset('storage/photos/' . $ruta_imagen) }}"
                                                     style="@mobile
-max-width: 100%;
-@elsemobile
-max-height: 30vh !important;
-@endmobile text-align: center">
+                                                        max-width: 100%;
+                                                        @elsemobile
+                                                        max-height: 30vh !important;
+                                                        @endmobile text-align: center">
                                             @else
                                                 <img src="{{ $ruta_imagen->temporaryUrl() }}"
                                                     style=" @mobile
-max-width: 100%;
-@elsemobile
-max-height: 30vh !important;
-@endmobile text-align: center">
+                                                        max-width: 100%;
+                                                        @elsemobile
+                                                        max-height: 30vh !important;
+                                                        @endmobile text-align: center">
                                             @endif
                                         </div>
                                     @endif
