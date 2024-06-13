@@ -24,6 +24,8 @@ return new class extends Migration
             $table->text('respuesta')->nullable();
             //status type tinyint
             $table->tinyInteger('status')->nullable();
+            //status type tinyint
+            $table->tinyInteger('status_mensaje')->nullable();
             //type  type string 255
             $table->string('type', 255)->nullable();
 
