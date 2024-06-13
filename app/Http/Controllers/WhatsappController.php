@@ -177,19 +177,19 @@ class WhatsappController extends Controller
             ];
             $mensajeCreado = ChatGpt::create($dataRegistrar);
 
-            $reponseChatGPT = $this->chatGpt($mensaje,$id);
+            // $reponseChatGPT = $this->chatGpt($mensaje,$id);
 
-            $respuestaWhatsapp = $this->contestarWhatsapp($phone, $reponseChatGPT);
+            // $respuestaWhatsapp = $this->contestarWhatsapp($phone, $reponseChatGPT);
 
-            if(isset($respuestaWhatsapp['error'])){
-                dd($respuestaWhatsapp);
-            };
+            // if(isset($respuestaWhatsapp['error'])){
+            //     dd($respuestaWhatsapp);
+            // };
 
-            $mensajeCreado->update([
-                'respuesta'=> $reponseChatGPT
-            ]);
+            // $mensajeCreado->update([
+            //     'respuesta'=> $reponseChatGPT
+            // ]);
 
-            return response($reponseChatGPT)->header('Content-Type', 'text/plain');
+            return response('ok')->header('Content-Type', 'text/plain');
 
         }
     }
