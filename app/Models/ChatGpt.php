@@ -20,10 +20,12 @@ class ChatGpt extends Model
      */
     protected $fillable = [
         'id_mensaje',
+        'id_three',
         'remitente',
         'mensaje',
         'respuesta',
         'status',
+        'status_mensaje',
         'type'
 
     ];

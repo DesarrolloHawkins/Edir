@@ -174,7 +174,6 @@ class WhatsappController extends Controller
                 'status' => 1,
                 'status_mensaje' => 0,
                 'type' => 'text',
-                'date' => Carbon::now()
             ];
             $mensajeCreado = ChatGpt::create($dataRegistrar);
 
