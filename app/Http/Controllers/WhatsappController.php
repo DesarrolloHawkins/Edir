@@ -161,10 +161,10 @@ class WhatsappController extends Controller
         $phone = $data['entry'][0]['changes'][0]['value']['messages'][0]['from'];
         $mensaje = $data['entry'][0]['changes'][0]['value']['messages'][0]['text']['body'];
 
-        $mensajeExiste = ChatGpt::where( 'id_mensaje', $id )->get();
-        if (count($mensajeExiste) > 0) {
+        // $mensajeExiste = ChatGpt::where( 'id_mensaje', $id )->get();
+        // if (count($mensajeExiste) > 0) {
 
-        }else {
+        // }else {
             $dataRegistrar = [
                 'id_mensaje' => $id,
                 'id_three' => null,
@@ -191,7 +191,7 @@ class WhatsappController extends Controller
 
             return response('ok')->header('Content-Type', 'text/plain');
 
-        }
+        // }
     }
 
         //no se usa
