@@ -8,7 +8,6 @@ use App\Models\Mensaje;
 use App\Models\MensajeAuto;
 use App\Models\Reserva;
 use App\Models\Whatsapp;
-use App\Services\ClienteService;
 use Carbon\Carbon;
 use CURLFile;
 use Exception;
@@ -22,12 +21,12 @@ use Illuminate\Support\Facades\Log;
 
 class WhatsappController extends Controller
 {
-    protected $clienteService;
+    // protected $clienteService;
 
-    public function __construct(ClienteService $clienteService)
-    {
-        $this->clienteService = $clienteService;
-    }
+    // public function __construct(ClienteService $clienteService)
+    // {
+    //     $this->clienteService = $clienteService;
+    // }
 
     public function hookWhatsapp(Request $request)
     {
@@ -505,7 +504,7 @@ class WhatsappController extends Controller
 	}
     public function contestarWhatsapp($phone, $texto) {
         $token = env('TOKEN_WHATSAPP', 'valorPorDefecto');
-    
+
         // Construir la carga útil como un array en lugar de un string JSON
         $mensajePersonalizado = [
             "messaging_product" => "whatsapp",
@@ -516,11 +515,11 @@ class WhatsappController extends Controller
                 "body" => $texto
             ]
         ];
-    
+
         $urlMensajes = 'https://graph.facebook.com/v16.0/102360642838173/messages';
-    
+
         $curl = curl_init();
-    
+
         curl_setopt_array($curl, [
             CURLOPT_URL => $urlMensajes,
             CURLOPT_RETURNTRANSFER => true,
@@ -536,7 +535,7 @@ class WhatsappController extends Controller
                 'Authorization: Bearer ' . $token
             ],
         ]);
-    
+
         $response = curl_exec($curl);
         if ($response === false) {
             $error = curl_error($curl);
@@ -545,7 +544,7 @@ class WhatsappController extends Controller
             return ['error' => $error];
         }
         curl_close($curl);
-    
+
         try {
             $responseJson = json_decode($response, true);
             Storage::disk('local')->put("Respuesta_Envio_Whatsapp-{$phone}.txt", $response);
