@@ -161,6 +161,12 @@ class WhatsappController extends Controller
         $phone = $data['entry'][0]['changes'][0]['value']['messages'][0]['from'];
         $mensaje = $data['entry'][0]['changes'][0]['value']['messages'][0]['text']['body'];
 
+$pene = [
+    $id,$phone,$mensaje
+];
+
+        Storage::disk('local')->put('Mensaje_Texto_Reicibido-2-'.$fecha.'.txt', json_encode($pene) );
+
         // $mensajeExiste = ChatGpt::where( 'id_mensaje', $id )->get();
         // if (count($mensajeExiste) > 0) {
 
@@ -175,6 +181,7 @@ class WhatsappController extends Controller
                 'status_mensaje' => 0,
                 'type' => 'text',
             ];
+
             $mensajeCreado = ChatGpt::create($dataRegistrar);
 
             // $reponseChatGPT = $this->chatGpt($mensaje,$id);
