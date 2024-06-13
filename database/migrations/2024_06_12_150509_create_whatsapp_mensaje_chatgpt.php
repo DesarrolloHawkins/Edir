@@ -28,6 +28,7 @@ return new class extends Migration
             $table->string('type', 255)->nullable();
 
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
