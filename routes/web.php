@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ComunidadController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\UsuarioController;
+use App\Http\Controllers\WhatsappController;
 
 use App\Http\Middleware\IsAdmin;
 use FontLib\Table\Type\name;
@@ -58,3 +59,5 @@ Route::group(['middleware' => 'is.admin', 'prefix' => 'admin'], function () {
 
 
 });
+Route::get('/whatsapp', [WhatsappController::class, 'hookWhatsapp'])->name('whatsapp.hookWhatsapp');
+Route::post('/whatsapp', [WhatsappController::class, 'processHookWhatsapp'])->name('whatsapp.processHookWhatsapp');
