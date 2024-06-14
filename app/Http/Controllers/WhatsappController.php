@@ -179,9 +179,8 @@ class WhatsappController extends Controller
 
             $mensajeCreado = ChatGpt::create($dataRegistrar);
 
-            // $reponseChatGPT = $this->chatGpt($mensaje,$id);
 
-            // $respuestaWhatsapp = $this->contestarWhatsapp($phone, $reponseChatGPT);
+            $respuestaWhatsapp = $this->contestarWhatsapp($phone,'Hola, gracias por contactarnos. Este número es solo para notificaciones y no se monitorea activamente. Por favor, no responda a este mensaje. ¡Gracias! ');
 
             // if(isset($respuestaWhatsapp['error'])){
             //     dd($respuestaWhatsapp);
@@ -196,7 +195,57 @@ class WhatsappController extends Controller
          }
     }
 
-        //no se usa
+    public function mensajesAutomaticos($template, $nombre, $telefono, $idioma = 'es'){
+        $token = 'EAAKn6tggu1UBAMqGlFOg5DarUwE9isj74UU0C6XnsftooIUAdgiIjJZAdqnnntw0Kg7gaYmfCxFqVrDl5gtNGXENKHACfsrC59z723xNbtxyoZAhTtDYpDAFN4eE598iZCmMfdXRNmA7rlat7JfWR6YOavmiDPH2WX2wquJ0YWzzxzYo96TLC4Sb7rfpwVF78UlZBmYMPQZDZD';
+
+
+        $mensajePersonalizado = [
+            "messaging_product" => "whatsapp",
+            "recipient_type" => "individual",
+            "to" => $telefono,
+            "type" => "template",
+            "template" => [
+                "name" => $template,
+                "language" => ["code" => $idioma],
+                "components" => [
+                    [
+                        "type" => "body",
+                        "parameters" => [
+                            ["type" => "text", "text" => $nombre],
+                        ],
+                    ],
+                ],
+            ],
+        ];
+
+        $urlMensajes = 'https://graph.facebook.com/v19.0/312803688580839/messages';
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => $urlMensajes,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS => json_encode($mensajePersonalizado),
+            CURLOPT_HTTPHEADER => array(
+                'Content-Type: application/json',
+                'Authorization: Bearer '.$token
+            ),
+
+        ));
+
+        $response = curl_exec($curl);
+        curl_close($curl);
+        // $responseJson = json_decode($response);
+        return $response;
+
+    }
+    //     no se usa
     // public function chatGpt($mensaje, $id)
     // {
     //     $mensajeExiste = ChatGpt::where('id_mensaje', $id)->first();
@@ -212,7 +261,6 @@ class WhatsappController extends Controller
     //     $hilo = $this->mensajeHilo($mensajeExiste->id_three, $mensaje);
     //     $ejecuccion = $this->ejecutarHilo($three_id['id']);
     //     $ejecuccionStatus = $this->ejecutarHiloStatus($three_id['id'], $ejecuccion['id']);
-    //     //dd($ejecuccionStatus);
     //     // Inicia un bucle para esperar hasta que el hilo se complete
     //     while (true) {
     //         //$ejecuccion = $this->ejecutarHilo($three_id['id']);
@@ -496,7 +544,7 @@ class WhatsappController extends Controller
     // }
 
 
-	function asegurarSignoInterrogacion( $string ) {
+	public function asegurarSignoInterrogacion( $string ) {
 		// Comprueba si el último carácter es ?
 		if ( substr( $string, -1 ) !== '?' ) {
 			// Si no lo es, añade ? al final
@@ -504,6 +552,7 @@ class WhatsappController extends Controller
 		}
 		return $string;
 	}
+
     public function contestarWhatsapp($phone, $texto) {
         $token = env('TOKEN_WHATSAPP', 'valorPorDefecto');
 
@@ -518,7 +567,7 @@ class WhatsappController extends Controller
             ]
         ];
 
-        $urlMensajes = 'https://graph.facebook.com/v16.0/102360642838173/messages';
+        $urlMensajes = 'https://graph.facebook.com/v19.0/312803688580839/messages';
 
         $curl = curl_init();
 
@@ -967,56 +1016,7 @@ class WhatsappController extends Controller
         }
     }
 
-    public function mensajesAutomaticos($template, $nombre, $telefono, $idioma = 'es'){
-        $token = 'EAAKn6tggu1UBAMqGlFOg5DarUwE9isj74UU0C6XnsftooIUAdgiIjJZAdqnnntw0Kg7gaYmfCxFqVrDl5gtNGXENKHACfsrC59z723xNbtxyoZAhTtDYpDAFN4eE598iZCmMfdXRNmA7rlat7JfWR6YOavmiDPH2WX2wquJ0YWzzxzYo96TLC4Sb7rfpwVF78UlZBmYMPQZDZD';
 
-
-        $mensajePersonalizado = [
-            "messaging_product" => "whatsapp",
-            "recipient_type" => "individual",
-            "to" => $telefono,
-            "type" => "template",
-            "template" => [
-                "name" => $template,
-                "language" => ["code" => $idioma],
-                "components" => [
-                    [
-                        "type" => "body",
-                        "parameters" => [
-                            ["type" => "text", "text" => $nombre],
-                        ],
-                    ],
-                ],
-            ],
-        ];
-
-        $urlMensajes = 'https://graph.facebook.com/v16.0/102360642838173/messages';
-
-        $curl = curl_init();
-
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => $urlMensajes,
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => '',
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => 'POST',
-            CURLOPT_POSTFIELDS => json_encode($mensajePersonalizado),
-            CURLOPT_HTTPHEADER => array(
-                'Content-Type: application/json',
-                'Authorization: Bearer '.$token
-            ),
-
-        ));
-
-        $response = curl_exec($curl);
-        curl_close($curl);
-        // $responseJson = json_decode($response);
-        return $response;
-
-    }
 
     // Añadir idioma del cliente por coleccion
     public function getIdiomaCliente(){

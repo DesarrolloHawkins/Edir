@@ -14,6 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('whatsapp_mensaje_chatgpt', function (Blueprint $table) {
+
             $table->id();
             $table->string('id_mensaje', 255)->nullable();
             $table->string('id_three', 255)->nullable();
@@ -28,9 +29,9 @@ return new class extends Migration
             $table->tinyInteger('status_mensaje')->nullable();
             //type  type string 255
             $table->string('type', 255)->nullable();
-
             $table->timestamps();
             $table->softDeletes();
+
         });
     }
 
