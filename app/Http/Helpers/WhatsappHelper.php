@@ -26,12 +26,12 @@ if (!function_exists('enviarMensajeWhatsapp')) {
                         "template" => [
                             "name" => $template,
                             "language" => ["code" => $idioma],
-                        ],
-                        "components" => [
-                            [
-                                "type" => "body",
-                                "parameters" => [
-                                    ["type" => "text", "text" => $nombre],
+                            "components" => [
+                                [
+                                    "type" => "body",
+                                    "parameters" => [
+                                        ["type" => "text", "text" => $nombre],
+                                    ],
                                 ],
                             ],
                         ],
@@ -74,13 +74,13 @@ if (!function_exists('enviarMensajeWhatsapp')) {
                         "template" => [
                             "name" => $template,
                             "language" => ["code" => $idioma],
-                        ],
-                        "components" => [
-                            [
-                                "type" => "body",
-                                "parameters" => [
-                                    ["type" => "text", "text" => $texto ],
-                                    ["type" => "text", "text" => $nombre['seccion'] ],
+                            "components" => [
+                                [
+                                    "type" => "body",
+                                    "parameters" => [
+                                        ["type" => "text", "text" => $texto ],
+                                        ["type" => "text", "text" => $nombre['seccion'] ],
+                                    ],
                                 ],
                             ],
                         ],
