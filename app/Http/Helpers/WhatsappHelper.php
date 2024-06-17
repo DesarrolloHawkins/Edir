@@ -18,6 +18,7 @@ if (!function_exists('enviarMensajeWhatsapp')) {
                 ];
                 break;
                 case 'nueva_incidencia':
+                    dd($nombre);
                     $mensajePersonalizado = [
                         "messaging_product" => "whatsapp",
                         "recipient_type" => "individual",
@@ -50,7 +51,6 @@ if (!function_exists('enviarMensajeWhatsapp')) {
                     ];
                 break;
                 case 'nuevos_anuncios':
-                    dd($nombre);
                     switch($nombre['tipo']){
                         case 1:
                             $texto ='anuncio';
@@ -67,6 +67,7 @@ if (!function_exists('enviarMensajeWhatsapp')) {
                         default:
                         break;
                     }
+                    dd($texto);
                     $mensajePersonalizado = [
                         "messaging_product" => "whatsapp",
                         "recipient_type" => "individual",
