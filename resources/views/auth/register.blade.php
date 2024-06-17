@@ -8,6 +8,12 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css">
+    <style>
+        .iti.iti--allow-dropdown {
+            width: 100%;
+        }
+    </style>
 </head>
 <body style="background-color: #fff;">
     <div class="container">
@@ -24,107 +30,73 @@
         </div>
         <br>
 
-        <div class="row justify-content-center"
-             style="position: relative; top: 50%;">
+        <div class="row justify-content-center" style="position: relative; top: 50%;">
             <div class="col-sm-6">
                 <div class="card">
                     <div class="card-body" style="background-color: #9ec84c;">
                         <form method="POST" action="{{ route('register') }}">
                             @csrf
-                            <!-- Campos de Nombre, Correo electrónico, Contraseña, etc. -->
                             <div class="form-group row">
                                 <div class="col-sm-6">
                                     <input type="text" class="form-control" name="name" placeholder="Nombre" value="{{old('name')}}" autofocus>
                                     @error('name')
                                     <span class="text-danger">{{ $message }}</span>
-                                    <style>
-                                        .text-danger {
-                                            color: red;
-                                        }
-                                    </style>
+                                    <style>.text-danger {color: red;}</style>
                                 @enderror
                                 </div>
                                 <div class="col-sm-6">
                                     <input type="text" class="form-control" name="surname" placeholder="Apellido" value="{{old('surname')}}">
                                     @error('surname')
                                     <span class="text-danger">{{ $message }}</span>
-                                    <style>
-                                        .text-danger {
-                                            color: red;
-                                        }
-                                    </style>
+                                    <style>.text-danger {color: red;}</style>
                                 @enderror
                                 </div>
                             </div>
                             <div class="form-group row mt-1">
                                 <div class="col-sm-6">
-                                    <input type="text" class="form-control" name="username" placeholder="Usuario" value="{{old('username')}}" >
+                                    <input type="text" class="form-control" name="username" placeholder="Usuario" value="{{old('username')}}">
                                     @error('username')
                                     <span class="text-danger">{{ $message }}</span>
-                                    <style>
-                                        .text-danger {
-                                            color: red;
-                                        }
-                                    </style>
+                                    <style>.text-danger {color: red;}</style>
                                 @enderror
                                 </div>
                                 <div class="col-sm-6">
-                                    <input type="text" inputmode="numeric" pattern="[0-9]*" class="form-control" name="codigo"  value="{{old('codigo')}}" placeholder="Codigo de comunidad" >
-                                @error('codigo')
+                                    <input type="text" inputmode="numeric" pattern="[0-9]*" class="form-control" name="codigo" value="{{old('codigo')}}" placeholder="Codigo de comunidad">
+                                    @error('codigo')
                                     <span class="text-danger">{{ $message }}</span>
-                                    <style>
-                                        .text-danger {
-                                            color: red;
-                                        }
-                                    </style>
+                                    <style>.text-danger {color: red;}</style>
                                 @enderror
                                 </div>
                             </div>
                             <div class="form-group row mt-1">
                                 <div class="col-sm-6">
-                                    <input type="email" class="form-control" name="email" placeholder="Correo electrónico" value="{{old('email')}}" >
+                                    <input type="email" class="form-control" name="email" placeholder="Correo electrónico" value="{{old('email')}}">
                                     @error('email')
                                     <span class="text-danger">{{ $message }}</span>
-                                    <style>
-                                        .text-danger {
-                                            color: red;
-                                        }
-                                    </style>
+                                    <style>.text-danger {color: red;}</style>
                                 @enderror
                                 </div>
                                 <div class="col-sm-6">
-                                    <input type="text" inputmode="numeric" pattern="[0-9]*" class="form-control" name="telefono" value="{{old('telefono')}}" placeholder="Telefono" >
+                                    <input type="text" id="phone" name="telefono" class="form-control" value="{{old('telefono')}}" placeholder="Telefono">
                                     @error('telefono')
                                     <span class="text-danger">{{ $message }}</span>
-                                    <style>
-                                        .text-danger {
-                                            color: red;
-                                        }
-                                    </style>
+                                    <style>.text-danger {color: red;}</style>
                                 @enderror
                                 </div>
                             </div>
                             <div class="form-group row mt-1">
                                 <div class="col-sm-6">
-                                    <input type="password" class="form-control" name="password" placeholder="Contraseña" >
+                                    <input type="password" class="form-control" name="password" placeholder="Contraseña">
                                     @error('password')
                                     <span class="text-danger">{{ $message }}</span>
-                                    <style>
-                                        .text-danger {
-                                            color: red;
-                                        }
-                                    </style>
+                                    <style>.text-danger {color: red;}</style>
                                 @enderror
                                 </div>
                                 <div class="col-sm-6">
-                                    <input type="password" class="form-control" name="password_confirmation" placeholder="Confirmar contraseña" >
+                                    <input type="password" class="form-control" name="password_confirmation" placeholder="Confirmar contraseña">
                                     @error('password_confirmation')
                                     <span class="text-danger">{{ $message }}</span>
-                                    <style>
-                                        .text-danger {
-                                            color: red;
-                                        }
-                                    </style>
+                                    <style>.text-danger {color: red;}</style>
                                 @enderror
                                 </div>
                             </div>
@@ -134,16 +106,30 @@
                         </form>
                     </div>
                 </div>
-                <a type="submit" class="btn w-100" href="/login"
-                            style="background-color: #9EC84C !important; margin-top:10px;">
-                            <span style="color: #ffffff !important"><b>{{('Inicio de sesión') }}</b></span>
+                <a type="submit" class="btn w-100" href="/login" style="background-color: #9EC84C !important; margin-top:10px;">
+                    <span style="color: #ffffff !important"><b>{{('Inicio de sesión') }}</b></span>
                 </a>
             </div>
-
         </div>
     </div>
-    <!-- Reutiliza los scripts existentes de tu página de inicio de sesión -->
     <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var input = document.querySelector("#phone");
+            var iti = window.intlTelInput(input, {
+                initialCountry: "es",  // Establece el código de país predeterminado a +34 (España)
+                utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
+            });
+
+            var form = input.closest("form");
+            form.addEventListener("submit", function(event) {
+                var fullNumber = iti.getNumber();
+                var phoneNumber = fullNumber.replace(/^\+/, ""); // Remueve el prefijo +34
+                input.value = phoneNumber;
+            });
+        });
+    </script>
 </body>
 </html>

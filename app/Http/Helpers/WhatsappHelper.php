@@ -86,8 +86,8 @@ if (!function_exists('enviarMensajeWhatsapp')) {
                         ],
                     ];
                 break;
-            default:
-                # code...
+                default:
+                # code..
                 break;
         }
 
