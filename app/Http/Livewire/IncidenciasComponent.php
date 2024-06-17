@@ -52,7 +52,7 @@ class IncidenciasComponent extends Component
         $this->seccion = Seccion::find($this->seccion_id);
         $this->tipo = 1;
         if ($id != 0) {
-            $this->comunidad_id = session('comunidad_id', Comunidad::where('user_id', Auth::user()->id)->value('id'));
+            $this->comunidad_id = session('comunidad_id', Auth::user()->comunidad_id);
             $this->anuncios = Incidencia::where('comunidad_id', $this->seccion->comunidad_id)->get();
             $usuario= User::find(Auth::user()->id);
             $alertas = $usuario->alertas()->where('comunidad_id',$this->comunidad_id)->wherePivot('status', 0)->get();
@@ -90,6 +90,7 @@ class IncidenciasComponent extends Component
     {
         $this->fecha = date('Y-m-d');
         // Validación de datos
+
         $validatedData = $this->validate(
             [
                 'titulo' => 'required',
@@ -100,26 +101,27 @@ class IncidenciasComponent extends Component
                 'ruta_imagen' => 'nullable',
                 'fecha' => 'required',
 
-            ],
-            // Mensajes de error
-            [
+                ],
+                // Mensajes de error
+                [
                 'titulo.required' => 'required',
                 'comunidad_id.required' => 'required',
                 'telefono.required' => 'required',
                 'nombre.required' => 'required',
                 'fecha.required' => 'required',
-            ]
-        );
-        if ($this->ruta_imagen != null) {
-            $name = $this->titulo . "-" . $this->fecha . '.' . $this->ruta_imagen->extension();
+                ]
+                    );
+                    if ($this->ruta_imagen != null) {
+                        $name = $this->titulo . "-" . $this->fecha . '.' . $this->ruta_imagen->extension();
 
-            $this->ruta_imagen->storePubliclyAs('public', 'archivos/' . $this->secciones->firstWhere('id', $this->seccion_id)->nombre . '/' . $name);
+                        $this->ruta_imagen->storePubliclyAs('public', 'archivos/' . $this->secciones->firstWhere('id', $this->seccion_id)->nombre . '/' . $name);
 
             $validatedData['ruta_imagen'] = $name;
         }
 
         // Guardar datos validados
         $usuariosSave = Incidencia::create($validatedData);
+
          $alertaSave = Alertas::create([
             'admin_user_id' =>0,
             'user_id' => Auth::user()->id,
@@ -129,9 +131,15 @@ class IncidenciasComponent extends Component
             'comunidad_id'=>$this->comunidad_id,
             'descripcion'=>$this->descripcion,
             'nombre'=>$this->nombre,
-         ]);
-         $user_ids = User::where('role', 1)->pluck('id');
+        ]);
+        $user_ids = User::where('role', 1)->pluck('id');
+        $users = User::where('role', 1)->get();
         $alertaSave->users()->attach($user_ids, ['status' => 0]);
+        $comunidad = Comunidad::find($this->comunidad_id);
+        foreach($users as $user){
+            enviarMensajeWhatsapp('nueva_incidencia', $comunidad->nombre , $user->telefono ,'es');
+        }
+
         // Alertas de guardado exitoso
         if ($usuariosSave) {
             $this->alert('success', '¡Publicación registrada correctamente!', [

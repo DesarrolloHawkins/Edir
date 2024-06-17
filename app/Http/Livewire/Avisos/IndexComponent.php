@@ -72,21 +72,22 @@ class IndexComponent extends Component
                 'datetime.required' => 'required',
             ]
         );
+
         if ($this->ruta_archivo != null) {
-
             $name = $this->titulo . "-" . $this->datetime . '.' . $this->ruta_archivo->extension();
-
             $this->ruta_archivo->storePubliclyAs('public', 'archivos/avisos/' . $name);
-
             $validatedData['ruta_archivo'] = $name;
         }
 
         // Guardar datos validados
         $alertaSave = Alertas::create($validatedData);
-
         $user_ids = User::where('role', 2)->pluck('id');
-
         $alertaSave->users()->attach($user_ids, ['status' => 0]);
+
+        $users = User::where('role', 2)->get();
+        foreach($users as $user){
+            enviarMensajeWhatsapp('nuevo_aviso', '', $user->telefono, 'es');
+        }
 
 
         // Alertas de guardado exitoso

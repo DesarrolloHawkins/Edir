@@ -36,7 +36,8 @@
             "Database\\Seeders\\": "database/seeders/"
         },
         "files": [
-            "app/Http/Helpers/budget-referent.php"
+            "app/Http/Helpers/budget-referent.php",
+            "app/Http/Helpers/WhatsappHelper.php"
         ]
     },
     "autoload-dev": {

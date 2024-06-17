@@ -49,7 +49,19 @@
                             </div>
                             <div class="form-group row">
                                 <div class="col-sm-12">
-                                    <label for="username" class="col-sm-12 col-form-label">Usuario </label>
+                                    <label for="email" class="col-sm-12 col-form-label">Telefono </label>
+                                    <div class="col-sm-11">
+                                        <input type="text" wire:model.defer="telefono" class="form-control"
+                                            name="telefono" id="telefono" placeholder="Telefono">
+                                        @error('telefono')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-12">
+                                    <label for="username" class="col-sm-12 col-form-label">Usuario</label>
                                     <div class="col-sm-11">
                                         <input type="text" wire:model.defer="username" class="form-control"
                                             name="username" id="username" placeholder="jose85">

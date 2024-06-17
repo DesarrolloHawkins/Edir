@@ -23,8 +23,8 @@ class CreateComponent extends Component
     public $seccion_incidencias = false;
     public function mount()
     {
-        $this->comunidad = Comunidad::where('user_id', Auth::id())->first();
-        $this->comunidad_id = $this->comunidad->id;
+        $this->comunidad_id = session('comunidad_id', Auth::user()->comunidad_id);
+        $this->comunidad = Comunidad::where('id', $this->comunidad_id)->first();
         $this->secciones = Seccion::where('comunidad_id', $this->comunidad->id)->get();
         $this->orden = Seccion::where('comunidad_id', $this->comunidad->id)->count() + 1;
         $this->seccion_padre_id = 0;

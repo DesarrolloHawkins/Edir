@@ -26,6 +26,7 @@
                                     <th scope="col">Nombre</th>
                                     <th scope="col">Username</th>
                                     <th scope="col">Comunidad</th>
+                                    <th scope="col">Telefono</th>
                                     <th scope="col">Email</th>
 
 
@@ -39,10 +40,8 @@
                                         <td>{{ $user->name }}</td>
                                         <td>{{ $user->username }}</td>
                                         <td>{{ $this->getComunidad($user->comunidad_id) }}</td>
+                                        <td>{{ $user->telefono }}</td>
                                         <td>{{ $user->email }}</td>
-
-
-
                                         <td> <a href="usuarios-edit/{{ $user->id }}"
                                                 class="btn btn-primary">Ver/Editar</a> </td>
                                     </tr>

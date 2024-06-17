@@ -21,6 +21,7 @@ class DuplicarComponent extends Component
     public $comunidad;
     public $role = 2;
     public $username;
+    public $telefono;
     public $password = null;
     public $email;
     public $inactive;
@@ -61,6 +62,7 @@ class DuplicarComponent extends Component
                 'name' => 'required',
                 'role' => 'required',
                 'username' => 'required',
+                'telefono' => 'nullable',
                 'password' => 'required',
                 'user_department_id' => 'required',
                 'email' => ['required', 'regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/'],

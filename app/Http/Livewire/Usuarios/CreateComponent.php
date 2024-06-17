@@ -26,6 +26,7 @@ class CreateComponent extends Component
     public $despartamentos;
     public $password;
     public $email;
+    public $telefono;
     public $user_department_id = 1;
     public $inactive;
     public $comunidad_nombre;
@@ -51,6 +52,7 @@ class CreateComponent extends Component
             [
                 'name' => 'required',
                 'role' => 'required',
+                'telefono' => 'nullable',
                 'username' => 'required',
                 'password' => 'required',
                 'user_department_id' => 'nullable',

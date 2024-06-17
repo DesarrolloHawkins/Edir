@@ -30,6 +30,7 @@ class SeccionComponent extends Component
     public $url;
     public $ruta_archivo;
     public $subseccionCheck;
+    public $usuario;
 
     public function mount($seccion_id)
     {
@@ -42,7 +43,7 @@ class SeccionComponent extends Component
     }
     private function inicializarComponente($id)
     {
-        $this->comunidad_id = session('comunidad_id', Comunidad::where('user_id', Auth::user()->id)->value('id'));
+        $this->comunidad_id = session('comunidad_id', Auth::user()->comunidad_id);
         $this->formularioCheck = 0;
         $this->subseccionCheck = 0;
         $this->secciones = Seccion::all();
@@ -51,11 +52,11 @@ class SeccionComponent extends Component
         $this->subsecciones = Seccion::where('seccion_padre_id', $id)->orderBy('orden', 'asc')->get();
         $this->tipo = 1;
         $this->anuncios = Anuncio::where('seccion_id', $id)->get();
-        $usuario= User::find(Auth::user()->id);
-        $alertas = $usuario->alertas()->where('seccion_id',$this->seccion_id)->wherePivot('status', 0)->get();
+        $this->usuario= User::find(Auth::user()->id);
+        $alertas = $this->usuario->alertas()->where('seccion_id',$this->seccion_id)->wherePivot('status', 0)->get();
         foreach($alertas as $alerta){
             $alertaId = $alerta->id;
-            $usuario->alertas()->updateExistingPivot($alertaId, ['status' => 1]);
+            $this->usuario->alertas()->updateExistingPivot($alertaId, ['status' => 1]);
         }
     }
 
@@ -110,7 +111,6 @@ class SeccionComponent extends Component
 
             $validatedData['ruta_archivo'] = $name;
         }
-
         // Guardar datos validados
         $usuariosSave = Anuncio::create($validatedData);
 
@@ -123,9 +123,19 @@ class SeccionComponent extends Component
             'descripcion'=>$this->descripcion,
          ]);
         $comunidad = Comunidad::with('user')->find($this->comunidad_id);
-        $usuario = $comunidad->user;
-        $user_ids =$usuario->id;
-        $alertaSave->users()->attach($user_ids, ['status' => 0]);
+        $users = $comunidad->user;
+        $nombreseccion = Seccion::find($this->seccion_id);
+
+        $data =[
+            'seccion'=> $nombreseccion->nombre,
+            'tipo'=> $this->tipo,
+        ];
+
+        foreach($users as $user){
+            $user_ids =$user->id;
+            $alertaSave->users()->attach($user_ids, ['status' => 0]);
+            $response = enviarMensajeWhatsapp('nuevos_anuncios', $data, $user->telefono, 'es');
+        }
         // Alertas de guardado exitoso
         if ($usuariosSave) {
             $this->alert('success', '¡Publicación registrada correctamente!', [

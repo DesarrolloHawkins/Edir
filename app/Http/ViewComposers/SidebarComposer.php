@@ -11,7 +11,7 @@ class SidebarComposer
     public function compose(View $view)
     {
         $user = Auth::user();
-        $comunidadId = session('comunidad_id', Comunidad::where('user_id', $user->id)->value('id'));
+        $comunidadId = session('comunidad_id', Comunidad::where('id',$user->comunidad_id)->value('id'));
         $comunidad = Comunidad::find($comunidadId);
         $view->with('comunidad', $comunidad);
     }

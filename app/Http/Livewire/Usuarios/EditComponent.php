@@ -29,6 +29,7 @@ class EditComponent extends Component
     public $comunidad;
     public $role;
     public $username;
+    public $telefono;
     public $password = null;
     public $email;
     public $inactive;
@@ -64,6 +65,7 @@ class EditComponent extends Component
             [
                 'name' => 'required',
                 'role' => 'required',
+                'telefono' => 'nullable',
                 'username' => 'required',
                 'password' => 'required',
                 'email' => ['required', 'regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/'],
