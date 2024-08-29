@@ -126,8 +126,7 @@ class EditComponent extends Component
         foreach ($this->anuncio->users as $user) {
             // Aquí accedemos al campo 'status' de la tabla pivote.
             $status = $user->pivot->status;
-            $comunidad = Comunidad::where('id', $user->comunidad_id)->first() != null ? Comunidad::where('
-            ', $user->id)->first()->nombre : "Comunidad no asignada";
+            $comunidad = Comunidad::where('id', $user->comunidad_id)->first() != null ? Comunidad::where('id', $user->comunidad_id)->first()->nombre : "Comunidad no asignada";
             // Basado en el estado, añadimos el string correspondiente al array.
             $usuariosEstatus[] = "<b>" . $user->name . " (" . $comunidad . ")</b>: " . ($status == 0 ? "No leído" : "Leído");
         }
