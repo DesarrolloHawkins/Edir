@@ -89,13 +89,16 @@ class CreateComponent extends Component
                 $imagen_subir = $name;
             }
 
-            Comunidad::create([
+            $comunidad = Comunidad::create([
                 'user_id' => $usuariosSave->id,
                 'nombre' => $this->comunidad_nombre,
                 'direccion' => $this->comunidad_direccion,
                 'ruta_imagen' => $imagen_subir,
                 'informacion_adicional' => $this->comunidad_info
             ]);
+
+            $usuariosSave->comunidad_id = $comunidad->id;
+            $usuariosSave->save();
         }
 
 

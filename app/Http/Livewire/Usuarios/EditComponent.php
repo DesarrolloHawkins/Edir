@@ -83,32 +83,36 @@ class EditComponent extends Component
         );
         // Encuentra el identificador
         $usuariosSave = $user->update($validatedData);
-        if ($this->comunidad != null) {
-            $this->validate([
-                'comunidad_nombre' => 'required|string|max:255',
-                'comunidad_direccion' => 'required|string|max:255',
-                'comunidad_imagen' => 'nullable|image|max:1024', // Por ejemplo, si es una imagen.
-                'comunidad_info'   => 'nullable|string',
-            ]);
-            $imagen_guardar = 'communitas_icon.png';
-            if (Storage::disk('public')->exists('photos/' . $this->ruta_imagen) == false) {
+        if ($user->role == 2) {
+                if ($this->comunidad != null) {
+                $this->validate([
+                    'comunidad_nombre' => 'required|string|max:255',
+                    'comunidad_direccion' => 'required|string|max:255',
+                    'comunidad_imagen' => 'nullable|image|max:1024', // Por ejemplo, si es una imagen.
+                    'comunidad_info'   => 'nullable|string',
+                ]);
+                $imagen_guardar = 'communitas_icon.png';
+                if (Storage::disk('public')->exists('photos/' . $this->ruta_imagen) == false) {
 
-                $name = md5($this->ruta_imagen . microtime()) . '.' . $this->ruta_imagen->extension();
+                    $name = md5($this->ruta_imagen . microtime()) . '.' . $this->ruta_imagen->extension();
 
-                $this->ruta_imagen->storePubliclyAs('public', 'photos/' . $name);
+                    $this->ruta_imagen->storePubliclyAs('public', 'photos/' . $name);
 
-                $imagen_guardar = $name;
+                    $imagen_guardar = $name;
+                }
+                $comunidadSave = Comunidad::find($this->comunidad->id)->update(['user_id' => $usuariosSave->id, 'nombre' => $this->comunidad_nombre, 'direccion' => $this->comunidad_direccion, 'ruta_imagen' => $imagen_guardar, 'informacion_adicional' => $this->comunidad_info]);
+            } else {
+                $this->validate([
+                    'comunidad_nombre' => 'required|string|max:255',
+                    'comunidad_direccion' => 'required|string|max:255',
+                    'comunidad_imagen' => 'nullable|image|max:1024', // Por ejemplo, si es una imagen.
+                    'comunidad_info'   => 'nullable|string',
+                ]);
+
+                $comunidadSave = Comunidad::create(['user_id' => $usuariosSave->id, 'nombre' => $this->comunidad_nombre, 'direccion' => $this->comunidad_direccion, 'ruta_imagen' => $this->comunidad_imagen, 'informacion_adicional' => $this->comunidad_info]);
+                $user->comunidad_id = $comunidadSave->id;
+                $user->save();
             }
-            $comunidadSave = Comunidad::find($this->comunidad->id)->update(['user_id' => $usuariosSave->id, 'nombre' => $this->comunidad_nombre, 'direccion' => $this->comunidad_direccion, 'ruta_imagen' => $imagen_guardar, 'informacion_adicional' => $this->comunidad_info]);
-        } else {
-            $this->validate([
-                'comunidad_nombre' => 'required|string|max:255',
-                'comunidad_direccion' => 'required|string|max:255',
-                'comunidad_imagen' => 'nullable|image|max:1024', // Por ejemplo, si es una imagen.
-                'comunidad_info'   => 'nullable|string',
-            ]);
-
-            $comunidadSave = Comunidad::create(['user_id' => $usuariosSave->id, 'nombre' => $this->comunidad_nombre, 'direccion' => $this->comunidad_direccion, 'ruta_imagen' => $this->comunidad_imagen, 'informacion_adicional' => $this->comunidad_info]);
         }
 
         if ($usuariosSave) {

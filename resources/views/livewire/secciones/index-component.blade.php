@@ -75,7 +75,7 @@
                     @else
                         <h6 class="text-center">No existen secciones para el tablón de anuncios</h6>
                     @endif
-                    <a href="secciones-create" class="btn btn-lg btn-primary btn-block" style="font-size: 20px;">Añadir nueva sección</a>
+                    <a href="javascript:void(0);" class="btn btn-lg btn-primary btn-block" style="font-size: 20px;" onclick="validarComunidad()">Añadir nueva sección</a>
 
                 </div>
             </div>
@@ -138,6 +138,9 @@
             })
         });
     </script> --}}
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <script src="../assets/js/jquery.slimscroll.js"></script>
 
     <script src="../plugins/datatables/jquery.dataTables.min.js"></script>
@@ -155,4 +158,18 @@
     <script src="../plugins/datatables/dataTables.responsive.min.js"></script>
     <script src="../plugins/datatables/responsive.bootstrap4.min.js"></script>
     <script src="../assets/pages/datatables.init.js"></script>
+    <script>
+        function validarComunidad() {
+            @if(!$comunidad)
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Comunidad no seleccionada',
+                    text: 'No tienes ninguna comunidad seleccionada. Por favor, selecciona una comunidad antes de añadir una nueva sección.',
+                    confirmButtonText: 'Entendido'
+                });
+            @else
+                window.location.href = "secciones-create";
+            @endif
+        }
+    </script>
 @endsection
