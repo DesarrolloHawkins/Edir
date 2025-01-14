@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,101 +14,114 @@
             width: 100%;
         }
     </style>
-</head>
-<body style="background-color: #fff;">
-    <div class="container">
-        <div class="row justify-content-center mt-5">
-            <div class="col-sm-12 text-center">
-                <img src="{{ asset('assets/images/logo-empresa.png') }}" style="width: 35%;">
-            </div>
-        </div>
-        <br>
-        <div class="row justify-content-center">
-            <div class="col-sm-12 text-center" style="color: #9ec84c;">
-                <h1 style="font-size: 3rem;">Registrarse</h1>
-            </div>
-        </div>
-        <br>
+    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 
-        <div class="row justify-content-center" style="position: relative; top: 50%;">
-            <div class="col-sm-6">
-                <div class="card">
-                    <div class="card-body" style="background-color: #9ec84c;">
-                        <form method="POST" action="{{ route('register') }}">
-                            @csrf
-                            <div class="form-group row">
-                                <div class="col-sm-6">
-                                    <input type="text" class="form-control" name="name" placeholder="Nombre" value="{{old('name')}}" autofocus>
-                                    @error('name')
-                                    <span class="text-danger">{{ $message }}</span>
-                                    <style>.text-danger {color: red;}</style>
-                                @enderror
-                                </div>
-                                <div class="col-sm-6">
-                                    <input type="text" class="form-control" name="surname" placeholder="Apellido" value="{{old('surname')}}">
-                                    @error('surname')
-                                    <span class="text-danger">{{ $message }}</span>
-                                    <style>.text-danger {color: red;}</style>
-                                @enderror
-                                </div>
-                            </div>
-                            <div class="form-group row mt-1">
-                                <div class="col-sm-6">
-                                    <input type="text" class="form-control" name="username" placeholder="Usuario" value="{{old('username')}}">
-                                    @error('username')
-                                    <span class="text-danger">{{ $message }}</span>
-                                    <style>.text-danger {color: red;}</style>
-                                @enderror
-                                </div>
-                                <div class="col-sm-6">
-                                    <input type="text" inputmode="numeric" pattern="[0-9]*" class="form-control" name="codigo" value="{{old('codigo')}}" placeholder="Codigo de comunidad">
-                                    @error('codigo')
-                                    <span class="text-danger">{{ $message }}</span>
-                                    <style>.text-danger {color: red;}</style>
-                                @enderror
-                                </div>
-                            </div>
-                            <div class="form-group row mt-1">
-                                <div class="col-sm-6">
-                                    <input type="email" class="form-control" name="email" placeholder="Correo electrónico" value="{{old('email')}}">
-                                    @error('email')
-                                    <span class="text-danger">{{ $message }}</span>
-                                    <style>.text-danger {color: red;}</style>
-                                @enderror
-                                </div>
-                                <div class="col-sm-6">
-                                    <input type="text" id="phone" name="telefono" class="form-control" value="{{old('telefono')}}" placeholder="Telefono">
-                                    @error('telefono')
-                                    <span class="text-danger">{{ $message }}</span>
-                                    <style>.text-danger {color: red;}</style>
-                                @enderror
-                                </div>
-                            </div>
-                            <div class="form-group row mt-1">
-                                <div class="col-sm-6">
-                                    <input type="password" class="form-control" name="password" placeholder="Contraseña">
-                                    @error('password')
-                                    <span class="text-danger">{{ $message }}</span>
-                                    <style>.text-danger {color: red;}</style>
-                                @enderror
-                                </div>
-                                <div class="col-sm-6">
-                                    <input type="password" class="form-control" name="password_confirmation" placeholder="Confirmar contraseña">
-                                    @error('password_confirmation')
-                                    <span class="text-danger">{{ $message }}</span>
-                                    <style>.text-danger {color: red;}</style>
-                                @enderror
-                                </div>
-                            </div>
-                            <button type="submit" class="btn w-100 mt-2" style="background-color: #fff;">
-                                <span style="color: #9ec84c;"><b>{{('Registrar') }}</b></span>
-                            </button>
-                        </form>
-                    </div>
+</head>
+<body class="h-100 w-100" style="background-color: #0E4C6B;">
+    <div class="boton-volver"><i class="fa-solid fa-arrow-left"></i></div>
+    <div id="app" class="d-flex align-items-center justify-content-center vh-100">
+        <div class="container px-4">
+            <div class="row justify-content-center">
+                <div class="col-sm-12 text-center">
+                    <img src="{{ asset('assets/images/logo_white.png') }}" class="logo-login w-25">
                 </div>
-                <a type="submit" class="btn w-100" href="/login" style="background-color: #9EC84C !important; margin-top:10px;">
-                    <span style="color: #ffffff !important"><b>{{('Inicio de sesión') }}</b></span>
-                </a>
+                <div class="col-sm-12 text-center text-white">
+                    <h4 style="font-size:1rem">Administradores de Fincas</h4>
+                </div>
+            </div>
+            <br>
+            <div class="row justify-content-center">
+                <div class="col-sm-12 text-center" style="color: white !important">
+                    <h4 style="font-size: 1.5rem !important;" class="m-0">Registrarse</h4>
+                </div>
+            </div>
+            <br>
+
+            <div class="row justify-content-center">
+                <div class="col-sm-6">
+                    <form method="POST" action="{{ route('register') }}">
+                        <div class="card">
+                            <div class="card-body" style="background-color: transparent;">
+                                @csrf
+                                <div class="form-group row">
+                                    <div class="col-sm-6 mb-2">
+                                        <label for="name">Nombre</label>
+                                        <input type="text" class="form-control" name="name" placeholder="Nombre" value="{{old('name')}}" autofocus>
+                                        @error('name')
+                                            <span class="text-danger">{{ $message }}</span>
+                                            <style>.text-danger {color: red;}</style>
+                                        @enderror
+                                    </div>
+                                    <div class="col-sm-6 mb-2">
+                                        <label for="surname">Apellidos</label>
+                                        <input type="text" class="form-control" name="surname" placeholder="Apellidos" value="{{old('surname')}}" autocomplete="false">
+                                        @error('surname')
+                                            <span class="text-danger">{{ $message }}</span>
+                                            <style>.text-danger {color: red;}</style>
+                                        @enderror
+                                    </div>
+                                    <div class="col-sm-6 mb-2">
+                                        <label for="username">Nombre de usuario</label>
+                                        <input type="text" class="form-control" name="username" placeholder="Usuario" value="{{old('username')}}" autocomplete="false">
+                                        @error('username')
+                                            <span class="text-danger">{{ $message }}</span>
+                                            <style>.text-danger {color: red;}</style>
+                                        @enderror
+                                    </div>
+                                    <div class="col-sm-6 mb-2">
+                                        <label for="email">Correo electronico</label>
+                                        <input type="email" class="form-control" name="email" placeholder="Correo electrónico" value="{{old('email')}}">
+                                        @error('email')
+                                            <span class="text-danger">{{ $message }}</span>
+                                            <style>.text-danger {color: red;}</style>
+                                        @enderror
+                                    </div>
+                                    <div class="col-sm-6 mb-2">
+                                        <label for="phone">Numero de movil</label>
+                                        <input type="text" id="phone" name="telefono" class="form-control" value="{{old('telefono')}}" placeholder="Telefono">
+                                        @error('telefono')
+                                            <span class="text-danger">{{ $message }}</span>
+                                            <style>.text-danger {color: red;}</style>
+                                        @enderror
+                                    </div>
+                                    <div class="col-sm-6 mb-2">
+                                        <label for="codigo">Codigo de comunidad</label>
+                                        <input type="text" inputmode="numeric" pattern="[0-9]*" class="form-control" name="codigo" value="{{old('codigo')}}" placeholder="Codigo de comunidad">
+                                        @error('codigo')
+                                            <span class="text-danger">{{ $message }}</span>
+                                            <style>.text-danger {color: red;}</style>
+                                        @enderror
+                                    </div>
+
+                                    <div class="col-sm-6 mb-2">
+                                        <label for="password">Contraseña</label>
+                                        <input type="password" class="form-control" name="password" placeholder="Contraseña">
+                                        @error('password')
+                                        <span class="text-danger">{{ $message }}</span>
+                                        <style>.text-danger {color: red;}</style>
+                                    @enderror
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label for="password_confirmation">Confirmar contraseña</label>
+
+                                        <input type="password" class="form-control" name="password_confirmation" placeholder="Confirmar contraseña">
+                                        @error('password_confirmation')
+                                        <span class="text-danger">{{ $message }}</span>
+                                        <style>.text-danger {color: red;}</style>
+                                    @enderror
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <button type="submit" class="btn w-100 rounded-pill" style="background-color: #00BBFF;">
+                            <span style="color: white; font-size:20px"><b>{{('Registrar') }}</b></span>
+                        </button>
+                    </form>
+                        {{-- <a type="submit" class="btn w-100" href="/login" style="background-color: #9EC84C !important; margin-top:10px;">
+                        <span style="color: #ffffff !important"><b>{{('Inicio de sesión') }}</b></span>
+                    </a> --}}
+                </div>
             </div>
         </div>
     </div>
