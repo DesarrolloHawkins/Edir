@@ -33,7 +33,10 @@ class HomeController extends Controller
     public function index(Request $request)
     {
         $user = $request->user();
+        if ($user->role != 1) {
+            return view('homeUser', compact('user'));
+        }
 
-       return view('home', compact('user'));
+       return view('homeAdmin', compact('user'));
     }
 }

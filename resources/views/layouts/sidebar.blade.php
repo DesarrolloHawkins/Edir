@@ -37,29 +37,29 @@
                 @notmobile
                     <li>
                         @if ($comunidad != null)
-                            <h5 style="text-align: center; color: #9ec84c !important">
+                            <h5 style="text-align: center; color: rgb(14, 76, 107) !important">
                                 <img onerror="this.onerror=null; this.src='{{asset('storage/communitas_icon.png')}}';" src="{{ asset('storage/photos/' . $comunidad->ruta_imagen) }}"
                                     style="max-width: 10vw !important; text-align: center">
                             </h5>
-                            <h6 style="text-align: center; color: #9ec84c !important">
+                            <h6 style="text-align: center; color: rgb(14, 76, 107) !important">
                                 {{ $comunidad->nombre }}
                             </h5>
                         @else
-                                <h6 style="text-align: center; color: #9ec84c !important;">
+                                <h6 style="text-align: center; color: rgb(14, 76, 107) !important;">
                                     {{ $user->name }} </h5>
                         @endif
                     </li>
                 @elsenotmobile
                     <li>
                         @if ($comunidad != null)
-                            <h5 style="text-align: center; color: #9ec84c !important">
+                            <h5 style="text-align: center; color: rgb(14, 76, 107) !important">
                                 <img onerror="this.onerror=null; this.src='{{asset('storage/communitas_icon.png')}}';" src="{{ asset('storage/photos/' . $comunidad->ruta_imagen) }}"
                                     style="max-width: 90vw !important; text-align: center">
                             </h5>
-                            <h2 style="text-align: center; color: #9ec84c !important">
+                            <h2 style="text-align: center; color: rgb(14, 76, 107) !important">
                                 {{ $comunidad->nombre }} </h2>
                         @else
-                            <h6 style="text-align: center; color: #9ec84c !important;">
+                            <h6 style="text-align: center; color: rgb(14, 76, 107) !important;">
                                 {{ $user->name }} </h5>
                         @endif
                     </li>

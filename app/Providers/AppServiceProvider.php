@@ -8,6 +8,8 @@ use App\Models\Settings;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Schema;
 use Carbon\Carbon;
+use Illuminate\Pagination\Paginator;
+
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -36,5 +38,7 @@ class AppServiceProvider extends ServiceProvider
         setlocale(LC_TIME, 'es_ES');
         Carbon::setlocale('es');
         Carbon::setUTF8(true);
+        Paginator::useBootstrapFive();
+
     }
 }

@@ -1,0 +1,42 @@
+@use 'variables-2' as *; // Importa todas las variables directamente al espacio de nombres actual
+
+// COLORES
+.color-primario {
+    color: $color-primario;
+}
+.color-secundario {
+    color: $color-secundario;
+}
+
+//BOTONES
+.btn-primero {
+    background-color: $color-primario;
+    color: white;
+}
+.btn-segundo {
+    background-color: $color-secundario;
+    color: white;
+}
+
+// ENCABEZADOS
+h1, h2, h3, h4, h5, h6 {
+
+}
+
+// HEADER
+.logo h1{
+    font-family: "RobagaRounded";
+
+}
+
+// TITLE PAGE
+.page-title {
+    text-align: center;
+    font-family: "RobagaRounded";
+    color: $color-primario;
+    font-weight: 600;
+    font-size: 1.5rem !important;
+    letter-spacing: -2;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgb(236, 236, 236);
+}

@@ -18,9 +18,9 @@ class Alertas extends Model
         'descripcion',
         'ruta_archivo',
         'url',
-        'user_id',
+        // 'user_id',
         'comunidad_id',
-        'seccion_id',
+        // 'seccion_id',
 
     ];
 

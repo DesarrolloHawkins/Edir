@@ -72,4 +72,16 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Comunidad::class,'comunidad_id');
     }
+
+    // En App\Models\User.php
+    public function alertasNoLeidas()
+    {
+        return $this->alertas()
+            ->where(function ($query) {
+                $query->where('alertas_status.status', 0)
+                      ->orWhereNull('alertas_status.status');
+            })
+            ->latest('datetime');
+    }
+
 }

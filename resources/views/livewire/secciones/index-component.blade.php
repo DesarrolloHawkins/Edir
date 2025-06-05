@@ -63,7 +63,8 @@
                                             @if ($seccion->seccion_padre_id == 0)
                                                 Sin sección padre
                                             @else
-                                                {{ $secciones->firstWhere('id', $seccion->seccion_padre_id)->nombre }}
+                                            {{ $secciones->seccionPadre->nombre }}
+                                            {{dd($secciones->seccionPadre->nombre)}}
                                             @endif
                                         </td>
                                         <td> <a href="secciones-edit/{{ $seccion->id }}"

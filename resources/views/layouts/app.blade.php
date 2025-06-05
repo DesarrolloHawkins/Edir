@@ -13,7 +13,7 @@
     <link rel="manifest" href="/site.webmanifest">
     <script src="//unpkg.com/alpinejs" defer></script>
 
-    <title>COMMUNITAS - @yield('title') </title>
+    <title>Edir - @yield('title') </title>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.9.1/font/bootstrap-icons.css"
         integrity="sha512-CaTMQoJ49k4vw9XO0VpTBpmMz8XpCWP5JhGmBvuBqCOaOHWENWO1CrVl09u4yp8yBVSID6smD4+gpzDJVQOPwQ=="
@@ -135,7 +135,46 @@
     @livewireScripts
     @yield('scripts')
 
+    <script>
+        $(document).ready(function () {
+            console.log('entrando al script de alertas');
+            function cargarAlertas() {
+                $.get("{{ route('alertas.noLeidas') }}", function (res) {
+                    const contenedor = $('#contenido-alertas');
+                    contenedor.empty();
 
+                    if (res.status && res.data.length > 0) {
+                        $('#contador-alertas').text(res.data.length).show();
+                        res.data.forEach(alerta => {
+                            contenedor.append(`
+                                <div class="alert alert-warning">
+                                    <strong>${alerta.titulo}</strong><br>
+                                    <small>${new Date(alerta.datetime).toLocaleString()}</small>
+                                    <p>${alerta.descripcion}</p>
+                                </div>
+                            `);
+                        });
+                    } else {
+                        $('#contador-alertas').hide();
+                        contenedor.append('<p>No hay alertas no leídas.</p>');
+                    }
+                });
+            }
+
+            $(document).on('click', '#alerta-icono', function () {
+                console.log('CLICK DETECTADO');
+            });
+
+            $('#alerta-icono').on('click', function () {
+                console.log('Cargando alertas...');
+                cargarAlertas();
+                $('#modalAlertas').modal('show');
+            });
+
+            // Cargar al iniciar
+            cargarAlertas();
+        });
+    </script>
 </body>
 
 </html>

@@ -47,8 +47,8 @@
                                 <div class="row mb-3 justify-content-center">
                                     <div class="col-md-10">
                                         <div class="form-floating mb-3">
-                                            <input type="email" class="form-control @error('username') is-invalid @enderror" id="username" placeholder="name@example.com">
-                                            <label for="username">Correo electronico</label>
+                                            <input type="text" class="form-control @error('username') is-invalid @enderror" name="username" id="username" placeholder="name@example.com">
+                                            <label for="username">Nombre de usuario</label>
                                             @error('username')
                                                 <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>
@@ -56,7 +56,7 @@
                                             @enderror
                                         </div>
                                         <div class="form-floating mb-3">
-                                            <input type="password" class="form-control @error('password') is-invalid @enderror" id="floatingPassword" placeholder="Password">
+                                            <input type="password" class="form-control @error('password') is-invalid @enderror" name="password" id="password" placeholder="Password">
                                             <label for="floatingPassword">Contraseña</label>
                                             @error('password')
                                                 <span class="invalid-feedback" role="alert">
@@ -81,7 +81,7 @@
                                     </div>
                                 </div>
                             </form>
-                            <a type="submit" class="btn w-100 rounded-pill mt-4" href="/register"
+                            <a type="buttom" class="btn w-100 rounded-pill mt-4" href="/register"
                                 style="background-color: white !important; margin-top:10px;">
                                 <span style="color: #0E4C6B !important; font-size:20px"><b>{{ ('Registro') }}</b></span>
                             </a>

@@ -18,7 +18,9 @@
 
 </head>
 <body class="h-100 w-100" style="background-color: #0E4C6B;">
-    <div class="boton-volver"><i class="fa-solid fa-arrow-left"></i></div>
+    <div class="boton-volver">
+        <a href="/login"><i class="fa-solid fa-arrow-left"></i></a>
+    </div>
     <div id="app" class="d-flex align-items-center justify-content-center vh-100">
         <div class="container px-4">
             <div class="row justify-content-center">
@@ -118,7 +120,7 @@
                             <span style="color: white; font-size:20px"><b>{{('Registrar') }}</b></span>
                         </button>
                     </form>
-                        {{-- <a type="submit" class="btn w-100" href="/login" style="background-color: #9EC84C !important; margin-top:10px;">
+                        {{-- <a type="submit" class="btn w-100" href="/login" style="background-color: rgb(14, 76, 107) !important; margin-top:10px;">
                         <span style="color: #ffffff !important"><b>{{('Inicio de sesión') }}</b></span>
                     </a> --}}
                 </div>

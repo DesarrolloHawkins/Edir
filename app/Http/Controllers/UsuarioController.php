@@ -4,9 +4,63 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class UsuarioController extends Controller
 {
+
+    public function perfil()
+    {
+        $user = Auth::user();
+        return view('perfil.index', compact('user'));
+    }
+
+    public function actualizarPassword(Request $request)
+    {
+        $request->validate([
+            'current_password' => 'required',
+            'new_password' => 'required|min:8|confirmed',
+        ]);
+
+        $user = Auth::user();
+
+        if (!Hash::check($request->current_password, $user->password)) {
+            return back()->withErrors(['current_password' => 'La contraseña actual no es correcta']);
+        }
+
+        $user->password = Hash::make($request->new_password);
+        $user->save();
+
+        return back()->with('success_password', 'Contraseña actualizada correctamente.');
+    }
+
+    public function actualizarPerfil(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'surname' => 'required|string|max:255',
+            'telefono' => 'nullable|string|max:20',
+            'email' => 'required|email|max:255|unique:users,email,' . Auth::id(),
+            'image' => 'nullable|image|max:2048',
+        ]);
+
+        $user = Auth::user();
+
+        $user->name = $request->name;
+        $user->surname = $request->surname;
+        $user->telefono = $request->telefono;
+        $user->email = $request->email;
+
+        if ($request->hasFile('image')) {
+            $user->image = $request->file('image')->store('users', 'public');
+        }
+
+        $user->save();
+
+        return redirect()->route('perfil.index')->with('success', 'Perfil actualizado correctamente.');
+    }
+
+
     /**
      * Display a listing of the resource.
      *
