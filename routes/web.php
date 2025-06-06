@@ -12,6 +12,11 @@ use App\Http\Controllers\NotificacionesController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\UsuariosController;
 use App\Http\Controllers\WhatsappController;
+use App\Http\Controllers\ConfiguracionController;
+use App\Http\Controllers\PromptAsistenteController;
+use App\Http\Controllers\AvisoWhatsappController;
+use App\Http\Controllers\MantenimientoController;
+use App\Http\Controllers\WhatsappTemplateController;
 
 /*
 |--------------------------------------------------------------------------
@@ -112,6 +117,38 @@ Route::group(['middleware' => 'is.admin', 'prefix' => 'admin'], function () {
 
     Route::get('contacto/edit', [ContactoController::class, 'edit'])->name('contacto.edit');
     Route::post('/contacto', [ContactoController::class, 'update'])->name('contacto.update');
+
+    Route::prefix('config')->name('config.')->group(function () {
+        Route::get('/', [ConfiguracionController::class, 'index'])->name('index');
+        Route::get('/whatsapp', [WhatsappController::class, 'whatsapp'])->name('whatsapp');
+        // Route::get('/whatsapp-templates', [ConfiguracionController::class, 'templates'])->name('whatsapp.templates');
+        // Route::get('/mantenimiento', [ConfiguracionController::class, 'mantenimiento'])->name('mantenimiento');
+        // Route::get('/avisos', [ConfiguracionController::class, 'avisos'])->name('avisos');
+
+        Route::get('/config/prompt', [PromptAsistenteController::class, 'index'])->name('prompt');
+        Route::post('/config/prompt', [PromptAsistenteController::class, 'store'])->name('prompt.store');
+        Route::put('/config/prompt/{id}', [PromptAsistenteController::class, 'update'])->name('prompt.update');
+
+        Route::resource('avisos-whatsapp', AvisoWhatsappController::class);
+
+        Route::resource('mantenimiento', MantenimientoController::class)->names('mantenimiento');
+
+        Route::get('/whatsapp-templates', [WhatsappTemplateController::class, 'index'])->name('whatsapp.templates');
+        Route::get('/whatsapp-templates/create', [WhatsappTemplateController::class, 'create'])->name('whatsapp.templates.create');
+        Route::post('/whatsapp-templates', [WhatsappTemplateController::class, 'store'])->name('whatsapp.templates.store');
+        Route::get('/whatsapp-templates/sync', [WhatsappTemplateController::class, 'sync'])->name('whatsapp.templates.sync');
+        Route::get('/whatsapp-templates/{template}/status', [WhatsappTemplateController::class, 'checkStatus'])->name('whatsapp.templates.checkStatus');
+        Route::get('/whatsapp-templates/{template}', [WhatsappTemplateController::class, 'show'])->name('whatsapp.templates.show');
+        Route::get('/whatsapp-templates/{template}/edit', [WhatsappTemplateController::class, 'edit'])->name('whatsapp.templates.edit');
+        Route::put('/whatsapp-templates/{template}', [WhatsappTemplateController::class, 'update'])->name('whatsapp.templates.update');
+
+
+        // routes/web.php
+
+
+
+
+    });
 
 });
 Route::middleware(['auth'])->group(function () {

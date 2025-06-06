@@ -61,6 +61,14 @@
                 </span>
             </a>
         </div>
+        {{-- Botón Configuraciones --}}
+        <div class="col-sm-12 col-md-4 mt-3">
+            <a href="{{ route('config.index') }}" class="btn btn-primero fs-3 p-3 d-flex align-items-center rounded-pill" style="width: 100%">
+                <i class="fa-solid fa-gear px-4"></i>
+                <span>Configuraciones</span>
+            </a>
+        </div>
+
         <div class="col-sm-12 col-md-4 mt-3">
             <form action="{{ route('logout') }}" method="POST" style="width: 100%">
                 @csrf
