@@ -23,7 +23,7 @@ class ComunidadesController extends Controller
         $validated = $request->validate([
             'nombre' => 'required|string|max:255',
             'direccion' => 'nullable|string|max:255',
-            'codigo' => 'required|string|max:6|unique:comunidades',
+            'codigo' => 'required|string|max:6|unique:comunidad',
             'informacion_adicional' => 'nullable|string',
             'ruta_imagen' => 'nullable|file|mimes:jpg,jpeg,png|max:2048',
         ]);
@@ -50,7 +50,7 @@ class ComunidadesController extends Controller
         $validated = $request->validate([
             'nombre' => 'required|string|max:255',
             'direccion' => 'nullable|string|max:255',
-            'codigo' => "required|string|max:6|unique:comunidades,codigo,$id",
+            'codigo' => "required|string|max:6|unique:comunidad,codigo,$id",
             'informacion_adicional' => 'nullable|string',
             'ruta_imagen' => 'nullable|file|mimes:jpg,jpeg,png|max:2048',
         ]);
