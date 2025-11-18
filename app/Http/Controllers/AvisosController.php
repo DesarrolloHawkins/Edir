@@ -85,12 +85,14 @@ class AvisosController extends Controller
             // Crear alerta
             $alerta = Alertas::create([
                 'admin_user_id' => Auth::id(),
+                'user_id' => Auth::id(),
                 'titulo' => 'Cambio en el estado de una incidencia',
                 'tipo' => 'incidencia',
                 'datetime' => now(),
                 'descripcion' => "La incidencia '{$incidencia->titulo}' ha cambiado su estado a: " . $incidencia->estado->nombre,
                 'url' => route('incidencias.show', $incidencia->id),
                 'comunidad_id' => $incidencia->comunidad_id,
+                'seccion_id' => null, // Las incidencias no tienen sección
             ]);
 
             // Enviar alerta a todos los usuarios de esa comunidad
