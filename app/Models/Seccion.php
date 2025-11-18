@@ -48,7 +48,11 @@ class Seccion extends Model
     {
         $sections = $this->with('seccionesHijas')
             ->where('comunidad_id', $comunidadId)
-            ->where('seccion_padre_id', 0)->orderBy('orden', 'asc')
+            ->where(function($query) {
+                $query->whereNull('seccion_padre_id')
+                      ->orWhere('seccion_padre_id', 0);
+            })
+            ->orderBy('orden', 'asc')
             ->get();
 
         return $sections->map(function ($seccion) {

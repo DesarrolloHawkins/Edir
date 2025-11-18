@@ -85,6 +85,7 @@ Route::group(['middleware' => 'is.admin', 'prefix' => 'admin'], function () {
     // Documentos
     Route::get('documentos', [DocumentosController::class, 'indexAdmin'])->name('documentos.admin.index');
     Route::post('documentos/secciones/{id}', [DocumentosController::class, 'getSecciones'])->name('documentos.admin.getSecciones');
+    Route::post('documentos/secciones-padre/{id}', [DocumentosController::class, 'getSeccionesPadre'])->name('documentos.admin.getSeccionesPadre');
     Route::post('documentos/seccion/{id}', [DocumentosController::class, 'getDocumentos'])->name('documentos.admin.getDocumentos');
     Route::post('documentos/comunidad/create', [DocumentosController::class, 'createComunidad'])->name('documentos.admin.createComunidad');
     Route::post('documentos/seccion/new/create', [DocumentosController::class, 'createSeccion'])->name('documentos.admin.createSeccion');

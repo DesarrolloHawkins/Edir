@@ -45,6 +45,32 @@ class DocumentosController extends Controller
             'mensaje' => 'No se encontraron secciones disponible para la comunidad.',
         ]);
     }
+
+    public function getSeccionesPadre($id)
+    {
+        $comunidad = Comunidad::find($id);
+        if (!$comunidad) {
+            return response()->json([
+                'status' => false,
+                'mensaje' => 'No se encontró la comunidad.',
+            ]);
+        }
+
+        // Obtener solo las secciones padre (donde seccion_padre_id IS NULL o = 0)
+        $seccionesPadre = Seccion::where('comunidad_id', $id)
+            ->where(function($query) {
+                $query->whereNull('seccion_padre_id')
+                      ->orWhere('seccion_padre_id', 0);
+            })
+            ->orderBy('orden', 'asc')
+            ->get();
+
+        return response()->json([
+            'status' => true,
+            'data' => $seccionesPadre,
+        ]);
+    }
+
     public function getDocumentosUser($id)
     {
         $seccion = Seccion::find($id);

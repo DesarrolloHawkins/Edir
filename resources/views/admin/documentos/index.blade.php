@@ -371,6 +371,28 @@
                     }
                     console.log(comunidadId)
                     $('#comunidadId').val(comunidadId);
+                    
+                    // Cargar secciones padre en el dropdown
+                    $.ajax({
+                        url: `{{ route('documentos.admin.getSeccionesPadre', '') }}/${comunidadId}`,
+                        method: 'POST',
+                        headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+                        success: function (response) {
+                            const select = $('#seccionPadre');
+                            select.empty();
+                            select.append('<option value="">Sin sección padre</option>');
+                            
+                            if (response.status && response.data.length > 0) {
+                                response.data.forEach(seccion => {
+                                    select.append(`<option value="${seccion.id}">${seccion.nombre}</option>`);
+                                });
+                            }
+                        },
+                        error: function () {
+                            console.error('Error al cargar secciones padre');
+                        }
+                    });
+                    
                     $('#modalCrearSeccion').modal('show');
                 });
 
