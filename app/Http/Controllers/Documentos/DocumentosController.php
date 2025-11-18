@@ -150,7 +150,6 @@ class DocumentosController extends Controller
             'seccion_padre_id' => 'nullable|exists:secciones,id',
             'orden' => 'nullable|integer|min:1',
             'ruta_imagen' => 'nullable|file|mimes:jpg,jpeg,png|max:2048',
-            'seccion_incidencias' => 'nullable|string',
         ]);
 
         $rutaImagen = 'communitas_icon.png';
@@ -160,20 +159,13 @@ class DocumentosController extends Controller
             $rutaImagen = $file->storeAs('secciones', $fileName, 'public');
         }
 
-        $seccionData = [
+        $seccion = Seccion::create([
             'comunidad_id' => $request->comunidad_id,
             'seccion_padre_id' => $request->seccion_padre_id ?? null,
             'nombre' => $request->nombre,
             'orden' => $request->orden ?? 1,
             'ruta_imagen' => $rutaImagen,
-        ];
-
-        // Solo agregar seccion_incidencias si se proporciona
-        if ($request->has('seccion_incidencias')) {
-            $seccionData['seccion_incidencias'] = $request->seccion_incidencias;
-        }
-
-        $seccion = Seccion::create($seccionData);
+        ]);
 
         return response()->json([
             'status' => true,
