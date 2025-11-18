@@ -53,8 +53,18 @@
         </div>
 
         <div class="mb-3">
+            <label for="metodo_envio" class="form-label">Forma de Envío</label>
+            <select name="metodo_envio" id="metodo_envio" class="form-control" required>
+                <option value="email" selected>📧 Email (Habilitado)</option>
+                <option value="whatsapp" disabled>📱 WhatsApp (No disponible - API pendiente)</option>
+            </select>
+            <small class="form-text text-muted">WhatsApp estará disponible cuando se configure la API.</small>
+        </div>
+
+        <div class="mb-3">
             <label for="ruta_archivo" class="form-label">Archivo (opcional)</label>
             <input type="file" name="ruta_archivo" id="ruta_archivo" class="form-control">
+            <small class="form-text text-muted">Si selecciona un archivo, se adjuntará al email.</small>
         </div>
 
         <button type="submit" class="btn btn-primary">Crear</button>
@@ -70,6 +80,14 @@
             $('#comunidad_id').select2({
                 placeholder: "Todas las comunidades",
                 allowClear: true
+            });
+
+            // Prevenir que se seleccione WhatsApp
+            $('#metodo_envio').on('change', function() {
+                if ($(this).val() === 'whatsapp') {
+                    $(this).val('email');
+                    alert('WhatsApp no está disponible aún. La API está pendiente de configuración.');
+                }
             });
         });
     </script>

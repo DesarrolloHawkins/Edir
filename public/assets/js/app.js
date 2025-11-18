@@ -76,8 +76,46 @@
     },
 
     MainApp.prototype.initComponents = function () {
-        $('[data-toggle="tooltip"]').tooltip();
-        $('[data-toggle="popover"]').popover();
+        // Inicializar tooltips y popovers con compatibilidad Bootstrap 4/5
+        try {
+            // Intentar con jQuery (Bootstrap 4 y 5 soportan esto)
+            if (typeof $ !== 'undefined') {
+                // Tooltips
+                if ($.fn.tooltip) {
+                    $('[data-toggle="tooltip"], [data-bs-toggle="tooltip"]').each(function() {
+                        try {
+                            $(this).tooltip();
+                        } catch(e) {
+                            console.warn('Error inicializando tooltip:', e);
+                        }
+                    });
+                }
+                
+                // Popovers
+                if ($.fn.popover) {
+                    $('[data-toggle="popover"], [data-bs-toggle="popover"]').each(function() {
+                        try {
+                            $(this).popover();
+                        } catch(e) {
+                            console.warn('Error inicializando popover:', e);
+                        }
+                    });
+                } else {
+                    // Si jQuery popover no está disponible, intentar con Bootstrap 5 nativo
+                    if (typeof bootstrap !== 'undefined' && bootstrap.Popover) {
+                        document.querySelectorAll('[data-toggle="popover"], [data-bs-toggle="popover"]').forEach(function(element) {
+                            try {
+                                new bootstrap.Popover(element);
+                            } catch(e) {
+                                console.warn('Error inicializando popover nativo:', e);
+                            }
+                        });
+                    }
+                }
+            }
+        } catch(e) {
+            console.warn('Error en initComponents:', e);
+        }
     },
 
     //full screen

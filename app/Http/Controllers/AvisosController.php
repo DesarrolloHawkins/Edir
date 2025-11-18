@@ -143,33 +143,37 @@ class AvisosController extends Controller
             'titulo' => 'required|string|max:255',
             'descripcion' => 'required|string',
             'fecha' => 'required|date',
-            'telefono' => 'required|string',
-            'nombre' => 'required|string',
-            'url' => 'nullable|string',
-            // Agrega validación para imagen si la usas
+            'telefono' => 'required|string|max:50',
+            'nombre' => 'required|string|max:255',
+            'url' => 'nullable|string|max:255',
+            'ruta_imagen' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
         ]);
 
         $user = Auth::user();
         $comunidad = Comunidad::findOrFail($user->comunidad_id);
 
-        $data = $request->all();
+        $data = $request->only(['titulo', 'descripcion', 'fecha', 'telefono', 'nombre', 'url']);
         $data['user_id'] = $user->id;
         $data['comunidad_id'] = $comunidad->id;
 
         if ($request->hasFile('ruta_imagen')) {
             $data['ruta_imagen'] = $request->file('ruta_imagen')->store('incidencias', 'public');
+        } else {
+            $data['ruta_imagen'] = null; // Asegurar que sea null si no hay archivo
         }
 
         $incidencia = Incidencia::create($data);
         // Crear alerta para los administradores (role = 1)
         $alerta = Alertas::create([
             'admin_user_id' => $user->id,
+            'user_id' => $user->id,
             'titulo' => 'Nueva incidencia: ' . $data['titulo'],
             'tipo' => 'incidencia',
             'datetime' => now(),
             'descripcion' => $data['descripcion'],
             'url' => route('incidenciasAdmin.show', $incidencia->id),
             'comunidad_id' => $comunidad->id,
+            'seccion_id' => null, // Las incidencias no tienen sección
         ]);
 
         // Obtener todos los usuarios con rol 1 (admins)

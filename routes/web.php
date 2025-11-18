@@ -121,6 +121,11 @@ Route::group(['middleware' => 'is.admin', 'prefix' => 'admin'], function () {
 
     Route::prefix('config')->name('config.')->group(function () {
         Route::get('/', [ConfiguracionController::class, 'index'])->name('index');
+        Route::get('/email', [ConfiguracionController::class, 'email'])->name('email');
+        Route::post('/email', [ConfiguracionController::class, 'updateEmail'])->name('email.update');
+        Route::get('/empresa', [ConfiguracionController::class, 'empresa'])->name('empresa');
+        Route::post('/empresa', [ConfiguracionController::class, 'updateEmpresa'])->name('empresa.update');
+        Route::get('/logs', [\App\Http\Controllers\Configuracion\LogsController::class, 'index'])->name('logs.index');
         Route::get('/whatsapp', [WhatsappController::class, 'whatsapp'])->name('whatsapp');
         // Route::get('/whatsapp-templates', [ConfiguracionController::class, 'templates'])->name('whatsapp.templates');
         // Route::get('/mantenimiento', [ConfiguracionController::class, 'mantenimiento'])->name('mantenimiento');

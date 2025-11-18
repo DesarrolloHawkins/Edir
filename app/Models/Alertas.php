@@ -18,9 +18,9 @@ class Alertas extends Model
         'descripcion',
         'ruta_archivo',
         'url',
-        // 'user_id',
+        'user_id',
         'comunidad_id',
-        // 'seccion_id',
+        'seccion_id',
 
     ];
 
@@ -38,5 +38,10 @@ class Alertas extends Model
         return $this->belongsToMany(User::class, 'alertas_status', 'alert_id', 'user_id')
             ->withPivot('status')
             ->withTimestamps();
+    }
+
+    public function comunidad()
+    {
+        return $this->belongsTo(Comunidad::class, 'comunidad_id');
     }
 }

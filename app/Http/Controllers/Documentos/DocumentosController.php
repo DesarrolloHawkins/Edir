@@ -31,18 +31,24 @@ class DocumentosController extends Controller
             ]);
         }
 
-        $secciones = Seccion::where('comunidad_id', $id)->get();
+        // Obtener todas las secciones de la comunidad, ordenadas por orden
+        $secciones = Seccion::where('comunidad_id', $id)
+            ->orderBy('orden', 'asc')
+            ->get();
 
-        if (count($secciones) > 0) {
+        if ($secciones->count() > 0) {
             return response()->json([
                 'status' => true,
                 'data' => $secciones,
+                'count' => $secciones->count(),
             ]);
         }
 
         return response()->json([
             'status' => false,
             'mensaje' => 'No se encontraron secciones disponible para la comunidad.',
+            'data' => [],
+            'count' => 0,
         ]);
     }
 
@@ -146,12 +152,14 @@ class DocumentosController extends Controller
         // Crear la alerta
         $alerta = Alertas::create([
             'admin_user_id' => Auth::id(),
+            'user_id' => Auth::id(), // Usuario que crea la alerta
             'titulo' => 'Nuevo documento disponible',
             'tipo' => 'documento',
             'datetime' => now(),
             'descripcion' => 'Se ha subido un nuevo documento: ' . $documento->nombre,
             'url' => route('documentos.seccion.show', $request->seccion_id),
             'comunidad_id' => $request->comunidad_id,
+            'seccion_id' => $request->seccion_id,
         ]);
 
         // Obtener todos los usuarios de esa comunidad
@@ -307,7 +315,9 @@ class DocumentosController extends Controller
         $comunidad = Comunidad::find($user->comunidad_id);
         if(!$comunidad) return view('noFound');
 
-        $secciones = Seccion::where('comunidad_id', $comunidad->id)->get();
+        // Obtener secciones de forma jerárquica (padres e hijas)
+        $seccion = new Seccion();
+        $secciones = $seccion->getHierarchy($comunidad->id);
 
         return view('administrar.documentos.index', compact('secciones'));
     }

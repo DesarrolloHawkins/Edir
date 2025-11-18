@@ -64,14 +64,7 @@
             <div class="col-12">
                 @if (count($secciones) > 0)
                     <div id="secciones-container" class="mt-4">
-                        @foreach ($secciones as $seccion)
-                            <div class="seccion" data-id="{{ $seccion->id }}">
-                                <div class="seccion-title">
-                                    📂 {{ $seccion->nombre }}
-                                </div>
-                                <div class="documentos-container" id="documentos-{{ $seccion->id }}"></div>
-                            </div>
-                        @endforeach
+                        @include('administrar.documentos.partials.secciones-tree', ['secciones' => $secciones, 'nivel' => 0])
                     </div>
                 @else
                     <h6 class="text-center">No hay secciones disponibles.</h6>

@@ -323,15 +323,29 @@
                     method: 'POST',
                     headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
                     success: function (response) {
+                        console.log('Respuesta de secciones:', response);
                         const container = $('#secciones-container');
                         container.empty();
 
-                        if (response.status) {
+                        if (response.status && response.data && response.data.length > 0) {
                             container.append('<button id="crear-seccion" class="btn btn-success mb-3">Crear Sección</button>');
 
-                            response.data.forEach(seccion => {
-                                container.append(`
-                                    <div class="seccion" data-id="${seccion.id}">
+                            // Separar secciones padre e hijas
+                            const seccionesPadre = response.data.filter(s => !s.seccion_padre_id || s.seccion_padre_id == 0);
+                            const seccionesHijas = response.data.filter(s => s.seccion_padre_id && s.seccion_padre_id != 0);
+
+                            // Función para renderizar una sección
+                            function renderizarSeccion(seccion, nivel = 0) {
+                                if (!seccion || !seccion.id || !seccion.nombre) {
+                                    console.warn('Sección con datos incompletos:', seccion);
+                                    return '';
+                                }
+
+                                const indentacion = nivel * 30; // 30px por nivel
+                                const seccionesHijasDeEsta = seccionesHijas.filter(s => s.seccion_padre_id == seccion.id);
+
+                                let html = `
+                                    <div class="seccion" data-id="${seccion.id}" style="margin-left: ${indentacion}px;">
                                         <div class="seccion-title">
                                             📂 ${seccion.nombre}
                                             <div class="actions">
@@ -341,7 +355,23 @@
                                         </div>
                                         <div class="documentos-container" id="documentos-${seccion.id}"></div>
                                     </div>
-                                `);
+                                `;
+
+                                // Renderizar secciones hijas recursivamente (ordenadas por orden)
+                                if (seccionesHijasDeEsta.length > 0) {
+                                    seccionesHijasDeEsta.sort((a, b) => (a.orden || 0) - (b.orden || 0));
+                                    seccionesHijasDeEsta.forEach(hija => {
+                                        html += renderizarSeccion(hija, nivel + 1);
+                                    });
+                                }
+
+                                return html;
+                            }
+
+                            // Renderizar primero las secciones padre (ordenadas por orden)
+                            seccionesPadre.sort((a, b) => (a.orden || 0) - (b.orden || 0));
+                            seccionesPadre.forEach(seccion => {
+                                container.append(renderizarSeccion(seccion, 0));
                             });
 
                             // Asignar evento para los botones de eliminación de sección
@@ -356,9 +386,26 @@
                         } else {
                             container.append('<button id="crear-seccion" class="btn btn-success mb-3">Crear Sección</button> <p>No hay secciones en esta comunidad.</p>');
                         }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error al cargar secciones:', error);
+                        console.error('Respuesta del servidor:', xhr.responseJSON);
+                        const container = $('#secciones-container');
+                        container.empty();
+                        container.append('<button id="crear-seccion" class="btn btn-success mb-3">Crear Sección</button> <p class="text-danger">Error al cargar las secciones. Por favor, recarga la página.</p>');
                     }
                 });
             })
+
+            // Cargar secciones automáticamente si hay una comunidad seleccionada al cargar la página
+            // Usar setTimeout para asegurar que select2 y el evento change estén completamente inicializados
+            setTimeout(function() {
+                const comunidadInicial = $('#comunidad').val();
+                if (comunidadInicial) {
+                    console.log('Cargando secciones automáticamente para comunidad:', comunidadInicial);
+                    $('#comunidad').trigger('change');
+                }
+            }, 100);
 
             // Función para asignar eventos dinámicamente
             function assignEventHandlers() {

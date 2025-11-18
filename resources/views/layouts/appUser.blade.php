@@ -77,13 +77,14 @@
         integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
     </script>
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
-    {{-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js"
-        integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk" crossorigin="anonymous">
+    <!-- Bootstrap 5 JS - Debe estar antes del bootstrap.bundle.min.js local para que funcione correctamente -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous">
     </script>
-    <script src="https://cdn.datatables.net/1.13.2/js/jquery.dataTables.min.js"></script> --}}
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
-    <script src="../../../assets/js/bootstrap.bundle.min.js"></script>
+    <!-- Bootstrap local comentado para evitar conflictos - usar el de CDN arriba -->
+    {{-- <script src="../../../assets/js/bootstrap.bundle.min.js"></script> --}}
     <script src="../../../assets/js/metismenu.min.js"></script>
     <script src="../../../assets/js/jquery.slimscroll.js"></script>
     <script src="../../../assets/js/waves.min.js"></script>
@@ -94,11 +95,11 @@
 
     {{-- <script src="../assets/pages/dashboard.init.js"></script> --}}
 
-    <!-- App js -->
-    <script src="../../../assets/js/app.js"></script>
-
     @livewireScripts
     @yield('scripts')
+    
+    <!-- App js - Debe cargarse después de Bootstrap para que las funciones estén disponibles -->
+    <script src="../../../assets/js/app.js"></script>
     <script>
         $(document).ready(function () {
             console.log('entrando al script de alertas');
@@ -128,7 +129,9 @@
             $('#alerta-icono').on('click', function () {
                 console.log('Cargando alertas...');
                 cargarAlertas();
-                $('#modalAlertas').modal('show');
+                // Usar Bootstrap 5 API
+                const modal = new bootstrap.Modal(document.getElementById('modalAlertas'));
+                modal.show();
                 // Esperar 3 segundos antes de marcar como leídas
                 setTimeout(function () {
                     $.post("{{ route('alertas.marcarLeidas') }}", {
