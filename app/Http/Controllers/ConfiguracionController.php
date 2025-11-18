@@ -31,6 +31,106 @@ class ConfiguracionController extends Controller
         return view('admin.configuraciones.email', compact('mailConfig'));
     }
 
+    /**
+     * Escapa un valor para el archivo .env de forma segura
+     */
+    private function escapeEnvValue($value)
+    {
+        // Si el valor es null, retornar cadena vacía sin comillas
+        if ($value === null) {
+            return '';
+        }
+
+        // Convertir a string
+        $value = (string)$value;
+
+        // Si el valor está vacío, retornar cadena vacía sin comillas
+        if ($value === '') {
+            return '';
+        }
+
+        // Si el valor contiene espacios, comillas, o caracteres especiales, usar comillas dobles
+        $needsQuotes = preg_match('/[\s"\'#=$`\\\]/', $value);
+
+        if ($needsQuotes) {
+            // Escapar comillas dobles y backslashes dentro del valor
+            $value = str_replace(['\\', '"'], ['\\\\', '\\"'], $value);
+            return '"' . $value . '"';
+        }
+
+        return $value;
+    }
+
+    /**
+     * Actualiza una variable en el archivo .env de forma segura
+     */
+    private function updateEnvFile($envPath, $updates)
+    {
+        if (!File::exists($envPath)) {
+            throw new \Exception('El archivo .env no existe.');
+        }
+
+        if (!File::isWritable($envPath)) {
+            throw new \Exception('El archivo .env no tiene permisos de escritura.');
+        }
+
+        // Leer el archivo completo preservando todas las líneas
+        $content = File::get($envPath);
+        $lines = explode("\n", $content);
+        $updated = [];
+
+        // Procesar cada línea
+        foreach ($lines as $line) {
+            $originalLine = $line;
+            $line = rtrim($line);
+            
+            // Si es un comentario o línea vacía, mantenerla tal cual
+            if (empty($line) || $line[0] === '#') {
+                $updated[] = $originalLine;
+                continue;
+            }
+
+            // Buscar clave=valor (puede tener espacios alrededor del =)
+            if (preg_match('/^([A-Za-z_][A-Za-z0-9_]*)\s*=\s*(.*)$/', $line, $matches)) {
+                $key = $matches[1];
+                $oldValue = trim($matches[2]);
+
+                // Si esta clave está en los updates, reemplazarla
+                if (isset($updates[$key])) {
+                    $escapedValue = $this->escapeEnvValue($updates[$key]);
+                    $updated[] = "{$key}={$escapedValue}";
+                    unset($updates[$key]); // Marcar como procesado
+                } else {
+                    // Mantener la línea original
+                    $updated[] = $originalLine;
+                }
+            } else {
+                // Línea que no coincide con el patrón, mantenerla tal cual
+                $updated[] = $originalLine;
+            }
+        }
+
+        // Agregar las variables que no existían al final del archivo
+        if (!empty($updates)) {
+            // Asegurar que hay una línea en blanco antes de agregar nuevas variables
+            if (!empty($updated) && !empty(trim(end($updated)))) {
+                $updated[] = '';
+            }
+            foreach ($updates as $key => $value) {
+                $escapedValue = $this->escapeEnvValue($value);
+                $updated[] = "{$key}={$escapedValue}";
+            }
+        }
+
+        // Escribir el archivo preservando el formato
+        $newContent = implode("\n", $updated);
+        // Asegurar que termine con un salto de línea si el original lo tenía
+        if (substr($content, -1) === "\n") {
+            $newContent .= "\n";
+        }
+        File::put($envPath, $newContent);
+    }
+
     public function updateEmail(Request $request)
     {
         $request->validate([
@@ -44,47 +144,39 @@ class ConfiguracionController extends Controller
             'mail_from_name' => 'required|string',
         ]);
 
-        // Actualizar el archivo .env
-        $envPath = base_path('.env');
-        
-        if (File::exists($envPath)) {
-            $envContent = File::get($envPath);
+        try {
+            $envPath = base_path('.env');
             
-            // Actualizar o agregar las variables
-            $envVars = [
+            // Preparar las variables a actualizar
+            $envUpdates = [
                 'MAIL_MAILER' => $request->mail_mailer,
                 'MAIL_HOST' => $request->mail_host,
-                'MAIL_PORT' => $request->mail_port,
+                'MAIL_PORT' => (string)$request->mail_port,
                 'MAIL_USERNAME' => $request->mail_username ?? '',
-                'MAIL_PASSWORD' => $request->mail_password ?? '',
                 'MAIL_ENCRYPTION' => $request->mail_encryption ?? 'tls',
                 'MAIL_FROM_ADDRESS' => $request->mail_from_address,
                 'MAIL_FROM_NAME' => $request->mail_from_name,
             ];
 
-            foreach ($envVars as $key => $value) {
-                // No actualizar la contraseña si está vacía
-                if ($key === 'MAIL_PASSWORD' && empty($value)) {
-                    continue;
-                }
-                
-                $pattern = "/^{$key}=.*/m";
-                $replacement = "{$key}={$value}";
-                
-                if (preg_match($pattern, $envContent)) {
-                    $envContent = preg_replace($pattern, $replacement, $envContent);
-                } else {
-                    $envContent .= "\n{$replacement}";
-                }
+            // Solo actualizar la contraseña si se proporcionó una nueva
+            if (!empty($request->mail_password)) {
+                $envUpdates['MAIL_PASSWORD'] = $request->mail_password;
             }
 
-            File::put($envPath, $envContent);
+            // Actualizar el archivo .env
+            $this->updateEnvFile($envPath, $envUpdates);
             
             // Limpiar cache de configuración
             Artisan::call('config:clear');
+            
+            return redirect()->route('config.email')->with('success', 'Configuración de email actualizada correctamente.');
+            
+        } catch (\Exception $e) {
+            \Log::error('Error al actualizar configuración de email: ' . $e->getMessage());
+            \Log::error('Stack trace: ' . $e->getTraceAsString());
+            return redirect()->route('config.email')
+                ->with('error', 'Error al actualizar la configuración: ' . $e->getMessage());
         }
-
-        return redirect()->route('config.email')->with('success', 'Configuración de email actualizada correctamente.');
     }
 
     public function empresa()

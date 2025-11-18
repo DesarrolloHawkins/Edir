@@ -385,6 +385,8 @@
                             assignEventHandlers();
                         } else {
                             container.append('<button id="crear-seccion" class="btn btn-success mb-3">Crear Sección</button> <p>No hay secciones en esta comunidad.</p>');
+                            // Asignar eventos también cuando no hay secciones
+                            assignEventHandlers();
                         }
                     },
                     error: function (xhr, status, error) {
