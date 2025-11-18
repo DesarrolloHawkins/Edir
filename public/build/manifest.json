@@ -1,4 +1,44 @@
 {
+  "public/assets/fonts/Robaga Rounded Black-Italic.otf": {
+    "file": "assets/Robaga Rounded Black-Italic-3ef17e40.otf",
+    "src": "public/assets/fonts/Robaga Rounded Black-Italic.otf"
+  },
+  "public/assets/fonts/Robaga Rounded Black.otf": {
+    "file": "assets/Robaga Rounded Black-0b7fbc05.otf",
+    "src": "public/assets/fonts/Robaga Rounded Black.otf"
+  },
+  "public/assets/fonts/Robaga Rounded Bold-Italic.otf": {
+    "file": "assets/Robaga Rounded Bold-Italic-ed19a630.otf",
+    "src": "public/assets/fonts/Robaga Rounded Bold-Italic.otf"
+  },
+  "public/assets/fonts/Robaga Rounded Bold.otf": {
+    "file": "assets/Robaga Rounded Bold-a46781af.otf",
+    "src": "public/assets/fonts/Robaga Rounded Bold.otf"
+  },
+  "public/assets/fonts/Robaga Rounded Light-Italic.otf": {
+    "file": "assets/Robaga Rounded Light-Italic-651cfb9d.otf",
+    "src": "public/assets/fonts/Robaga Rounded Light-Italic.otf"
+  },
+  "public/assets/fonts/Robaga Rounded Light.otf": {
+    "file": "assets/Robaga Rounded Light-ebefa7a0.otf",
+    "src": "public/assets/fonts/Robaga Rounded Light.otf"
+  },
+  "public/assets/fonts/Robaga Rounded Regular-Italic.otf": {
+    "file": "assets/Robaga Rounded Regular-Italic-9aaa3689.otf",
+    "src": "public/assets/fonts/Robaga Rounded Regular-Italic.otf"
+  },
+  "public/assets/fonts/Robaga Rounded Regular.otf": {
+    "file": "assets/Robaga Rounded Regular-012c6b46.otf",
+    "src": "public/assets/fonts/Robaga Rounded Regular.otf"
+  },
+  "public/assets/fonts/Robaga Rounded Thin-Italic.otf": {
+    "file": "assets/Robaga Rounded Thin-Italic-48e967df.otf",
+    "src": "public/assets/fonts/Robaga Rounded Thin-Italic.otf"
+  },
+  "public/assets/fonts/Robaga Rounded Thin.otf": {
+    "file": "assets/Robaga Rounded Thin-caea3670.otf",
+    "src": "public/assets/fonts/Robaga Rounded Thin.otf"
+  },
   "resources/fonts/fa-brands-400.eot": {
     "file": "assets/fa-brands-400-c563adba.eot",
     "src": "resources/fonts/fa-brands-400.eot"
@@ -117,8 +157,13 @@
     "src": "resources/js/app.js"
   },
   "resources/sass/app.scss": {
-    "file": "assets/app-b0332294.css",
+    "file": "assets/app-379ce0a8.css",
     "isEntry": true,
     "src": "resources/sass/app.scss"
+  },
+  "resources/sass/appUser.scss": {
+    "file": "assets/appUser-13173c67.css",
+    "isEntry": true,
+    "src": "resources/sass/appUser.scss"
   }
 }
