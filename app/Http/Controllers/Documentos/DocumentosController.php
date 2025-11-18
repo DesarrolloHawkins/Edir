@@ -147,16 +147,33 @@ class DocumentosController extends Controller
         $request->validate([
             'comunidad_id' => 'required|exists:comunidad,id',
             'nombre' => 'required|string|max:255',
-            // 'seccion_padre_id' => 'nullable|exists:secciones,id',
+            'seccion_padre_id' => 'nullable|exists:secciones,id',
             'orden' => 'nullable|integer|min:1',
+            'ruta_imagen' => 'nullable|file|mimes:jpg,jpeg,png|max:2048',
+            'seccion_incidencias' => 'nullable|string',
         ]);
 
-        $seccion = Seccion::create([
+        $rutaImagen = 'communitas_icon.png';
+        if ($request->hasFile('ruta_imagen')) {
+            $file = $request->file('ruta_imagen');
+            $fileName = time() . '_' . $file->getClientOriginalName();
+            $rutaImagen = $file->storeAs('secciones', $fileName, 'public');
+        }
+
+        $seccionData = [
             'comunidad_id' => $request->comunidad_id,
             'seccion_padre_id' => $request->seccion_padre_id ?? null,
             'nombre' => $request->nombre,
             'orden' => $request->orden ?? 1,
-        ]);
+            'ruta_imagen' => $rutaImagen,
+        ];
+
+        // Solo agregar seccion_incidencias si se proporciona
+        if ($request->has('seccion_incidencias')) {
+            $seccionData['seccion_incidencias'] = $request->seccion_incidencias;
+        }
+
+        $seccion = Seccion::create($seccionData);
 
         return response()->json([
             'status' => true,
