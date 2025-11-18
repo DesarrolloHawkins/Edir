@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Comunidad;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ComunidadesController extends Controller
 {
@@ -30,8 +31,16 @@ class ComunidadesController extends Controller
 
         if ($request->hasFile('ruta_imagen')) {
             $validated['ruta_imagen'] = $request->file('ruta_imagen')->store('comunidades', 'public');
+        } else {
+            $validated['ruta_imagen'] = 'communitas_icon.png';
         }
 
+        if (empty($validated['informacion_adicional'])) {
+            $validated['informacion_adicional'] = '';
+        }
+
+        $validated['user_id'] = Auth::user()->id;
+        
         Comunidad::create($validated);
 
         return redirect()->route('comunidades.index')->with('success', 'Comunidad creada correctamente.');
