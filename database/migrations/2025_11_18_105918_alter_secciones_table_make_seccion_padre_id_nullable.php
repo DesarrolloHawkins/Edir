@@ -13,14 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('secciones', function (Blueprint $table) {
-            $table->id();
-            $table->bigInteger('comunidad_id');
-            $table->bigInteger('seccion_padre_id')->nullable();
-            $table->string('nombre');
-            $table->string('ruta_imagen');
-            $table->integer('orden');
-            $table->timestamps();
+        Schema::table('secciones', function (Blueprint $table) {
+            $table->bigInteger('seccion_padre_id')->nullable()->change();
         });
     }
 
@@ -31,6 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('secciones');
+        Schema::table('secciones', function (Blueprint $table) {
+            $table->bigInteger('seccion_padre_id')->nullable(false)->change();
+        });
     }
 };
