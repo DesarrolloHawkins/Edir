@@ -1,11 +1,7 @@
 @extends('layouts.appUser')
 @section('title', 'Mantenimiento')
+@section('back-url', route('config.index'))
 @section('content-principal')
-<div>
-    <a href="{{  route('config.index') }}" class="btn btn-white text-secondary fs-5 rounded-pill px-4 py-2 mb-1">
-        <i class="fas fa-arrow-left"></i>
-    </a>
-</div>
 <div class="container py-4">
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h4>Listado de Mantenimiento</h4>

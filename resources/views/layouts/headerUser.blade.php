@@ -1,33 +1,44 @@
 <div class="d-flex flex-row align-items-center justify-content-between px-3 py-2 border-bottom">
-    <div class="notificaciones fs-5 color-primario position-relative" id="alerta-icono" style="cursor: pointer;">
-        <i class="fa-solid fa-bell"></i>
-        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
-            id="contador-alertas"
-            style="display: none; min-width: 22px; height: 22px; font-size: 0.75rem; line-height: 22px; text-align: center; padding: 0;">
-            0
-        </span>
-
+    <!-- Icono de casa a la izquierda -->
+    <div class="fs-5 color-primario">
+        <a href="{{route('home')}}" class="text-decoration-none text-reset">
+            <i class="fa-solid fa-house"></i>
+        </a>
     </div>
-
-    <div class="logo">
+    
+    <!-- Logo EDIR en el centro -->
+    <div class="logo" style="flex: 1; text-align: center;">
         <a href="{{route('home')}}">
-            <h1 class="fs-5 fw-bold color-primario">EDIR</h1>
+            <h1 class="fs-5 fw-bold color-primario mb-0">EDIR</h1>
         </a>
     </div>
-    <div class="user fs-5 color-secundario">
-        <a href="{{ route('perfil.index') }}" class="text-decoration-none text-reset">
-            @php $user = Auth::user(); @endphp
+    
+    <!-- Campana y usuario a la derecha -->
+    <div class="d-flex flex-row align-items-center gap-3">
+        <!-- Campana de alertas -->
+        <div class="notificaciones fs-5 color-primario position-relative" id="alerta-icono" style="cursor: pointer;">
+            <i class="fa-solid fa-bell"></i>
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                id="contador-alertas"
+                style="display: none; min-width: 22px; height: 22px; font-size: 0.75rem; line-height: 22px; text-align: center; padding: 0;">
+                0
+            </span>
+        </div>
+        <!-- Icono de usuario -->
+        <div class="user fs-5 color-secundario">
+            <a href="{{ route('perfil.index') }}" class="text-decoration-none text-reset">
+                @php $user = Auth::user(); @endphp
 
-            @if($user && $user->image)
-                <img src="{{ asset('storage/' . $user->image) }}"
-                     alt="Avatar"
-                     style="width: 32px; height: 32px; object-fit: cover; border-radius: 50%;">
-            @else
-                <i class="fa-solid fa-user"></i>
-            @endif
-        </a>
+                @if($user && $user->image)
+                    <img src="{{ asset('storage/' . $user->image) }}"
+                         alt="Avatar"
+                         style="width: 32px; height: 32px; object-fit: cover; border-radius: 50%;">
+                @else
+                    <i class="fa-solid fa-user"></i>
+                @endif
+            </a>
+        </div>
     </div>
-
 </div>
 <div class="modal fade" id="modalAlertas" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable">

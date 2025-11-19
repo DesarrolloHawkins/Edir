@@ -4,7 +4,10 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <?php use App\Models\Comunidad; ?>
+    <?php
+        use App\Models\Comunidad;
+        use Illuminate\Support\Facades\Route;
+    ?>
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
@@ -80,7 +83,22 @@
             @include('layouts.header')
             @include('layouts.sidebar')
             <div class="content-page">
-                <div class="content">
+            <div class="content">
+                @php
+                    $showBackButtonRaw = trim($__env->yieldContent('show-back-button', 'true'));
+                    $showBackButton = !in_array(strtolower($showBackButtonRaw), ['0', 'false', 'no']);
+                    $customBackRoute = trim($__env->yieldContent('back-url'));
+                    $customBackRoute = $customBackRoute === '' ? null : $customBackRoute;
+                    $customBackLabel = trim($__env->yieldContent('back-label'));
+                    $customBackLabel = $customBackLabel === '' ? null : $customBackLabel;
+                    $excludedRoutes = ['home', 'inicio', 'login', 'register'];
+                    $currentRoute = Route::currentRouteName();
+                @endphp
+                @if ($showBackButton && (!in_array($currentRoute, $excludedRoutes)))
+                    <div class="px-3 pt-3">
+                        <x-back-button :route="$customBackRoute" :label="$customBackLabel ?? 'Atrás'" />
+                    </div>
+                @endif
                     {{-- @livewire('container-component') --}}
                     @yield('content-principal')
 

@@ -1,14 +1,10 @@
 @extends('layouts.appUser')
 
 @section('title', 'Prompt del Asistente')
+@section('back-url', route('config.index'))
 
 @section('content-principal')
 <div class="container py-4">
-    <div>
-        <a href="{{  route('config.index') }}" class="btn btn-white text-secondary fs-5 rounded-pill px-4 py-2 mb-4">
-            <i class="fas fa-arrow-left"></i>
-        </a>
-    </div>
     <h2 class="text-center mb-4">Configurar Prompt del Asistente</h2>
 
     @if(session('success'))

@@ -71,8 +71,19 @@ class NotificacionEmail extends Mailable
     {
         $attachments = [];
         
-        if ($this->archivoPath && file_exists(storage_path('app/' . $this->archivoPath))) {
-            $attachments[] = Attachment::fromPath(storage_path('app/' . $this->archivoPath));
+        if ($this->archivoPath) {
+            // Si el path ya es una ruta completa, usarla directamente
+            if (file_exists($this->archivoPath)) {
+                $attachments[] = Attachment::fromPath($this->archivoPath);
+            } 
+            // Si es una ruta relativa, buscar en storage
+            elseif (file_exists(storage_path('app/' . $this->archivoPath))) {
+                $attachments[] = Attachment::fromPath(storage_path('app/' . $this->archivoPath));
+            }
+            // Si está en public storage
+            elseif (file_exists(storage_path('app/public/' . $this->archivoPath))) {
+                $attachments[] = Attachment::fromPath(storage_path('app/public/' . $this->archivoPath));
+            }
         }
         
         return $attachments;

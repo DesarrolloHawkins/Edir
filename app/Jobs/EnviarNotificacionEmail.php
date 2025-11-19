@@ -54,23 +54,46 @@ class EnviarNotificacionEmail implements ShouldQueue
             }
 
             // Recargar la alerta con la relación comunidad
+            $this->alerta->refresh();
             $this->alerta->load('comunidad');
 
+            // Verificar que el archivo existe si se proporcionó
+            $archivoPathFinal = null;
+            if ($this->archivoPath) {
+                // Si el path incluye 'public/', buscar en storage/app/public
+                if (strpos($this->archivoPath, 'public/') === 0) {
+                    $archivoPathFinal = storage_path('app/' . $this->archivoPath);
+                } else {
+                    $archivoPathFinal = storage_path('app/public/' . $this->archivoPath);
+                }
+                
+                if (!file_exists($archivoPathFinal)) {
+                    Log::warning("Archivo adjunto no encontrado: {$archivoPathFinal}");
+                    $archivoPathFinal = null;
+                }
+            }
+
             // Enviar el email
-            Mail::to($usuario->email)->send(new NotificacionEmail($this->alerta, $this->archivoPath));
+            Mail::to($usuario->email)->send(new NotificacionEmail($this->alerta, $archivoPathFinal));
             
             // Registrar log de email enviado
-            Logs::create([
-                'user_id' => $usuario->id,
-                'action' => 'Email Enviado',
-                'description' => "Email enviado a {$usuario->email} - Notificación: {$this->alerta->titulo}",
-                'date' => now(),
-                'reference' => "Alerta ID: {$this->alerta->id}"
-            ]);
+            try {
+                Logs::create([
+                    'user_id' => $usuario->id,
+                    'action' => 'Email Enviado',
+                    'description' => "Email enviado a {$usuario->email} - Notificación: {$this->alerta->titulo}",
+                    'date' => now(),
+                    'reference' => "Alerta ID: {$this->alerta->id}"
+                ]);
+            } catch (\Exception $logError) {
+                Log::warning("Error al crear log de email enviado: " . $logError->getMessage());
+                // No lanzar excepción, el email ya se envió
+            }
             
             Log::info("Email enviado correctamente a {$usuario->email} para la alerta {$this->alerta->id}");
         } catch (\Exception $e) {
             Log::error("Error al enviar email a usuario {$this->usuarioId}: " . $e->getMessage());
+            Log::error("Stack trace: " . $e->getTraceAsString());
             throw $e; // Relanzar para que Laravel reintente
         }
     }

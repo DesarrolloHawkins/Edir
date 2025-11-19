@@ -1,13 +1,9 @@
 @extends('layouts.appUser')
 
 @section('title', 'Logs del Sistema')
+@section('back-url', route('config.index'))
 
 @section('content-principal')
-<div>
-    <a href="{{ route('config.index') }}" class="btn btn-white text-secondary fs-5 rounded-pill px-4 py-2 mb-1">
-        <i class="fas fa-arrow-left"></i>
-    </a>
-</div>
 <div class="container pb-4">
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h2 class="mb-0">Logs del Sistema</h2>

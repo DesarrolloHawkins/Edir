@@ -57,17 +57,29 @@ class NotificacionesController extends Controller
             'ruta_archivo' => 'nullable|file|max:10240',
         ]);
 
-        $data = $request->all();
-        $data['admin_user_id'] = Auth::id();
-        $data['user_id'] = Auth::id();
+        // Preparar datos solo con campos permitidos en fillable
+        // Convertir datetime-local a formato de base de datos
+        $datetime = $request->datetime ? date('Y-m-d H:i:s', strtotime($request->datetime)) : now();
+        
+        $data = [
+            'admin_user_id' => Auth::id(),
+            'user_id' => Auth::id(),
+            'titulo' => $request->titulo,
+            'tipo' => $request->tipo,
+            'datetime' => $datetime,
+            'descripcion' => $request->descripcion,
+            'comunidad_id' => $request->comunidad_id ?: null,
+            'seccion_id' => null, // Las notificaciones no tienen sección
+            'url' => null,
+        ];
         
         $archivoPath = null;
         if ($request->hasFile('ruta_archivo')) {
-            $archivoPath = $request->file('ruta_archivo')->store('notificaciones');
+            $archivoPath = $request->file('ruta_archivo')->store('notificaciones', 'public');
             $data['ruta_archivo'] = $archivoPath;
         }
 
-        $alerta = Alertas::with('comunidad')->create($data);
+        $alerta = Alertas::create($data);
 
         // Determinar a qué usuarios enviar la notificación
         $usuarios = collect();
@@ -104,46 +116,61 @@ class NotificacionesController extends Controller
                     ->with('warning', 'Notificación creada, pero no se encontraron usuarios con email para enviar.');
             }
 
-            // Enviar emails usando colas (jobs) para procesamiento en lotes
-            // Esto evita bloqueos por envío masivo y permite rate limiting
-            // 
-            // CONFIGURACIÓN DE LOTES:
-            // - loteSize: Cantidad de emails que se envían simultáneamente
-            // - delayEntreLotes: Tiempo de espera entre lotes (en segundos)
-            // - delayInicial: Tiempo antes de enviar el primer lote
-            // 
-            // Ejemplo: 100 usuarios = 10 lotes de 10 emails
-            // Lote 1: 5s, Lote 2: 35s, Lote 3: 65s, etc.
-            // 
-            // Para ajustar la velocidad, modifica estos valores:
-            // - Más rápido: aumentar loteSize, reducir delayEntreLotes
-            // - Más lento: reducir loteSize, aumentar delayEntreLotes
-            $loteSize = 10; // Emails por lote (ajustable según límites del servidor de email)
-            $delayEntreLotes = 30; // Segundos entre lotes (ajustable para evitar spam)
-            $delayInicial = 5; // Delay inicial antes del primer lote
-            
-            $usuariosChunks = $usuarios->chunk($loteSize);
-            $delay = $delayInicial;
-            
-            foreach ($usuariosChunks as $loteIndex => $lote) {
-                foreach ($lote as $usuario) {
-                    // Todos los emails del mismo lote se envían al mismo tiempo
-                    // pero con delay entre lotes para evitar spam
-                    EnviarNotificacionEmail::dispatch($alerta, $usuario->id, $archivoPath)
-                        ->delay(now()->addSeconds($delay));
+            try {
+                // Enviar emails usando colas (jobs) para procesamiento en lotes
+                // Esto evita bloqueos por envío masivo y permite rate limiting
+                // 
+                // CONFIGURACIÓN DE LOTES:
+                // - loteSize: Cantidad de emails que se envían simultáneamente
+                // - delayEntreLotes: Tiempo de espera entre lotes (en segundos)
+                // - delayInicial: Tiempo antes de enviar el primer lote
+                // 
+                // Ejemplo: 100 usuarios = 10 lotes de 10 emails
+                // Lote 1: 5s, Lote 2: 35s, Lote 3: 65s, etc.
+                // 
+                // Para ajustar la velocidad, modifica estos valores:
+                // - Más rápido: aumentar loteSize, reducir delayEntreLotes
+                // - Más lento: reducir loteSize, aumentar delayEntreLotes
+                $loteSize = 10; // Emails por lote (ajustable según límites del servidor de email)
+                $delayEntreLotes = 30; // Segundos entre lotes (ajustable para evitar spam)
+                $delayInicial = 5; // Delay inicial antes del primer lote
+                
+                $usuariosChunks = $usuarios->chunk($loteSize);
+                $delay = $delayInicial;
+                
+                foreach ($usuariosChunks as $loteIndex => $lote) {
+                    foreach ($lote as $usuario) {
+                        // Todos los emails del mismo lote se envían al mismo tiempo
+                        // pero con delay entre lotes para evitar spam
+                        try {
+                            EnviarNotificacionEmail::dispatch($alerta, $usuario->id, $archivoPath)
+                                ->delay(now()->addSeconds($delay));
+                        } catch (\Exception $e) {
+                            Log::error("Error al dispatchar email para usuario {$usuario->id}: " . $e->getMessage());
+                            Log::error("Stack trace: " . $e->getTraceAsString());
+                            // Continuar con el siguiente usuario aunque falle uno
+                        }
+                    }
+                    
+                    // Incrementar delay para el siguiente lote
+                    $delay += $delayEntreLotes;
                 }
                 
-                // Incrementar delay para el siguiente lote
-                $delay += $delayEntreLotes;
+                Log::info("Notificación {$alerta->id} programada para envío a {$totalUsuarios} usuarios de {$comunidadNombre}");
+                
+                $mensaje = "Notificación creada correctamente. ";
+                $mensaje .= "Se están enviando {$totalUsuarios} emails a usuarios de {$comunidadNombre} en segundo plano. ";
+                $mensaje .= "El proceso puede tardar unos minutos.";
+                
+                return redirect()->route('notificaciones.index')->with('success', $mensaje);
+            } catch (\Exception $e) {
+                Log::error("Error al programar envío de emails para notificación {$alerta->id}: " . $e->getMessage());
+                Log::error("Stack trace: " . $e->getTraceAsString());
+                
+                // Aún así, la notificación se creó correctamente
+                return redirect()->route('notificaciones.index')
+                    ->with('warning', 'Notificación creada correctamente, pero hubo un problema al programar el envío de emails. Por favor, verifica la configuración de colas.');
             }
-            
-            Log::info("Notificación {$alerta->id} programada para envío a {$totalUsuarios} usuarios de {$comunidadNombre}");
-            
-            $mensaje = "Notificación creada correctamente. ";
-            $mensaje .= "Se están enviando {$totalUsuarios} emails a usuarios de {$comunidadNombre} en segundo plano. ";
-            $mensaje .= "El proceso puede tardar unos minutos.";
-            
-            return redirect()->route('notificaciones.index')->with('success', $mensaje);
         } elseif ($request->metodo_envio == 'whatsapp') {
             // WhatsApp no disponible aún
             return redirect()->route('notificaciones.index')

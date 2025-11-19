@@ -1,13 +1,9 @@
 @extends('layouts.appUser')
 
 @section('title', 'Editar Plantilla WhatsApp')
+@section('back-url', route('config.whatsapp.templates'))
 
 @section('content-principal')
-<div>
-    <a href="{{  route('config.whatsapp.templates') }}" class="btn btn-white text-secondary fs-5 rounded-pill px-4 py-2 mb-1">
-        <i class="fas fa-arrow-left"></i>
-    </a>
-</div>
 <div class="container py-4">
     <h4 class="mb-4">Editar plantilla: {{ $template->name }}</h4>
 

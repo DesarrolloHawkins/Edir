@@ -55,6 +55,13 @@
                 </a>
             </li>
 
+            <!-- Icono de casa para ir al inicio -->
+            <li class="dropdown notification-list list-inline-item">
+                <a class="nav-link waves-effect" href="{{route('home')}}" title="Ir al inicio">
+                    <i class="mdi mdi-home noti-icon"></i>
+                </a>
+            </li>
+
             <!-- notification -->
             <li class="dropdown notification-list list-inline-item">
                 <a class="nav-link dropdown-toggle arrow-none waves-effect" data-toggle="dropdown" href="#"
