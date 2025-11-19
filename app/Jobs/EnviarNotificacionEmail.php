@@ -16,13 +16,13 @@ use Illuminate\Support\Facades\Log;
 
 class EnviarNotificacionEmail implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable, InteractsWithQueue, Queueable;
 
     public $tries = 3; // Reintentar hasta 3 veces
     public $timeout = 120; // Timeout de 2 minutos
     public $backoff = [30, 60, 120]; // Esperar 30s, 60s, 120s entre reintentos
 
-    protected $alerta;
+    protected $alertaId;
     protected $usuarioId;
     protected $archivoPath;
 
@@ -33,7 +33,8 @@ class EnviarNotificacionEmail implements ShouldQueue
      */
     public function __construct(Alertas $alerta, $usuarioId, $archivoPath = null)
     {
-        $this->alerta = $alerta;
+        // Guardar solo el ID para evitar problemas de serialización
+        $this->alertaId = $alerta->id;
         $this->usuarioId = $usuarioId;
         $this->archivoPath = $archivoPath;
     }
@@ -45,17 +46,33 @@ class EnviarNotificacionEmail implements ShouldQueue
      */
     public function handle()
     {
+        // Log al inicio para rastrear la ejecución
+        Log::info("=== INICIANDO JOB EnviarNotificacionEmail ===", [
+            'alerta_id' => $this->alertaId,
+            'usuario_id' => $this->usuarioId,
+            'archivo_path' => $this->archivoPath,
+            'timestamp' => now()->toDateTimeString()
+        ]);
+        
         try {
+            // Recargar la alerta desde la base de datos usando el ID
+            $alerta = Alertas::with('comunidad')->find($this->alertaId);
+            
+            if (!$alerta) {
+                Log::warning("Alerta {$this->alertaId} no encontrada");
+                return;
+            }
+            
+            Log::info("Alerta encontrada: {$alerta->titulo}");
+            
             $usuario = User::find($this->usuarioId);
             
             if (!$usuario || !$usuario->email) {
                 Log::warning("Usuario {$this->usuarioId} no encontrado o sin email");
                 return;
             }
-
-            // Recargar la alerta con la relación comunidad
-            $this->alerta->refresh();
-            $this->alerta->load('comunidad');
+            
+            Log::info("Usuario encontrado: {$usuario->email}");
 
             // Verificar que el archivo existe si se proporcionó
             $archivoPathFinal = null;
@@ -74,26 +91,38 @@ class EnviarNotificacionEmail implements ShouldQueue
             }
 
             // Enviar el email
-            Mail::to($usuario->email)->send(new NotificacionEmail($this->alerta, $archivoPathFinal));
+            Log::info("Intentando enviar email a {$usuario->email}");
+            Mail::to($usuario->email)->send(new NotificacionEmail($alerta, $archivoPathFinal));
+            Log::info("Email enviado exitosamente a {$usuario->email}");
             
             // Registrar log de email enviado
             try {
                 Logs::create([
                     'user_id' => $usuario->id,
                     'action' => 'Email Enviado',
-                    'description' => "Email enviado a {$usuario->email} - Notificación: {$this->alerta->titulo}",
+                    'description' => "Email enviado a {$usuario->email} - Notificación: {$alerta->titulo}",
                     'date' => now(),
-                    'reference' => "Alerta ID: {$this->alerta->id}"
+                    'reference' => "Alerta ID: {$alerta->id}"
                 ]);
             } catch (\Exception $logError) {
                 Log::warning("Error al crear log de email enviado: " . $logError->getMessage());
                 // No lanzar excepción, el email ya se envió
             }
             
-            Log::info("Email enviado correctamente a {$usuario->email} para la alerta {$this->alerta->id}");
+            Log::info("=== JOB COMPLETADO EXITOSAMENTE ===", [
+                'alerta_id' => $this->alertaId,
+                'usuario_id' => $this->usuarioId,
+                'email' => $usuario->email
+            ]);
         } catch (\Exception $e) {
-            Log::error("Error al enviar email a usuario {$this->usuarioId}: " . $e->getMessage());
-            Log::error("Stack trace: " . $e->getTraceAsString());
+            Log::error("=== ERROR EN JOB EnviarNotificacionEmail ===", [
+                'alerta_id' => $this->alertaId,
+                'usuario_id' => $this->usuarioId,
+                'error' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+                'trace' => $e->getTraceAsString()
+            ]);
             throw $e; // Relanzar para que Laravel reintente
         }
     }
